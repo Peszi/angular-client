@@ -1,26 +1,33 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<h2>Here are some links to help you start: </h2>
-<agm-map [latitude]="lat" [longitude]="lng" [zoom]="12" style="width:250px;height: 250px">
-  <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-  <agm-circle
-    [latitude]="lat"
-    [longitude]="lng"
-    [radius]="1250"
-    [circleDraggable]="true"
-    [editable]="true"
-    [fillColor]="'red'"
-  ></agm-circle>
-</agm-map>
-
-<agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="width:250px;height: 250px">
-  <agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>
-  <agm-circle
-    [latitude]="lat + 0.01"
-    [longitude]="lng + 0.01"
-    [radius]="1250"
-    [circleDraggable]="true"
-    [editable]="true"
-    [fillColor]="'red'"
-  ></agm-circle>
-</agm-map>
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <agm-map (mapClick)="mapClicked($event)" [latitude]="lat" [longitude]="lng" [zoom]="12" style="height: 250px" #myMap>
+        <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
+        <agm-circle
+          [latitude]="lat"
+          [longitude]="lng"
+          [radius]="1250"
+          [circleDraggable]="true"
+          [editable]="true"
+          [fillColor]="'red'"
+        ></agm-circle>
+        <!--<core-map-content (onMapLoad)='loadAPIWrapper($event)'></core-map-content>-->
+      </agm-map>
+    </div>
+    <div class="col-md-6">
+      <agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="height: 250px">
+        <agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>
+        <agm-circle
+          [latitude]="lat + 0.01"
+          [longitude]="lng + 0.01"
+          [radius]="1250"
+          [circleDraggable]="true"
+          [editable]="true"
+          [fillColor]="'red'"
+        ></agm-circle>
+      </agm-map>
+    </div>
+  </div>
+</div>
 

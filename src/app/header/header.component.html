@@ -1,0 +1,33 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
+  <!-- Page title -->
+  <a class="navbar-brand" href="#" style="color: #fff">Test Client</a>
+  <!-- Current File Name -->
+  <div class="navbar-nav">
+    <div class="navbar-text">some nav</div>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      <!-- Download Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Download</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://localhost:8080/api/properties/download">.properties</a>
+          <a class="dropdown-item" href="http://localhost:8080/api/properties/download/json">.json</a>
+          <a class="dropdown-item" href="http://localhost:8080/api/properties/download/yaml">.yaml</a>
+        </div>
+      </li>
+      <!-- Export Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Export</a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="http://localhost:8080/api/logger/audit">audit.log</a>
+          <a class="dropdown-item" href="http://localhost:8080/api/logger/application">application.log</a>
+        </div>
+      </li>
+      <!-- Discard Link -->
+      <li class="nav-item">
+        <a class="nav-link text-danger" routerLink="/" >Discard</a>
+      </li>
+    </ul>
+  </div>
+</nav>

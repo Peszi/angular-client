@@ -1,33 +1,100 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-  <!-- Page title -->
-  <a class="navbar-brand" href="#" style="color: #fff">Test Client</a>
-  <!-- Current File Name -->
-  <div class="navbar-nav">
-    <div class="navbar-text">some nav</div>
-  </div>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
-      <!-- Download Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">Download</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="http://localhost:8080/api/properties/download">.properties</a>
-          <a class="dropdown-item" href="http://localhost:8080/api/properties/download/json">.json</a>
-          <a class="dropdown-item" href="http://localhost:8080/api/properties/download/yaml">.yaml</a>
-        </div>
-      </li>
-      <!-- Export Dropdown -->
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Export</a>
-        <div class="dropdown-menu">
-          <a class="dropdown-item" href="http://localhost:8080/api/logger/audit">audit.log</a>
-          <a class="dropdown-item" href="http://localhost:8080/api/logger/application">application.log</a>
-        </div>
-      </li>
-      <!-- Discard Link -->
-      <li class="nav-item">
-        <a class="nav-link text-danger" routerLink="/" >Discard</a>
-      </li>
-    </ul>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+
+  <!-- Shrink -->
+  <div class="container">
+
+    <!-- Page title -->
+    <a class="navbar-brand font-weight-bold" href="#">AirsoftPlayGround</a>
+
+    <!-- Api status -->
+    <div class="collapse navbar-collapse">
+      <span class="badge badge-success">online</span>
+    </div>
+
+    <!-- Login Dropdown -->
+    <div ngbDropdown class="d-inline-block ml-auto" #dropdown="ngbDropdown">
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Logowanie</button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <form class="mx-3 my-2" style="width: 240px">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email</label>
+            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Hasło</label>
+            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="hasło">
+          </div>
+          <button type="submit" class="btn btn-primary btn-block" (click)="onSubmit()">Zaloguj</button>
+        </form>
+      </div>
+    </div>
+
+    <!--<div class="btn-group ml-auto">-->
+      <!--<button class="btn btn-primary">John</button>-->
+      <!--<div ngbDropdown class="btn-group">-->
+        <!--<button id="btnGroupDrop1" class="btn btn-primary dropdown-toggle" ngbDropdownToggle></button>-->
+        <!--<div ngbDropdownMenu aria-labelledby="btnGroupDrop1">-->
+          <!--<li><button class="dropdown-item">profil</button></li>-->
+          <!--<li><button class="dropdown-item">ustawienia</button></li>-->
+          <!--<li class="dropdown-divider"></li>-->
+          <!--<li><button class="dropdown-item">wyloguj</button></li>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!-- Nav Toggle Button -->
+    <!--<button class="navbar-toggler navbar-toggler-right" type="button" (click)="isCollapsed = !isCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">-->
+      <!--<span class="navbar-toggler-icon"></span>-->
+    <!--</button>-->
+    <!-- Nav With Collapse -->
+    <!--<div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">-->
+      <!--&lt;!&ndash; Status Indicator &ndash;&gt;-->
+      <!--<div class="btn-group btn-group-toggle mr-auto" data-toggle="buttons">-->
+        <!--<label class="btn btn-light active">-->
+          <!--<input name="options" id="option1" autocomplete="off" checked="" type="radio">Browse</label>-->
+        <!--<label class="btn btn-light">-->
+          <!--<input name="options" id="option2" autocomplete="off" type="radio">Queue</label>-->
+        <!--<label class="btn btn-light">-->
+          <!--<input name="options" id="option3" autocomplete="off" type="radio">Game</label>-->
+      <!--</div>-->
+      <!--&lt;!&ndash; Logout Menu &ndash;&gt;-->
+      <!--<div class="btn-group ml-auto">-->
+        <!--<button class="btn btn-primary">John</button>-->
+        <!--<div ngbDropdown class="btn-group">-->
+          <!--<button id="btnGroupDrop1" class="btn btn-primary dropdown-toggle" ngbDropdownToggle></button>-->
+          <!--<div ngbDropdownMenu aria-labelledby="btnGroupDrop1">-->
+            <!--<li><button class="dropdown-item">profil</button></li>-->
+            <!--<li><button class="dropdown-item">ustawienia</button></li>-->
+            <!--<li class="dropdown-divider"></li>-->
+            <!--<li><button class="dropdown-item">wyloguj</button></li>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+
+      <!--&lt;!&ndash; Login Form &ndash;&gt;-->
+      <!--<form class="form-inline ml-auto">-->
+        <!--<input type="email"    class="form-control mr-md-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">-->
+        <!--<input type="password" class="form-control mr-md-1" id="exampleInputPassword1" placeholder="hasło">-->
+        <!--<button class="btn btn-outline-primary">Zaloguj</button>-->
+      <!--</form>-->
+    <!--</div>-->
+
+    <!--<div class="navbar-collapse collapse" id="navbarSupportedContent">-->
+
+      <!--<ul class="nav navbar-nav mr-auto mr-md-3">-->
+        <!--&lt;!&ndash; User Account Dropdown &ndash;&gt;-->
+        <!--<div class="btn-group btn-group-toggle" data-toggle="buttons">-->
+          <!--<label class="btn btn-light active">-->
+            <!--<input name="options" id="option1" autocomplete="off" checked="" type="radio">Browse</label>-->
+          <!--<label class="btn btn-light">-->
+            <!--<input name="options" id="option2" autocomplete="off" type="radio">Queue</label>-->
+          <!--<label class="btn btn-light">-->
+            <!--<input name="options" id="option3" autocomplete="off" type="radio">Game</label>-->
+        <!--</div>-->
+      <!--</ul>-->
+
+
+    <!--</div>-->
   </div>
 </nav>

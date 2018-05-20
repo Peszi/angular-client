@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {NgbDropdown, NgbDropdownConfig} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-header',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  @ViewChild('dropdown') private dropdown: NgbDropdown;
+
+  constructor() {}
 
   ngOnInit() {
+    this.dropdown.placement = 'bottom-right';
+    this.dropdown.autoClose = 'outside';
+  }
+
+  onSubmit() {
+    this.dropdown.close();
   }
 
 }

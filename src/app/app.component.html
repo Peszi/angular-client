@@ -1,42 +1,17 @@
 <app-header></app-header>
-<div class="container-fluid bg-light m-0">
-  <section class="jumbotron text-center">
-    <div class="container" style="max-width: 500px">
-      <h1 class="jumbotron-heading">Album example</h1>
-      <p class="lead text-muted">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
-    </div>
-  </section>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-6">
-        <agm-map (mapClick)="mapClicked($event)" [latitude]="lat" [longitude]="lng" [zoom]="12" style="height: 250px" #myMap>
-          <agm-marker [latitude]="lat" [longitude]="lng"></agm-marker>
-          <agm-circle
-            [latitude]="lat"
-            [longitude]="lng"
-            [radius]="1250"
-            [circleDraggable]="true"
-            [editable]="true"
-            [fillColor]="'red'"
-          ></agm-circle>
-          <!--<core-map-content (onMapLoad)='loadAPIWrapper($event)'></core-map-content>-->
-        </agm-map>
-      </div>
-      <div class="col-md-6">
-        <agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="height: 250px">
-          <agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>
-          <agm-circle
-            [latitude]="lat + 0.01"
-            [longitude]="lng + 0.01"
-            [radius]="1250"
-            [circleDraggable]="true"
-            [editable]="true"
-            [fillColor]="'red'"
-          ></agm-circle>
-        </agm-map>
-      </div>
-    </div>
-  </div>
+<div class="container-fluid" style="margin-bottom: 75px">
+  <router-outlet></router-outlet>
 </div>
 
+<!--<agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="height: 250px">-->
+  <!--<agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>-->
+  <!--<agm-circle-->
+    <!--[latitude]="lat + 0.01"-->
+    <!--[longitude]="lng + 0.01"-->
+    <!--[radius]="1250"-->
+    <!--[circleDraggable]="true"-->
+    <!--[editable]="true"-->
+    <!--[fillColor]="'red'"-->
+  <!--&gt;</agm-circle>-->
+<!--</agm-map>-->
 

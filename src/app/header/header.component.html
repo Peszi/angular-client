@@ -4,7 +4,7 @@
   <div class="container">
 
     <!-- Page title -->
-    <a class="navbar-brand font-weight-bold" href="#">AirsoftPlayGround</a>
+    <a class="navbar-brand font-weight-bold" href="#">Title</a>
 
     <!-- Api status -->
     <div class="collapse navbar-collapse">
@@ -13,18 +13,25 @@
 
     <!-- Login Dropdown -->
     <div ngbDropdown class="d-inline-block ml-auto" #dropdown="ngbDropdown">
-      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Logowanie</button>
+      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Login</button>
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <form class="mx-3 my-2" style="width: 240px">
+        <form class="mx-3 my-2" style="width: 240px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
           <div class="form-group">
-            <label for="exampleInputEmail1">Email</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="email" formControlName="email">
+            <small *ngIf="!this.loginForm.get('email').valid && this.loginForm.get('email').touched"
+              class="help-block text-muted">Please enter a valid email!</small>
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Hasło</label>
-            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="hasło">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="password" formControlName="password">
+            <small *ngIf="!this.loginForm.get('password').valid && this.loginForm.get('password').touched"
+                  class="help-block text-muted">Please enter a valid password!</small>
           </div>
-          <button type="submit" class="btn btn-primary btn-block" (click)="onSubmit()">Zaloguj</button>
+          <div class="text-center mb-2">
+            <a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup" >not registered yet?</a>
+          </div>
+          <button class="btn btn-primary btn-block" type="submit" [disabled]="!enableLogin">Sign in</button>
         </form>
       </div>
     </div>

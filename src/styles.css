@@ -1,1 +1,30 @@
 /* You can add global styles to this file, and also import other style files */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  line-height: 49px;
+  width: 100%;
+  border-top: 1px solid rgba(1,1,1,.125);
+}
+
+.border-contour {
+  border-color: rgba(0, 0, 0, 0.15);
+}
+
+input.ng-invalid.ng-touched {
+  border: 1px solid red;
+  box-shadow:0 0 0 .2rem rgba(196,64,64,.25);
+}
+
+checking {
+  border: 1px solid orange;
+  box-shadow:0 0 0 .2rem rgba(255,196,0,.25);
+}
+

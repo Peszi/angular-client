@@ -5,17 +5,22 @@
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
           <label for="email">Email<small *ngIf="checkingEmail" class="text-muted"> checking...</small></label>
-          <input type="text" class="form-control" id="email" placeholder="Enter email" formControlName="email"
-                 [ngClass]="{'is-valid': registerForm.get('email').valid}">
-          <span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched" class="help-block">
-            <small *ngIf="registerForm.get('email').hasError('required')" class="text-muted">Email is required!</small>
-            <small *ngIf="registerForm.get('email').hasError('email')" class="text-muted">Please enter a valid email!</small>
-            <small *ngIf="registerForm.get('email').hasError('emailInUse')" class="text-muted">Email already registered!</small>
-          </span>
+          <input [formErrorHandler]="registerForm.get('email')" [messages]="emailErrors" #emailInput
+          type="text" class="form-control" id="email" placeholder="Enter email"
+                 formControlName="email" [ngClass]="{'is-valid': emailError.length > 0}">
+          <!-- ="[[{registerForm.get('email')}]]" -->
+
+          <small *ngIf="emailInput.inProgress" class="help-block">{{ emailInput.inProgress }}</small>
+
+          <!--<span *ngIf="!registerForm.get('email').valid && registerForm.get('email').touched" class="help-block">-->
+            <!--<small *ngIf="registerForm.get('email').hasError('required')" class="text-muted">Email is required!</small>-->
+            <!--<small *ngIf="registerForm.get('email').hasError('email')" class="text-muted">Please enter a valid email!</small>-->
+            <!--<small *ngIf="registerForm.get('email').hasError('emailInUse')" class="text-muted">Email already registered!</small>-->
+          <!--</span>-->
         </div>
         <div class="form-group">
-          <label for="nick">Nickname<small *ngIf="checkingName" class="text-muted"> checking...</small></label>
-          <input type="text" class="form-control" id="nick" placeholder="Nickname" formControlName="nickname"
+          <label for="name">Nickname<small *ngIf="checkingName" class="text-muted"> checking...</small></label>
+          <input type="text" class="form-control" id="name" placeholder="Nickname" formControlName="nickname"
                  [ngClass]="{'is-valid': registerForm.get('nickname').valid}">
           <span *ngIf="!registerForm.get('nickname').valid && registerForm.get('nickname').touched" class="help-block">
             <small *ngIf="registerForm.get('nickname').hasError('required')" class="text-muted">Please enter a valid name!</small>
@@ -25,8 +30,8 @@
           </span>
         </div>
         <div class="form-group">
-          <label for="exampleInputPassword1">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" formControlName="email" formControlName="password"
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="email" formControlName="password"
                  [ngClass]="{'is-valid': registerForm.get('password').valid}">
           <span *ngIf="!registerForm.get('password').valid && registerForm.get('password').touched" class="help-block">
             <small *ngIf="registerForm.get('password').hasError('required')" class="text-muted">Please enter a valid password!</small>
@@ -34,13 +39,11 @@
             <small *ngIf="registerForm.get('password').hasError('maxlength')" class="text-muted">Password is too long, at most 20 characters!</small>
           </span>
         </div>
-
         <div class="form-group">
           <label class="custom-control custom-checkbox">
             <input type="checkbox" class="form-check-input" formControlName="checkbox">
             <span class="custom-control-description">accept <strong>terms and conditions</strong></span>
           </label>
-          <!--<input type="checkbox" class="form-check-input" id="exampleCheck1" formControlName="checkbox">-->
           <small *ngIf="!this.registerForm.get('checkbox').valid && this.registerForm.get('checkbox').touched"
                  class="help-block text-muted">Please read and accept terms&conditions first!</small>
         </div>

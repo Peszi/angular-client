@@ -4,6 +4,7 @@ import {Observable, Subject} from 'rxjs';
 import {HttpClient} from '@angular/common/http';
 import {a} from '@angular/core/src/render3';
 import {promise} from 'selenium-webdriver';
+import {ErrorMessage} from "../../shared/form-error-handler.directive";
 
 @Component({
   selector: 'app-signup',
@@ -12,11 +13,19 @@ import {promise} from 'selenium-webdriver';
 })
 export class SignupComponent implements OnInit {
 
+  emailErrors: ErrorMessage[] = [{error: 'required', message: 'Email is required!'},
+                                  {error: 'email', message: 'Please enter a valid email!'},
+                                  {error: 'emailInUse', message: 'Email already registered!'}];
+
   registerForm: FormGroup;
 
   enableRegister: boolean;
   checkingEmail: boolean;
   checkingName: boolean;
+
+  emailError: string = '';
+
+  emailControl: any;
 
   constructor(private httpClient: HttpClient) { }
 
@@ -34,17 +43,27 @@ export class SignupComponent implements OnInit {
       this.enableRegister = (status === 'VALID');
     });
     // Listen EMAIL status
-    this.registerForm.get('email').statusChanges.subscribe(value => {
-      this.checkingEmail = (value === 'PENDING');
+    this.registerForm.get('email').statusChanges.subscribe(status => {
+      this.checkingEmail = (status === 'PENDING');
+      if (status === 'INVALID') {
+        this.emailError = 'invalid';
+      } else {
+        this.emailError = '';
+      }
     });
     // Listen NICK status
-    this.registerForm.get('nickname').statusChanges.subscribe(value => {
-      this.checkingName = (value === 'PENDING');
+    this.registerForm.get('nickname').statusChanges.subscribe(status => {
+      this.checkingName = (status === 'PENDING');
     });
+
+    this.registerForm.get('email').statusChanges;
+    // console.log(this.registerForm.get('email').errors);
+    // console.log(this.emailControl);
   }
 
   onSubmit() {
-    console.log(this.registerForm);
+    // console.log(this.registerForm);
+    // console.log(this.emailControl);
   }
 
   validateEmailNotTaken(control: AbstractControl): Promise<any>|Observable<any> {

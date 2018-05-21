@@ -11,6 +11,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthorizationService} from './auth/auth.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
+import { FormErrorHandlerDirective } from './shared/form-error-handler.directive';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -22,7 +23,8 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     SignupComponent,
-    LoginComponent
+    LoginComponent,
+    FormErrorHandlerDirective
   ],
   imports: [
     BrowserModule,

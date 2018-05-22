@@ -1,6 +1,7 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {GoogleMapsAPIWrapper} from '@agm/core';
 import {FormGroup} from '@angular/forms';
+import {AuthorizationService} from "./auth/auth.service";
 
 // @ViewChild('myMap') gmapElement: GoogleMapsAPIWrapper;
 // mapClicked(event: Event) {
@@ -14,13 +15,20 @@ import {FormGroup} from '@angular/forms';
 })
 export class AppComponent implements OnInit {
 
-  constructor() {
+  apiStatus: String = 'checking...';
 
-  }
+  constructor(private authService: AuthorizationService) {}
 
   ngOnInit(): void {
-
+    this.getStatus();
   }
 
+  getStatus() {
+    this.authService.getPing()
+      .subscribe(
+        (next) => { this.apiStatus = 'online'; },
+        (error) => { this.apiStatus = 'offline'; }
+        );
+  }
 
 }

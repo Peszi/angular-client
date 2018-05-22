@@ -9,6 +9,10 @@ export class AuthorizationService {
 
   constructor(private httpClient: HttpClient) {}
 
+  getPing() {
+    return this.httpClient.get('http://localhost:8080/ping', { responseType: 'text', observe: 'body' });
+  }
+
   getCredentialStatus(name: string, value: string): Observable<string> {
     return this.httpClient.get(BASE_API_URL + '/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
   }

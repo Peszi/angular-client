@@ -2,6 +2,21 @@
 <div class="container-fluid container-padding">
   <router-outlet></router-outlet>
 </div>
+<footer class="footer bg-dark">
+  <div class="container">
+    <a href="" class="text-light"><strong>Company</strong> 2018</a>
+    <div class="float-right">
+      <span class="text-muted mr-2">
+          <small class="p-1">api:</small>
+          <span class="badge badge-success">{{ apiStatus }}</span>
+      </span>
+      <span class="text-muted mr-2">
+          <small class="p-1">app:</small>
+          <a href="" class="badge badge-primary">download</a>
+      </span>
+    </div>
+  </div>
+</footer>
 
 <!--<agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="height: 250px">-->
   <!--<agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>-->

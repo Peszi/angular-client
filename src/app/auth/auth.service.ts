@@ -1,12 +1,25 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {AbstractControl} from '@angular/forms';
+import {BASE_API_URL} from '../shared/globals';
 
 @Injectable()
 export class AuthorizationService {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient) {}
+
+  getCredentialStatus(name: string, value: string): Observable<string> {
+    return this.httpClient.get(BASE_API_URL + '/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
   }
 
+  postUserRegister(userData: {email: string, nickname: string, password: string}): Observable<String> {
+    const params = new HttpParams()
+      .set('email', userData.email)
+      .append('nickname', userData.nickname)
+      .append('password', userData.password);
+    return this.httpClient.post(BASE_API_URL + '/register', params, {responseType: 'text', observe: 'body'});
+  }
   // uploadPropertiesFile(files: FileList) {
   //
   //   const subject = new Subject<number>();

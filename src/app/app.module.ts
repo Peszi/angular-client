@@ -11,7 +11,10 @@ import {RouterModule, Routes} from '@angular/router';
 import {AuthorizationService} from './auth/auth.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule} from '@angular/common/http';
-import { FormErrorHandlerDirective } from './shared/form-error-handler.directive';
+import { FormErrorDirective } from './shared/form-error.directive';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { LoadingButtonComponent } from './shared/loading-button/loading-button.component';
+import { LoadingButtonDirective } from './shared/loading-button.directive';
 
 const appRoutes: Routes = [
   { path: '', component: LoginComponent },
@@ -24,10 +27,13 @@ const appRoutes: Routes = [
     HeaderComponent,
     SignupComponent,
     LoginComponent,
-    FormErrorHandlerDirective
+    FormErrorDirective,
+    LoadingButtonComponent,
+    LoadingButtonDirective
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AgmCoreModule.forRoot({

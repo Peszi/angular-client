@@ -2,7 +2,11 @@
 
 html {
   position: relative;
-  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background-color:#f8f9fa!important;
 }
 
 .footer {

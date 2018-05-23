@@ -13,9 +13,8 @@ body {
   position: absolute;
   bottom: 0;
   height: 50px;
-  line-height: 49px;
+  line-height: 48px;
   width: 100%;
-  border-top: 1px solid rgba(1,1,1,.125);
 }
 
 .border-contour {

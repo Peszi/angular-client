@@ -1,41 +1,34 @@
-import {Component, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {AuthorizationService} from '../auth/auth.service';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
-  @ViewChild('dropdown') private dropdown: NgbDropdown;
+  subscription: Subscription;
 
-  loginForm: FormGroup;
-  enableLogin: boolean;
-
-  constructor() {}
+  constructor(private authService: AuthorizationService, private router: Router) {}
 
   ngOnInit() {
-    this.dropdown.placement = 'bottom-right';
-    this.dropdown.autoClose = 'outside';
-    this.loginForm = new FormGroup({
-      'email': new FormControl(null, [Validators.required, Validators.email]),
-      'password': new FormControl(null, Validators.required)
-    });
-    this.loginForm.statusChanges.subscribe((status) => {
-     console.log(status);
-      this.enableLogin = (status === 'VALID');
-    });
+    this.subscription = this.authService.getAuth().subscribe(
+      () => {},
+      () => {}
+    );
   }
 
-  onDiscard() {
-    this.dropdown.close();
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  onSubmit() {
-    console.log(this.loginForm.value);
-    this.dropdown.close();
+  hasToken(): boolean {
+    return this.authService.hasToken();
   }
 
 }

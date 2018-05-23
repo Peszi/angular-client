@@ -3,8 +3,8 @@ import {BACKGROUND_SCROLL, SHOW_AND_HIDE} from '../animations/background-scrolli
 
 @Component({
   selector: 'app-loading-button',
-  template: '<ngb-alert [dismissible]="false" [@showElement]="visibilityMessage" (@showElement.done)="onEnd()" style="opacity: 0"><strong>Alert!</strong> {{ errorMessage }}</ngb-alert>',
-  // styleUrls: ['./loading-button.component.css'],
+  template: '<ngb-alert [dismissible]="false" [@showElement]="visibilityMessage" (@showElement.done)="onEnd()" ' +
+  'style="opacity: 0"><strong>Alert!</strong> {{ errorMessage }}</ngb-alert>',
   animations: [ SHOW_AND_HIDE ]
 })
 export class LoadingButtonComponent implements OnInit {
@@ -14,10 +14,7 @@ export class LoadingButtonComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
-
-    // [@loading]="loadingScroll" (@loading.done)="onLoadingEnd($event)"
-  }
+  ngOnInit() {}
 
   onEnd() {
     this.visibilityMessage = 'hide';

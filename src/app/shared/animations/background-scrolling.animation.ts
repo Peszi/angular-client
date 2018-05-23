@@ -8,8 +8,8 @@ export const SHOW_AND_HIDE =
     state('hide', style( {
       opacity: '0.0'
     })),
-    transition('* => show', animate(500)),
-    transition('* => hide', animate(1000))
+    transition('* => show', animate(250)),
+    transition('* => hide', animate('10000ms ease'))
   ]);
 
 export const BACKGROUND_SCROLL =
@@ -35,7 +35,7 @@ export const BACKGROUND_SCROLL =
     transition('* => pendingOn', animate(1000)),
     transition('* => fail', animate(0)),
     transition('* => success', animate(0)),
-    transition('fail => normal', animate(5000)),
-    transition('success => normal', animate(5000)),
+    transition('fail => normal', animate(2500)),
+    transition('success => normal', animate(2500)),
     transition('* => normal', animate(500))
 ]);

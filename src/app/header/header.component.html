@@ -4,104 +4,15 @@
   <div class="container">
 
     <!-- Page title -->
-    <a class="navbar-brand font-weight-bold" href="#">PageTitle</a>
+    <a class="navbar-brand font-weight-bold" routerLink="/" >PageTitle</a>
 
-    <!-- Api status -->
-    <div class="collapse navbar-collapse">
-      <span class="badge badge-success">online</span>
-    </div>
+    <!--&lt;!&ndash; Api statusMessage &ndash;&gt;-->
+    <!--<div class="collapse navbar-collapse">-->
+      <!--<span class="badge badge-success">online</span>-->
+    <!--</div>-->
 
     <!-- Login Dropdown -->
-    <div ngbDropdown class="d-inline-block ml-auto" #dropdown="ngbDropdown">
-      <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Login</button>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <form class="mx-3 my-2" style="width: 240px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="email">Email</label>
-            <input type="text" class="form-control" id="email" placeholder="email" formControlName="email">
-            <small *ngIf="!this.loginForm.get('email').valid && this.loginForm.get('email').touched"
-              class="help-block text-muted">Please enter a valid email!</small>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="password" formControlName="password">
-            <small *ngIf="!this.loginForm.get('password').valid && this.loginForm.get('password').touched"
-                  class="help-block text-muted">Please enter a valid password!</small>
-          </div>
-          <div class="text-center mb-2">
-            <a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup" >not registered yet?</a>
-          </div>
-          <button class="btn btn-primary btn-block" type="submit" [disabled]="!enableLogin">Sign in</button>
-        </form>
-      </div>
-    </div>
-
-    <!--<div class="btn-group ml-auto">-->
-      <!--<button class="btn btn-primary">John</button>-->
-      <!--<div ngbDropdown class="btn-group">-->
-        <!--<button id="btnGroupDrop1" class="btn btn-primary dropdown-toggle" ngbDropdownToggle></button>-->
-        <!--<div ngbDropdownMenu aria-labelledby="btnGroupDrop1">-->
-          <!--<li><button class="dropdown-item">profil</button></li>-->
-          <!--<li><button class="dropdown-item">ustawienia</button></li>-->
-          <!--<li class="dropdown-divider"></li>-->
-          <!--<li><button class="dropdown-item">wyloguj</button></li>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</div>-->
-
-    <!-- Nav Toggle Button -->
-    <!--<button class="navbar-toggler navbar-toggler-right" type="button" (click)="isCollapsed = !isCollapsed" aria-controls="exCollapsingNavbar2" aria-expanded="false" aria-label="Toggle navigation">-->
-      <!--<span class="navbar-toggler-icon"></span>-->
-    <!--</button>-->
-    <!-- Nav With Collapse -->
-    <!--<div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="exCollapsingNavbar2">-->
-      <!--&lt;!&ndash; Status Indicator &ndash;&gt;-->
-      <!--<div class="btn-group btn-group-toggle mr-auto" data-toggle="buttons">-->
-        <!--<label class="btn btn-light active">-->
-          <!--<input name="options" id="option1" autocomplete="off" checked="" type="radio">Browse</label>-->
-        <!--<label class="btn btn-light">-->
-          <!--<input name="options" id="option2" autocomplete="off" type="radio">Queue</label>-->
-        <!--<label class="btn btn-light">-->
-          <!--<input name="options" id="option3" autocomplete="off" type="radio">Game</label>-->
-      <!--</div>-->
-      <!--&lt;!&ndash; Logout Menu &ndash;&gt;-->
-      <!--<div class="btn-group ml-auto">-->
-        <!--<button class="btn btn-primary">John</button>-->
-        <!--<div ngbDropdown class="btn-group">-->
-          <!--<button id="btnGroupDrop1" class="btn btn-primary dropdown-toggle" ngbDropdownToggle></button>-->
-          <!--<div ngbDropdownMenu aria-labelledby="btnGroupDrop1">-->
-            <!--<li><button class="dropdown-item">profil</button></li>-->
-            <!--<li><button class="dropdown-item">ustawienia</button></li>-->
-            <!--<li class="dropdown-divider"></li>-->
-            <!--<li><button class="dropdown-item">wyloguj</button></li>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-
-
-      <!--&lt;!&ndash; Login Form &ndash;&gt;-->
-      <!--<form class="form-inline ml-auto">-->
-        <!--<input type="email"    class="form-control mr-md-1" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="email">-->
-        <!--<input type="password" class="form-control mr-md-1" id="exampleInputPassword1" placeholder="hasło">-->
-        <!--<button class="btn btn-outline-primary">Zaloguj</button>-->
-      <!--</form>-->
-    <!--</div>-->
-
-    <!--<div class="navbar-collapse collapse" id="navbarSupportedContent">-->
-
-      <!--<ul class="nav navbar-nav mr-auto mr-md-3">-->
-        <!--&lt;!&ndash; User Account Dropdown &ndash;&gt;-->
-        <!--<div class="btn-group btn-group-toggle" data-toggle="buttons">-->
-          <!--<label class="btn btn-light active">-->
-            <!--<input name="options" id="option1" autocomplete="off" checked="" type="radio">Browse</label>-->
-          <!--<label class="btn btn-light">-->
-            <!--<input name="options" id="option2" autocomplete="off" type="radio">Queue</label>-->
-          <!--<label class="btn btn-light">-->
-            <!--<input name="options" id="option3" autocomplete="off" type="radio">Game</label>-->
-        <!--</div>-->
-      <!--</ul>-->
-
-
-    <!--</div>-->
+    <app-login *ngIf="!hasToken()" class="d-inline-block ml-auto"></app-login>
+    <app-manage *ngIf="hasToken()" class="d-inline-block ml-auto"></app-manage>
   </div>
 </nav>

@@ -26,6 +26,7 @@
     "bootstrap": "^4.1.1",
     "core-js": "^2.5.4",
     "jquery": "^3.3.1",
+    "ngx-cookie": "^4.0.2",
     "npm-check-updates": "^2.14.2",
     "popper.js": "^1.14.3",
     "rxjs": "^6.0.0",

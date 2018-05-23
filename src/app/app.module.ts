@@ -6,7 +6,7 @@ import { AgmCoreModule } from '@agm/core';
 import { HeaderComponent } from './header/header.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './auth/signup/signup.component';
-import { LoginComponent } from './login/login.component';
+import { IndexComponent } from './index/index.component';
 import {RouterModule, Routes} from '@angular/router';
 import {AuthorizationService} from './auth/auth.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -15,9 +15,13 @@ import { FormErrorDirective } from './shared/form-error.directive';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LoadingButtonComponent } from './shared/loading-button/loading-button.component';
 import { LoadingButtonDirective } from './shared/loading-button.directive';
+import { PingIndicatorComponent } from './shared/ping/ping-indicator.component';
+import {CookieModule} from 'ngx-cookie';
+import { LoginComponent } from './header/login/login.component';
+import { ManageComponent } from './header/manage/manage.component';
 
 const appRoutes: Routes = [
-  { path: '', component: LoginComponent },
+  { path: '', component: IndexComponent },
   { path: 'signup', component: SignupComponent }
 ];
 
@@ -26,10 +30,13 @@ const appRoutes: Routes = [
     AppComponent,
     HeaderComponent,
     SignupComponent,
-    LoginComponent,
+    IndexComponent,
     FormErrorDirective,
     LoadingButtonComponent,
-    LoadingButtonDirective
+    LoadingButtonDirective,
+    PingIndicatorComponent,
+    LoginComponent,
+    ManageComponent
   ],
   imports: [
     BrowserModule,
@@ -40,6 +47,7 @@ const appRoutes: Routes = [
       apiKey: 'AIzaSyAXra6wL8hINthUcIzU-DS5CaL2ei5Eu-A'
     }),
     NgbModule.forRoot(),
+    CookieModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
   providers: [AuthorizationService],

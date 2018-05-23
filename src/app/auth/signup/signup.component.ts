@@ -7,6 +7,7 @@ import {AnimationEvent} from '@angular/animations';
 import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
 import {s} from '@angular/core/src/render3';
 import {LoadingButtonComponent} from '../../shared/loading-button/loading-button.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -32,11 +33,8 @@ export class SignupComponent implements OnInit {
   registerForm: FormGroup;
   enableRegister: boolean;
   loadingStatus: String = 'normal';
-  errorMessage: String;
 
-  @ViewChild('errorMessanger') errorMessanger: LoadingButtonComponent;
-
-  constructor(private authService: AuthorizationService) { }
+  constructor(private authService: AuthorizationService, private router: Router) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
@@ -47,11 +45,10 @@ export class SignupComponent implements OnInit {
                                                                   Validators.maxLength(20)]),
       'checkbox': new FormControl(null, [Validators.required, Validators.requiredTrue])
     });
-    // Listen FORM status
+    // Listen FORM statusMessage
     this.registerForm.statusChanges.subscribe((status) => {
       this.enableRegister = (status === 'VALID');
     });
-    console.log(this.errorMessanger);
   }
 
   onSubmit() {
@@ -73,11 +70,14 @@ export class SignupComponent implements OnInit {
   private onSigningSuccess(): void {
     this.loadingStatus = 'success';
     this.registerForm.reset();
+    setTimeout(() => {
+      this.router.navigate(['/']);
+    }, 2000);
   }
 
   private onSigningFail(error: string): void {
     this.loadingStatus = 'fail';
-    this.errorMessanger.showMessage(error);
+    console.log(error);
   }
 
   private validateEmailNotTaken(control: AbstractControl): Promise<any>|Observable<any> {

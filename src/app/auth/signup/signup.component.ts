@@ -53,7 +53,7 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.onSingingRequest();
-    this.authService.postUserRegister({email: this.registerForm.value.email,
+    this.authService.postRegisterRequest({email: this.registerForm.value.email,
                                                 nickname: this.registerForm.value.nickname,
                                                 password: this.registerForm.value.password})
       .subscribe(
@@ -82,7 +82,7 @@ export class SignupComponent implements OnInit {
 
   private validateEmailNotTaken(control: AbstractControl): Promise<any>|Observable<any> {
     const emailPromise = new Promise<any>((resolve) => {
-      this.authService.getCredentialStatus('email', control.value).subscribe(
+      this.authService.getCredentialStatusRequest('email', control.value).subscribe(
           value => { resolve(null); },
             error => { resolve({'emailInUse': true}); }
         );
@@ -92,7 +92,7 @@ export class SignupComponent implements OnInit {
 
   private validateNameNotTaken(control: AbstractControl): Promise<any>|Observable<any> {
     const nickPromise = new Promise<any>((resolve) => {
-      this.authService.getCredentialStatus('name', control.value).subscribe(
+      this.authService.getCredentialStatusRequest('name', control.value).subscribe(
         value => { resolve(null); },
           error => { resolve({'nameInUse': true}); }
         );

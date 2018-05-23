@@ -41,7 +41,7 @@ export class PingIndicatorComponent implements OnInit {
 
   getStatus() {
     this.setChecking();
-    this.authService.getPing()
+    this.authService.getApiStatusRequest()
       .subscribe(
         () => { this.setOnline(); },
         () => { this.setOffline(); }

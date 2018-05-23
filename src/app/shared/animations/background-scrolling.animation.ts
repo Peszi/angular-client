@@ -23,7 +23,7 @@ export const BACKGROUND_SCROLL =
     })),
     state('pendingOn', style( {
       backgroundColor: '#007bff',
-      backgroundPosition: '10% 0'
+      backgroundPosition: '48px 0'
     })),
     state('fail', style( {
       backgroundColor: '#dc3545'

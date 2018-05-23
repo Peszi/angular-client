@@ -1,26 +1,30 @@
 <div ngbDropdown #loginDropdown placement="bottom-right" autoClose="outside">
   <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Login</button>
   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-    <form class="mx-3 my-2" style="width: 240px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-      <div class="form-group">
-        <label for="email">Email</label>
+    <form class="mx-2 my-0" style="width: 240px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div class="form-group mb-0">
+        <small for="email">Email</small>
         <input type="text" class="form-control" id="email" placeholder="email" formControlName="email">
-        <small *ngIf="!this.loginForm.get('email').valid && this.loginForm.get('email').touched"
-               class="help-block text-muted">Please enter a valid email!</small>
+        <!--<small *ngIf="!this.loginForm.get('email').valid && this.loginForm.get('email').touched"-->
+               <!--class="help-block text-muted">Please enter a valid email!</small>-->
       </div>
-      <div class="form-group">
-        <label for="password">Password</label>
+      <div class="form-group mb-0">
+        <small for="password">Password</small>
         <input type="password" class="form-control" id="password" placeholder="password" formControlName="password">
-        <span *ngIf="!this.loginForm.get('password').valid && this.loginForm.get('password').touched" class="help-block">
-              <small *ngIf="this.loginForm.get('password').hasError('required')" class="text-muted">Please enter a valid password!</small>
-              <small *ngIf="this.loginForm.get('password').hasError('minlength')" class="text-muted">Password is too short! (min 6 chars)</small>
-              <small *ngIf="this.loginForm.get('password').hasError('maxlength')" class="text-muted">Password is too long! (max 20 chars)</small>
-            </span>
+        <!--<span *ngIf="!this.loginForm.get('password').valid && this.loginForm.get('password').touched" class="help-block">-->
+          <!--<small *ngIf="this.loginForm.get('password').hasError('required')" class="text-muted">Please enter a valid password!</small>-->
+          <!--<small *ngIf="this.loginForm.get('password').hasError('minlength')" class="text-muted">Password is too short! (min 6 chars)</small>-->
+          <!--<small *ngIf="this.loginForm.get('password').hasError('maxlength')" class="text-muted">Password is too long! (max 20 chars)</small>-->
+        <!--</span>-->
       </div>
       <div class="text-center mb-2">
-        <a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup">not registered yet?</a>
+        <small><a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup">not registered yet?</a></small>
       </div>
-      <button class="btn btn-primary btn-block" type="submit" [disabled]="!enableLogin">Sign in</button>
+      <button type="submit" (click)="onCheck()" class="btn btn-primary btn-block progress-bar-striped px-0 py-1"
+              [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onLoadingEnd($event)">
+        <div class="p-1" style="background-color: inherit">Sign in</div>
+      </button>
+      <div *ngIf="errorMessage.length > 0" class="text-center"><small class="text-danger">{{ errorMessage }}</small></div>
     </form>
   </div>
 </div>

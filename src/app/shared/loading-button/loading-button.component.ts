@@ -4,7 +4,7 @@ import {BACKGROUND_SCROLL, SHOW_AND_HIDE} from '../animations/background-scrolli
 @Component({
   selector: 'app-loading-button',
   template: '<ngb-alert [dismissible]="false" [@showElement]="visibilityMessage" (@showElement.done)="onEnd()" ' +
-  'style="opacity: 0"><strong>Alert!</strong> {{ errorMessage }}</ngb-alert>',
+  'style="opacity: 0"><strong>Alert!</strong> {{ emailError }}</ngb-alert>',
   animations: [ SHOW_AND_HIDE ]
 })
 export class LoadingButtonComponent implements OnInit {

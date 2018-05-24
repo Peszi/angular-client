@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   errorMessage: String = '';
   loadingStatus: String = 'normal';
 
-  constructor(private authService: AuthorizationService, private router: Router) {}
+  constructor(private authService: AuthorizationService) {}
 
   ngOnInit() {
     this.loginForm = new FormGroup({

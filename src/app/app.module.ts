@@ -20,6 +20,7 @@ import { CookieModule } from 'ngx-cookie';
 import { LoginComponent } from './header/login/login.component';
 import { ManageComponent } from './header/manage/manage.component';
 import { HomeComponent } from "./content/data/home/home.component";
+import { AlertComponent } from './shared/alert/alert.component';
 
 const appRoutes: Routes = [
   { path: '', component: IndexComponent},
@@ -39,7 +40,8 @@ const appRoutes: Routes = [
     PingIndicatorComponent,
     LoginComponent,
     ManageComponent,
-    HomeComponent
+    HomeComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,

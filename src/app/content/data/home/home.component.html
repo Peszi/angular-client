@@ -1,3 +1,91 @@
-<p>
-  home works!
-</p>
+<div class="container-fluid fullPage d-flex justify-content-center">
+  <div class="container p-0 my-3 px-md-5">
+    <div class="row d-flex justify-content-between align-items-center border rounded mx-3 my-2">
+      <div>
+        <h4 class="font-weight-bold m-0 mx-3 mt-2">{{ getUsername() }}</h4>
+        <h6 class="text-muted m-0 mx-3 mb-2">{{ getEmail() }}</h6>
+      </div>
+      <ol class="breadcrumb m-0 bg-transparent">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Data</li>
+      </ol>
+    </div>
+    <div class="row mx-3 mb-2">
+      <app-alert #alertMessenger></app-alert>
+    </div>
+    <div class="row m-0">
+      <div class="col-md-5">
+        <!-- Rooms List -->
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+            <strong>Rooms list:<span class="badge badge-light badge-pill mx-2">{{ getRoomsCount() }}</span></strong>
+            <button class="badge badge-pill badge-light" (click)="onReloadRoomsList()">refresh</button>
+          </div>
+          <div class="card-body p-0">
+            <div *ngIf="roomsList">
+              <a *ngFor="let room of roomsList.roomsList; let i = index" class="list-group-item list-group-item-action flex-column align-items-start" style="cursor: pointer">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                  <h5 class="mb-1"><strong>Room </strong></h5>
+                  <span class="badge badge-warning badge-pill">{{ getUsersCount(room.teamsCount) }}</span>
+                </div>
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                  <p class="mb-1">Host: {{ room.hostName }}</p>
+                  <small>(1 mins ago)</small>
+                </div>
+              </a>
+            </div>
+            <button class="btn btn-block btn-outline-primary" (click)="onCreateRoom()" style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">create</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-7">
+        <!-- Some Data-->
+        <div *ngIf="roomDetails" class="card">
+          <div class="card-header d-flex justify-content-between align-items-center bg-secondary text-white">
+            <h5 class="m-0"><strong>Room </strong>({{ roomDetails.id }})</h5>
+            <div class="d-inline-flex">
+              <h6 class="m-0">started:<span class="badge badge-pill badge-light mx-2">{{ roomDetails.started }}</span></h6>
+              <h6 class="m-0">host:<span class="badge badge-pill badge-light mx-2">{{ roomDetails.hostName }}</span></h6>
+            </div>
+          </div>
+          <div class="card-body">
+            <agm-map [latitude]="0" [longitude]="0" [zoom]="12" style="height: 250px">
+            </agm-map>
+          </div>
+          <button class="btn btn-block btn-outline-primary" style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">join</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div id="accordion">-->
+  <!--<div class="card">-->
+    <!--<div class="card-header" id="headingOne">-->
+      <!--<h5 class="mb-0">-->
+        <!--<button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Location</button>-->
+      <!--</h5>-->
+    <!--</div>-->
+    <!--<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">-->
+      <!--<div class="card-body">-->
+        <!--<agm-map [latitude]="0" [longitude]="0" [zoom]="12" style="height: 250px">-->
+        <!--</agm-map>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--<div class="card">-->
+    <!--<div class="card-header" id="headingTwo">-->
+      <!--<h5 class="mb-0">-->
+        <!--<button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">-->
+          <!--Collapsible Group Item #2-->
+        <!--</button>-->
+      <!--</h5>-->
+    <!--</div>-->
+    <!--<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">-->
+      <!--<div class="card-body">-->
+        <!--Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+<!--</div>-->

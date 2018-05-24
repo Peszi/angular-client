@@ -1,17 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {BASE_API_URL, BASE_URL, BASIC_AUTH, TOKEN_COOKIE} from '../shared/globals';
+import {BASE_API_URL, BASE_URL, BASIC_AUTH, BEARER_PREFIX, TOKEN_COOKIE} from '../shared/globals';
 import {CookieService} from 'ngx-cookie';
-import {promise} from 'selenium-webdriver';
 import {AuthResponse} from './auth-response.model';
+import {Router} from '@angular/router';
 
 @Injectable()
 export class AuthorizationService {
 
   private authSubject = new Subject<any>();
 
-  constructor(private httpClient: HttpClient, private cookieService: CookieService) {}
+  constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService) {}
 
   // Register
   postRegisterRequest(userData: {email: string, nickname: string, password: string}): Observable<String> {
@@ -50,6 +50,7 @@ export class AuthorizationService {
   private setupAccessToken(authRes: AuthResponse) {
     const expireDate = new Date(new Date().getTime() + (authRes.expires_in * 1000));
     this.cookieService.put(TOKEN_COOKIE, authRes.access_token, {expires: expireDate});
+    this.router.navigate(['/home']);
   }
 
   // Server status
@@ -58,19 +59,43 @@ export class AuthorizationService {
   }
 
   // Check Token
-  hasToken(): boolean {
+  hasAccessToken(): boolean {
     return (this.cookieService.get(TOKEN_COOKIE) ? true : false);
   }
 
+  // Get token
+  getAccessToken(): string {
+    const access_token = this.cookieService.get(TOKEN_COOKIE);
+    if (access_token) {
+      return access_token;
+    } else {
+      this.router.navigate(['/']); // TODO check
+    }
+  }
+
   // Remove Token
-  revokeToken() {
-    if (this.hasToken()) {
+  revokeAccessToken() {
+    if (this.hasAccessToken()) {
       this.cookieService.remove(TOKEN_COOKIE);
     }
   }
 
   getAuth(): Observable<any> {
     return this.authSubject.asObservable();
+  }
+
+  // Requests
+
+  makePostRequest<T>(url: string, body?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.post<T>(BASE_API_URL + url, body,{ observe: 'body', headers: headers });
+  }
+
+  makeGetRequest<T>(url: string, params?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.get<T>(BASE_API_URL + url,{ observe: 'body', headers: headers, params: params });
   }
 
 }

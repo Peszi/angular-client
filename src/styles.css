@@ -9,8 +9,21 @@ body {
   background-color:#f8f9fa!important;
 }
 
-.footer {
+.center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fullPage {
   position: absolute;
+  top: 0;
+  min-height: 100vh;
+  padding: 56px 0 50px 0 !important;
+}
+
+.footer {
+  position: fixed;
   bottom: 0;
   height: 50px;
   line-height: 48px;

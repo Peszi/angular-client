@@ -1,9 +1,11 @@
-<div ngbDropdown placement="bottom-right" autoClose="outside">
-  <button class="btn btn-outline-success" id="dropdownList" ngbDropdownToggle>loading..</button>
-  <div ngbDropdownMenu aria-labelledby="dropdownList">
-    <li><button class="dropdown-item small">profile</button></li>
-    <li><button class="dropdown-item small">setting</button></li>
-    <li class="dropdown-divider"></li>
-    <li><button class="dropdown-item small" (click)="onLogout()">logout</button></li>
+<div class="d-inline-flex ml-auto">
+  <div ngbDropdown placement="bottom-right" autoClose="outside">
+    <button class="btn btn-outline-primary" id="dropdownList" ngbDropdownToggle>{{ username }}</button>
+    <div ngbDropdownMenu aria-labelledby="dropdownList">
+      <li><button class="dropdown-item small" routerLink="/home">home</button></li>
+      <li><button class="dropdown-item small">setting</button></li>
+      <li class="dropdown-divider"></li>
+      <li><button class="dropdown-item small" (click)="onLogout()">logout</button></li>
+    </div>
   </div>
 </div>

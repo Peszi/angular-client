@@ -1,0 +1,6 @@
+<div [@visibilityState]="state" (@visibilityState.done)="onEnd($event)" class="my-1">
+  <div class="alert text-center" role="alert"
+       [ngClass]="{'alert-danger':isError === true, 'alert-success':isError === false}">
+    <strong>{{ errorTitle }}</strong> {{ errorMessage }}
+  </div>
+</div>

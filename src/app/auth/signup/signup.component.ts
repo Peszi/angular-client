@@ -8,6 +8,7 @@ import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.an
 import {s} from '@angular/core/src/render3';
 import {LoadingButtonComponent} from '../../shared/loading-button/loading-button.component';
 import {Router} from '@angular/router';
+import {AlertComponent} from '../../shared/alert/alert.component';
 
 @Component({
   selector: 'app-signup',
@@ -29,6 +30,8 @@ export class SignupComponent implements OnInit {
   readonly passwordErrors: ErrorMessage[] = [{error: 'required', message: 'Password is required!'},
                                               {error: 'minlength', message: 'Password is too short, at least 6 characters!'},
                                               {error: 'maxlength', message: 'Password is too long, at most 20 characters!'}];
+
+  @ViewChild('alertDialog') alert: AlertComponent;
 
   registerForm: FormGroup;
   enableRegister: boolean;
@@ -70,6 +73,7 @@ export class SignupComponent implements OnInit {
   private onSigningSuccess(): void {
     this.loadingStatus = 'success';
     this.registerForm.reset();
+    this.alert.showSuccess('Successfully registered!');
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 2000);
@@ -77,6 +81,7 @@ export class SignupComponent implements OnInit {
 
   private onSigningFail(error: string): void {
     this.loadingStatus = 'fail';
+    this.alert.showError(error);
     console.log(error);
   }
 

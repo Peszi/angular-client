@@ -1,40 +1,43 @@
-<div class="container center-center p-0" style="max-width: 400px">
-  <div class="card border-contour shadow p-0 m-2">
-    <div class="card-body">
-      <h3 class="text-center pb-2">Register account</h3>
-      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input type="text" class="form-control" id="email" placeholder="Enter email" formControlName="email"
-                 [appFormError]="registerForm.get('email')" [errorMessages]="emailErrors">
-        </div>
-        <div class="form-group">
-          <label for="name">Nickname</label>
-          <input type="text" class="form-control" id="name" placeholder="Nickname" formControlName="nickname"
-                 [appFormError]="registerForm.get('nickname')" [errorMessages]="nameErrors">
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
-                 [appFormError]="registerForm.get('password')" [errorMessages]="passwordErrors">
-        </div>
-        <div class="form-group">
-          <label class="custom-control custom-checkbox">
-            <input type="checkbox" class="form-check-input" formControlName="checkbox">
-            <span class="custom-control-description">accept <strong>terms and conditions</strong></span>
-          </label>
-          <small *ngIf="!registerForm.get('checkbox').valid && registerForm.get('checkbox').touched"
-                 class="help-block text-muted">Please accept terms&conditions first!</small>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block progress-bar-striped px-0 py-1"
-                [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onLoadingEnd($event)" [disabled]="!enableRegister">
-          <div class="p-1" style="background-color: inherit">Submit</div>
-        </button>
-        <div class="text-center mt-2">
-          <a class="form-text text-primary" routerLink="/" >already registered?</a>
-        </div>
-      </form>
+<div class="container-fluid fullPage center-center">
+  <div class="container p-0 my-2" style="max-width: 400px">
+    <div class="card border-contour shadow p-0 m-2">
+      <div class="card-body">
+        <h3 class="text-center pb-2">Register account</h3>
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" id="email" placeholder="Enter email" formControlName="email"
+                   [appFormError]="registerForm.get('email')" [errorMessages]="emailErrors">
+          </div>
+          <div class="form-group">
+            <label for="name">Nickname</label>
+            <input type="text" class="form-control" id="name" placeholder="Nickname" formControlName="nickname"
+                   [appFormError]="registerForm.get('nickname')" [errorMessages]="nameErrors">
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" formControlName="password"
+                   [appFormError]="registerForm.get('password')" [errorMessages]="passwordErrors">
+          </div>
+          <div class="form-group">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="form-check-input" formControlName="checkbox">
+              <span class="custom-control-description">accept <strong>terms and conditions</strong></span>
+            </label>
+            <small *ngIf="!registerForm.get('checkbox').valid && registerForm.get('checkbox').touched"
+                   class="help-block text-muted">Please accept terms&conditions first!</small>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block progress-bar-striped px-0 py-1"
+                  [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onLoadingEnd($event)" [disabled]="!enableRegister">
+            <div class="p-1" style="background-color: inherit">Submit</div>
+          </button>
+          <div class="text-center mt-2">
+            <a class="form-text text-primary" routerLink="/" >already registered?</a>
+          </div>
+        </form>
+      </div>
     </div>
+    <app-alert #alertDialog></app-alert>
   </div>
 </div>
 

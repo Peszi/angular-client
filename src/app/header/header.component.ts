@@ -14,21 +14,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   subscription: Subscription;
 
-  constructor(private authService: AuthorizationService, private router: Router) {}
+  constructor(private authService: AuthorizationService) {}
 
   ngOnInit() {
-    this.subscription = this.authService.getAuth().subscribe(
-      () => {},
-      () => {}
-    );
+
   }
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+
   }
 
   hasToken(): boolean {
-    return this.authService.hasToken();
+    return this.authService.hasAccessToken();
   }
 
 }

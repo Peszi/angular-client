@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {AuthorizationService} from '../../auth/auth.service';
 import {Router} from '@angular/router';
-import {UserDataModel, UserDataService} from '../../content/data/user-data.service';
+import { UserDataService} from '../../content/user-data.service';
+import {UserDataModel} from '../../content/user-data.model';
 
 @Component({
   selector: 'app-manage',

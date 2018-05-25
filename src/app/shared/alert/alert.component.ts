@@ -30,11 +30,11 @@ import {animate, AnimationEvent, state, style, transition, trigger} from '@angul
         opacity: '0.0',
         display: 'none'
       })),
-      transition('* => open', animate(250)),
-      transition('* => show', animate(1000)),
+      transition('* => open', animate(100)),
+      transition('* => show', animate(500)),
       transition('* => visible', animate(2000)),
-      transition('* => hide', animate(1000)),
-      transition('hide => close', animate(250)),
+      transition('* => hide', animate(500)),
+      transition('hide => close', animate(100)),
       transition('* => *', animate(0))
     ]),
   ]
@@ -73,7 +73,7 @@ export class AlertComponent implements OnInit {
     this.showAlert(message, false);
   }
 
-  private showAlert(message: string, error: boolean) {
+  showAlert(message: string, error: boolean) {
     this.errorMessage = message;
     if (this.isShowing === false) {
       this.isError = error;

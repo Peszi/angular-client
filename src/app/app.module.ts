@@ -19,13 +19,26 @@ import { PingIndicatorComponent } from './shared/ping/ping-indicator.component';
 import { CookieModule } from 'ngx-cookie';
 import { LoginComponent } from './header/login/login.component';
 import { ManageComponent } from './header/manage/manage.component';
-import { HomeComponent } from "./content/data/home/home.component";
+import { HomeComponent } from './content/home/home.component';
 import { AlertComponent } from './shared/alert/alert.component';
+import { QueueComponent } from './content/home/queue/queue.component';
+import { BrowseComponent } from './content/home/browse/browse.component';
+import {UserDataService} from './content/user-data.service';
 
 const appRoutes: Routes = [
-  { path: '', component: IndexComponent},
+  { path: '', redirectTo: 'index', pathMatch: 'full'},
+  { path: 'index', component: IndexComponent},
   { path: 'signup', component: SignupComponent },
-  { path: 'home', component: HomeComponent }
+  {
+    path: 'home',
+    component: HomeComponent,
+    children: [
+      {path: '', redirectTo: 'browse', pathMatch: 'full' },
+      {path: 'browse', component: BrowseComponent },
+      {path: 'queue', component: QueueComponent },
+    ]
+  },
+  {path: '**', component: IndexComponent}
 ];
 
 @NgModule({
@@ -41,7 +54,9 @@ const appRoutes: Routes = [
     LoginComponent,
     ManageComponent,
     HomeComponent,
-    AlertComponent
+    AlertComponent,
+    QueueComponent,
+    BrowseComponent
   ],
   imports: [
     BrowserModule,
@@ -49,13 +64,14 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyAXra6wL8hINthUcIzU-DS5CaL2ei5Eu-A'
+      apiKey: 'AIzaSyAXra6wL8hINthUcIzU-DS5CaL2ei5Eu-A',
+      libraries: ['geometry']
     }),
     NgbModule.forRoot(),
     CookieModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthorizationService],
+  providers: [AuthorizationService, UserDataService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

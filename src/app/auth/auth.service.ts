@@ -13,7 +13,17 @@ export class AuthorizationService {
 
   constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService) {}
 
-  // Register
+  // Server status REQUEST
+  getApiStatusRequest() {
+    return this.httpClient.get(BASE_URL + '/ping', { responseType: 'text', observe: 'body' });
+  }
+
+  // Check Credentials REQUEST
+  getCredentialStatusRequest(name: string, value: string): Observable<string> {
+    return this.httpClient.get(BASE_API_URL + '/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
+  }
+
+  // Register REQUEST
   postRegisterRequest(userData: {email: string, nickname: string, password: string}): Observable<String> {
     const params = new HttpParams()
       .set('email', userData.email)
@@ -22,11 +32,7 @@ export class AuthorizationService {
     return this.httpClient.post(BASE_API_URL + '/register', params, {responseType: 'text', observe: 'body'});
   }
 
-  getCredentialStatusRequest(name: string, value: string): Observable<string> {
-    return this.httpClient.get(BASE_API_URL + '/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
-  }
-
-  // Login
+  // Login REQUEST
   postLoginRequest(userData: {email: string, password: string}) {
     const headers = new HttpHeaders()
       .set('Authorization', BASIC_AUTH)
@@ -47,15 +53,25 @@ export class AuthorizationService {
     return subject;
   }
 
+  // Global POST REQUEST
+  makePostRequest<T>(url: string, body?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.post<T>(BASE_API_URL + url, body,{ observe: 'body', headers: headers });
+  }
+
+  // Global GET REQUEST
+  makeGetRequest<T>(url: string, params?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.get<T>(BASE_API_URL + url,{ observe: 'body', headers: headers, params: params });
+  }
+
+  // Setup token
   private setupAccessToken(authRes: AuthResponse) {
     const expireDate = new Date(new Date().getTime() + (authRes.expires_in * 1000));
     this.cookieService.put(TOKEN_COOKIE, authRes.access_token, {expires: expireDate});
     this.router.navigate(['/home']);
-  }
-
-  // Server status
-  getApiStatusRequest() {
-    return this.httpClient.get('http://localhost:8080/ping', { responseType: 'text', observe: 'body' });
   }
 
   // Check Token
@@ -84,18 +100,10 @@ export class AuthorizationService {
     return this.authSubject.asObservable();
   }
 
-  // Requests
+  // Utility
 
-  makePostRequest<T>(url: string, body?: any|null) {
-    const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
-    return this.httpClient.post<T>(BASE_API_URL + url, body,{ observe: 'body', headers: headers });
-  }
+  getErrorDescription() {
 
-  makeGetRequest<T>(url: string, params?: any|null) {
-    const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
-    return this.httpClient.get<T>(BASE_API_URL + url,{ observe: 'body', headers: headers, params: params });
   }
 
 }

@@ -24,6 +24,7 @@ export class UserDataService {
     this.authService.makeGetRequest<UserDataModel>('/user')
       .subscribe(
         (userData: UserDataModel) => {
+          console.log(userData);
             this.userData = userData;
             this.userDataSubject.next(userData);
             this.requestsSubject.next({error: false, message: 'User details refreshed!'});

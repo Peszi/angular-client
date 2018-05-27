@@ -2,11 +2,112 @@
 
 html {
   position: relative;
+
+  --colorPrimary: #1b8684;
+  --colorPrimaryDark: #17706f;
+  --colorAccent: #831e1e;
+  --colorBlue: #1b4b86;
+  --colorDark: #242424;
+  --colorGrey: #575757;
+
+  --colorLightBlue: #30abca;
+  --colorLightRed: #fe2e5a;
+  --colorLightCyan: #55e0d3;
+  --colorLightYellow: #ffa829;
 }
 
 body {
   min-height: 100vh;
-  background-color:#f8f9fa!important;
+  background-color:#f8f9fa !important;
+}
+
+.bg-lines {
+  background: url("/assets/lines_dark_2.jpg") repeat, repeat;
+}
+
+.bd-dark-top {
+  border-top: 1px solid var(--colorGrey);
+}
+
+.bd-dark-bottom {
+  border-bottom: 1px solid var(--colorGrey);
+}
+
+.txt-outline {
+  text-shadow:
+    -1px -1px 1px var(--colorDark),
+    1px -1px 1px var(--colorDark),
+    1px 1px 1px var(--colorDark),
+    -1px 1px 1px var(--colorDark);
+}
+
+.txt-title {
+  color: white !important;
+  letter-spacing: .05em !important;
+  font-size: 1.25rem !important;
+  font-weight: 600 !important;
+}
+
+.back-gradient {
+  margin: 0 !important;
+  padding: 0.25rem !important;
+  border-radius: 0.45rem !important;
+  background: linear-gradient(to right, var(--colorPrimary), var(--colorAccent)) !important;
+}
+
+button.btn-small {
+  outline: none !important;
+  color: white !important;
+  display: inline-block;
+  font-weight: 400;
+  text-align: center;
+  white-space: nowrap;
+  border: 0 !important;
+  vertical-align: middle;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin: 0;
+  padding: 0.275rem 0.75rem;
+  position: relative;
+  font-size: 1rem;
+  line-height: 1.5;
+  /*background-color: var(--colorDark);*/
+  background: url("/assets/lines_dark_2.jpg") repeat, repeat;
+  border-radius: 0.2rem;
+}
+
+button.btn-small::before {
+  content: " ";
+  position: absolute;
+  z-index: -1;
+  top: -3px;
+  left: -3px;
+  right: -3px;
+  bottom: -3px;
+  border-radius: 0.3rem;
+  background: linear-gradient(310deg, var(--colorPrimary), var(--colorAccent)) !important;
+}
+
+button.btn-small:focus::before {
+  padding-top: 1px;
+  box-shadow: 0 0 0 0.15rem rgba(255, 255, 255, 0.35);
+}
+
+button.btn-small:hover {
+  /*color: #222 !important;*/
+  /*background-color: var(--colorGrey) !important;*/
+}
+
+button.btn-small:hover::before {
+  /*background: linear-gradient(130deg, var(--colorPrimary), var(--colorAccent)) !important;*/
+  box-shadow: 2px 2px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+
+button.btn-small:not(:disabled):not(.disabled) {
+  cursor: pointer;
 }
 
 .center-center {

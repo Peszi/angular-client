@@ -11,6 +11,9 @@ export interface RoomDataModel {
   hostName: string;
   started: false;
   teamsCount: number;
+  createdAt: string;
+  elapsedTime: string;
+
   zoneLat: number;
   zoneLng: number;
   zoneRadius: number;

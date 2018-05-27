@@ -1,9 +1,19 @@
-import {AfterContentInit, Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {
+  AfterContentInit,
+  AfterViewChecked,
+  Component,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild
+} from '@angular/core';
 import {Subscription} from 'rxjs';
 import { UserDataService } from '../../user-data.service';
 import {Utility} from '../../utility.class';
-import {RoomsDataListModel} from '../../user-data.model';
+import {RoomDataModel, RoomsDataListModel} from '../../user-data.model';
 import {AgmMap, GoogleMapsAPIWrapper} from '@agm/core';
+import {createDirective} from "@angular/compiler/src/core";
 
 @Component({
   selector: 'app-browse',
@@ -23,12 +33,15 @@ export class BrowseComponent implements OnInit, OnDestroy {
     this.userDataService.getRoomsListRequest();
     this.roomsListSub = this.userDataService.getRoomsListObserver().subscribe(
       (roomsList: RoomsDataListModel) => {
+        this.checkTime();
         if (roomsList.hasRoom) {
           console.log('need redirect here!');
         }
       }
     );
-
+    setInterval(() => {
+      this.checkTime();
+    }, 60000);
     // const nyc = new google.maps.LatLng(40.715, -74.002);
     // const london = new google.maps.LatLng(51.506, -0.119);
     // const distance = google.maps.geometry.spherical.computeDistanceBetween(null, null);
@@ -82,6 +95,27 @@ export class BrowseComponent implements OnInit, OnDestroy {
       return this.userDataService.getRoomsList().roomsList[this.selectedRoomIndex];
     }
     return null;
+  }
+
+  checkTime(): void {
+    if (this.userDataService.getRoomsList()) {
+      this.userDataService.getRoomsList()
+        .roomsList.forEach((room: RoomDataModel) => {
+          room.elapsedTime = Math.floor((Date.now() - new Date(room.createdAt).getTime()) / 60000) + ' min ago';
+      });
+    }
+  }
+
+  getRoomDetailsStatus() {
+    if (this.userDataService.getRoomsList()) {
+      const status = this.getRoomDetails().started;
+      if (status) {
+        return 'started';
+      } else {
+        return 'awaiting';
+      }
+    }
+    return '...';
   }
 
 }

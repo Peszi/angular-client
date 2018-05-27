@@ -1,23 +1,25 @@
 <div class="row m-0">
   <div class="col-md-5  mb-3">
-    <!-- Rooms List -->
+    <!-- Rooms -->
     <div class="card">
-      <div class="card-header d-flex justify-content-between align-items-center bg-dark border border-secondary text-white">
-        <strong>Rooms list:<span class="badge badge-light badge-pill mx-2">{{ getRoomsCount() }}</span></strong>
+      <!-- Rooms Header -->
+      <div class="card-header d-flex justify-content-between align-items-center border badge-dark">
+        <h5 class="m-0"><strong>Rooms list</strong></h5>
         <button class="badge badge-pill badge-light" (click)="onReloadRooms()">refresh</button>
       </div>
+      <!-- Rooms List -->
       <div class="card-body p-0">
         <div *ngIf="getRoomsList()">
           <a *ngFor="let room of getRoomsList().roomsList; let i = index"
              class="list-group-item list-group-item-action flex-column align-items-start"
              style="cursor: pointer" (click)="onRoomSelected(i)">
             <div class="d-flex w-100 justify-content-between align-items-center">
-              <h5 class="mb-1"><strong>Room </strong></h5>
+              <h6 class="mb-1"><strong>Room </strong></h6>
               <span class="badge badge-warning badge-pill">{{ getUsersCount(room.teamsCount) }}</span>
             </div>
             <div class="d-flex w-100 justify-content-between align-items-center">
-              <p class="mb-1">Host: {{ room.hostName }}</p>
-              <small>(1 mins ago)</small>
+              <h6 class="mb-1">Host: {{ room.hostName }}</h6>
+              <small>({{ room.elapsedTime }})</small>
             </div>
           </a>
         </div>
@@ -26,16 +28,16 @@
     </div>
   </div>
   <div class="col-md-7">
-    <!-- Room Details -->
+    <!-- Room -->
     <div class="card">
       <div *ngIf="getRoomDetails()">
-        <div class="card-header d-flex justify-content-between align-items-center bg-dark border border-secondary text-white">
-          <h5 class="m-0"><strong>Room </strong>({{ getRoomDetails().id }})</h5>
-          <div class="d-inline-flex">
-            <h6 class="m-0">started:<span class="badge badge-pill badge-light mx-2">{{ getRoomDetails().started }}</span></h6>
-            <h6 class="m-0">host:<span class="badge badge-pill badge-light mx-2">{{ getRoomDetails().hostName }}</span></h6>
-          </div>
+        <!-- Room Header -->
+        <div class="card-header d-flex justify-content-between align-items-center bg-dark border badge-dark text-white">
+          <h5 class="m-0"><strong>{{ getRoomDetails().hostName }}'s</strong> room</h5>
+          <h5 class="m-0 text-muted">({{ getRoomDetails().id }})</h5>
+          <span class="badge badge-pill badge-light">{{ getRoomDetailsStatus() }}</span>
         </div>
+        <!-- Room Details -->
         <div class="card-body">
           <agm-map style="height: 400px" #map (mapClick)="onCenterChange()"
             [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
@@ -48,6 +50,7 @@
         </div>
         <button class="btn btn-block btn-outline-primary" style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">join</button>
       </div>
+      <!-- Room Not Selected -->
       <div *ngIf="!getRoomDetails()" class="card-body p-3 text-center border rounded">
         Please select any room!
       </div>

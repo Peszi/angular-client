@@ -2,8 +2,9 @@ import {Component, OnChanges, OnDestroy, OnInit, SimpleChanges, ViewChild} from 
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthorizationService} from '../auth/auth.service';
+import {AuthorizationService} from '../services/auth.service';
 import {Subscription} from 'rxjs';
+import {b, s} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-header',
@@ -12,20 +13,21 @@ import {Subscription} from 'rxjs';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
-  subscription: Subscription;
+  isLogged: boolean;
+  authSub: Subscription;
 
-  constructor(private authService: AuthorizationService) {}
+  constructor(private authService: AuthorizationService) { }
 
   ngOnInit() {
-
+    this.isLogged = this.authService.hasAccessToken();
+    this.authSub = this.authService.getAuthSub()
+      .subscribe((status: boolean) => {
+        this.isLogged = status;
+      });
   }
 
   ngOnDestroy(): void {
 
-  }
-
-  hasToken(): boolean {
-    return this.authService.hasAccessToken();
   }
 
 }

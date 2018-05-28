@@ -1,16 +1,16 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {AlertMessage, UserDataService} from '../user-data.service';
+import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import {AlertMessage, UserDataService} from '../../services/user-data.service';
 import {Subscription} from 'rxjs';
 import {b, s} from '@angular/core/src/render3';
 import {AlertComponent} from '../../shared/alert/alert.component';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {RouterEvent} from '@angular/router/src/events';
+import {AuthorizationService} from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('alertMessenger') alert: AlertComponent;
@@ -19,22 +19,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private userDataSub: Subscription;
 
-  constructor(private userDataService: UserDataService, private router: Router) { }
+  constructor(private authService: AuthorizationService, private userDataService: UserDataService, private router: Router) { }
 
   ngOnInit() {
-    this.setupActivatedRoute('');
-    this.router.events
-      .pipe(
+    this.setupActivatedRoute(this.router.url.substring(this.router.url.lastIndexOf('/') + 1));
+    this.router.events.pipe(
         filter((event) => event instanceof NavigationEnd),
-        map((data: RouterEvent) => data.url.substring(data.url.lastIndexOf('/') + 1))
-      ).subscribe((route) => {
-       this.setupActivatedRoute(route);
-      }
+        map((data: RouterEvent) => this.parseEndpoint(data.url))
+      ).subscribe((route) => { this.setupActivatedRoute(route); }
     );
-    this.userDataService.getUserDataRequest();
-    this.userDataSub = this.userDataService.getRequestsObserver().subscribe(
+    this.authService.getUserDataRequest();
+    this.userDataSub = this.userDataService.getRequestSub().subscribe(
       (alert: AlertMessage) => { this.alert.showAlert(alert.message, alert.error); }
       );
+  }
+
+  private parseEndpoint(url: string) {
+    return url.substring(url.lastIndexOf('/') + 1);
   }
 
   private setupActivatedRoute(currentRoute: string) {
@@ -54,13 +55,17 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userDataSub.unsubscribe();
   }
 
+  onRefresh() {
+    // TODO pass event to child components
+  }
+
   getUsername() {
-    if (this.userDataService.getUserData()) { return this.userDataService.getUserData().name; }
+    if (this.authService.userData) { return this.authService.userData.name; }
     return 'loading...';
   }
 
   getEmail() {
-    if (this.userDataService.getUserData()) { return this.userDataService.getUserData().email; }
+    if (this.authService.userData) { return this.authService.userData.email; }
     return 'loading...';
   }
 }

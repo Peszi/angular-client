@@ -32,6 +32,8 @@ export interface TeamsListModel {
 
 export interface RoomDetailsModel extends RoomDataModel {
   teamsList: TeamsListModel;
+  // local var
+  isRoomHost: boolean;
 }
 
 

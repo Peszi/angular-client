@@ -1,5 +1,6 @@
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {AuthorizationService} from './auth/auth.service';
+import {AuthorizationService} from './services/auth.service';
+import {Router} from '@angular/router';
 
 // @ViewChild('myMap') gmapElement: GoogleMapsAPIWrapper;
 // mapClicked(event: Event) {
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
+
   }
 
 }

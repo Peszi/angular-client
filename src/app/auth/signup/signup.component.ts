@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {ErrorMessage} from '../../shared/form-error.directive';
-import {AuthorizationService} from '../auth.service';
+import {AuthorizationService} from '../../services/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
 import {s} from '@angular/core/src/render3';

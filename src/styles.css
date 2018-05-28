@@ -35,10 +35,10 @@ body {
 
 .txt-outline {
   text-shadow:
-    -1px -1px 1px var(--colorDark),
-    1px -1px 1px var(--colorDark),
-    1px 1px 1px var(--colorDark),
-    -1px 1px 1px var(--colorDark);
+    -1px -1px 1px #222,
+    1px -1px 1px #222,
+    1px 1px 1px #222,
+    -1px 1px 1px #222;
 }
 
 .txt-title {
@@ -126,8 +126,8 @@ button.btn-small:not(:disabled):not(.disabled) {
 .footer {
   position: fixed;
   bottom: 0;
-  height: 50px;
-  line-height: 48px;
+  height: 48px;
+  line-height: 46px;
   width: 100%;
 }
 

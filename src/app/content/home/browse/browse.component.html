@@ -1,11 +1,9 @@
 <div class="row m-0">
-  <div class="col-md-5  mb-3">
-    <!-- Rooms -->
+  <div class="col-md-5 px-2">
     <div class="card">
       <!-- Rooms Header -->
-      <div class="card-header d-flex justify-content-between align-items-center border badge-dark">
-        <h5 class="m-0"><strong>Rooms list</strong></h5>
-        <button class="badge badge-pill badge-light" (click)="onReloadRooms()">refresh</button>
+      <div class="card-header d-flex justify-content-center border badge-dark p-2">
+        <p class="m-0"><strong>Rooms list</strong></p>
       </div>
       <!-- Rooms List -->
       <div class="card-body p-0">
@@ -14,46 +12,46 @@
              class="list-group-item list-group-item-action flex-column align-items-start"
              style="cursor: pointer" (click)="onRoomSelected(i)">
             <div class="d-flex w-100 justify-content-between align-items-center">
-              <h6 class="mb-1"><strong>Room </strong></h6>
-              <span class="badge badge-warning badge-pill">{{ getUsersCount(room.teamsCount) }}</span>
-            </div>
-            <div class="d-flex w-100 justify-content-between align-items-center">
-              <h6 class="mb-1">Host: {{ room.hostName }}</h6>
-              <small>({{ room.elapsedTime }})</small>
+              <h6 class="mb-1"><strong>{{ room.hostName }}'s </strong>room</h6>
+              <div>
+                <span class="badge badge-light badge-pill mr-2">({{ room.elapsedTime }})</span>
+                <span class="badge badge-warning badge-pill">{{ room.teamsCount }}</span>
+              </div>
             </div>
           </a>
         </div>
-        <button class="btn btn-block btn-outline-primary" (click)="onCreateRoom()" style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">create</button>
       </div>
     </div>
+    <button class="btn btn-block btn-outline-primary my-2" (click)="onCreateRoom()">create room</button>
   </div>
-  <div class="col-md-7">
-    <!-- Room -->
-    <div class="card">
-      <div *ngIf="getRoomDetails()">
+  <div class="col-md-7 px-2">
+    <div *ngIf="getRoomDetails()">
+      <!-- Room -->
+      <div class="card">
         <!-- Room Header -->
-        <div class="card-header d-flex justify-content-between align-items-center bg-dark border badge-dark text-white">
-          <h5 class="m-0"><strong>{{ getRoomDetails().hostName }}'s</strong> room</h5>
-          <h5 class="m-0 text-muted">({{ getRoomDetails().id }})</h5>
+        <div class="card-header d-flex justify-content-between align-items-center bg-dark border badge-dark px-3 py-2">
+          <p class="m-0"><strong>{{ getRoomDetails().hostName }}'s</strong> room</p>
+          <small class="m-0 text-muted">({{ getRoomDetails().id }})</small>
           <span class="badge badge-pill badge-light">{{ getRoomDetailsStatus() }}</span>
         </div>
         <!-- Room Details -->
         <div class="card-body">
-          <agm-map style="height: 400px" #map (mapClick)="onCenterChange()"
-            [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
-            [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true"npm >
+          <agm-map style="height: 400px" #map
+                   [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
+                   [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true">
             <agm-circle
               [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
               [fillColor]="'red'" [fillOpacity]="0.5">
             </agm-circle>
           </agm-map>
         </div>
-        <button class="btn btn-block btn-outline-primary" style="border-top-left-radius: 0 !important; border-top-right-radius: 0 !important;">join</button>
       </div>
-      <!-- Room Not Selected -->
-      <div *ngIf="!getRoomDetails()" class="card-body p-3 text-center border rounded">
-        Please select any room!
-      </div>
+      <!-- Join Room -->
+      <button class="btn btn-block btn-outline-primary my-2" (click)="onReloadRooms()">join</button>
+    </div>
+    <!-- Room Not Selected -->
+    <div *ngIf="!getRoomDetails()" class="card-body p-3 text-center border rounded">
+      Please select any room!
     </div>
   </div>
 </div>

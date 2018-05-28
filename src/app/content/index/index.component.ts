@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthorizationService} from '../../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-index',
@@ -6,9 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthorizationService, private router: Router) { }
 
   ngOnInit() {
+    if (this.authService.isLogged) {
+      this.router.navigate(['/home']);
+    }
   }
-
 }

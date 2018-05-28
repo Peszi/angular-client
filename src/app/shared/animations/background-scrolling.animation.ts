@@ -15,15 +15,15 @@ export const SHOW_AND_HIDE =
 export const BACKGROUND_SCROLL =
   trigger('loadingScroll', [
     state('normal', style( {
-      backgroundColor: '#242424'
+      backgroundColor: '#007bff'
     })),
     state('pending', style( {
-      backgroundColor: '#242424',
+      backgroundColor: '#007bff',
       backgroundPosition: '0 0'
       // background: 'linear-gradient(310deg, var(--colorPrimary), var(--colorAccent)) !important'
     })),
     state('pendingOn', style( {
-      backgroundColor: '#242424',
+      backgroundColor: '#007bff',
       backgroundPosition: '48px 0'
       // background: 'linear-gradient(130deg, var(--colorPrimary), var(--colorAccent)) !important'
     })),

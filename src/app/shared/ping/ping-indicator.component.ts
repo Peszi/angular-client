@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {AuthorizationService} from '../../auth/auth.service';
+import {AuthorizationService} from '../../services/auth.service';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({

@@ -2,9 +2,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthorizationService} from '../../auth/auth.service';
-import {AnimationEvent} from "@angular/animations";
-import {BACKGROUND_SCROLL} from "../../shared/animations/background-scrolling.animation";
+import {AuthorizationService} from '../../services/auth.service';
+import {AnimationEvent} from '@angular/animations';
+import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
 
 @Component({
   selector: 'app-login',
@@ -47,6 +47,8 @@ export class LoginComponent implements OnInit {
   onSubmit() {
     if (this.loginForm.valid) {
       this.sendLoginRequest();
+    } else {
+      this.onLoggingFail('Credentials cannot be empty!');
     }
   }
 

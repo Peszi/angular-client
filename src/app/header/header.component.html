@@ -4,7 +4,7 @@
   <div class="container">
 
     <!-- Page title -->
-    <a class="navbar-brand txt-outline txt-title" routerLink="/" >Title</a>
+    <a class="navbar-brand txt-outline txt-title m-0 py-0" routerLink="/" >Title</a>
 
     <!--&lt;!&ndash; Api statusMessage &ndash;&gt;-->
     <!--<div class="collapse navbar-collapse">-->
@@ -12,7 +12,7 @@
     <!--</div>-->
 
     <!-- Login Dropdown -->
-    <app-login *ngIf="!hasToken()"></app-login>
-    <app-manage *ngIf="hasToken()"></app-manage>
+    <app-login *ngIf="!isLogged"></app-login>
+    <app-manage *ngIf="isLogged"></app-manage>
   </div>
 </nav>

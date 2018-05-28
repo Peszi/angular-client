@@ -8,7 +8,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './auth/signup/signup.component';
 import { IndexComponent } from './content/index/index.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthorizationService } from './auth/auth.service';
+import { AuthorizationService } from './services/auth.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormErrorDirective } from './shared/form-error.directive';
@@ -23,7 +23,8 @@ import { HomeComponent } from './content/home/home.component';
 import { AlertComponent } from './shared/alert/alert.component';
 import { QueueComponent } from './content/home/queue/queue.component';
 import { BrowseComponent } from './content/home/browse/browse.component';
-import {UserDataService} from './content/user-data.service';
+import {UserDataService} from './services/user-data.service';
+import {UserRoomService} from './services/user-room.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -71,7 +72,11 @@ const appRoutes: Routes = [
     CookieModule.forRoot(),
     RouterModule.forRoot(appRoutes)
   ],
-  providers: [AuthorizationService, UserDataService],
+  providers: [
+    AuthorizationService,
+    UserDataService,
+    UserRoomService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

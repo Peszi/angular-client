@@ -28,10 +28,12 @@ export interface TeamsListModel {
   alias: string;
   id: number;
   usersList: UserModel[];
+  // local var
+  isMyTeam: boolean;
 }
 
 export interface RoomDetailsModel extends RoomDataModel {
-  teamsList: TeamsListModel;
+  teamsList: TeamsListModel[];
   // local var
   isRoomHost: boolean;
 }

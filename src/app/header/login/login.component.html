@@ -3,15 +3,13 @@
     <button class="btn btn-sm btn-outline-light" id="dropdownBasic1" ngbDropdownToggle="{autoClose: false}">Login</button>
     <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
       <form class="mx-2 my-0" style="width: 240px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-        <div class="form-group input-group-sm mb-0">
-          <small for="email">Email</small>
+        <div class="form-group input-group-sm mb-1">
           <input type="text" class="form-control" id="email" placeholder="email" formControlName="email">
         </div>
-        <div class="form-group input-group-sm mb-0">
-          <small for="password">Password</small>
+        <div class="form-group input-group-sm mb-1">
           <input type="password" class="form-control" id="password" placeholder="password" formControlName="password">
         </div>
-        <div class="text-center mb-2">
+        <div class="text-center mb-1">
           <small><a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup">not registered yet?</a></small>
         </div>
         <button type="submit" (click)="onCheck()" class="btn btn-sm btn-primary btn-block progress-bar-striped px-0 py-1"

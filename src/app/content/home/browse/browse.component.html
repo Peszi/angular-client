@@ -47,7 +47,7 @@
         </div>
       </div>
       <!-- Join Room -->
-      <button class="btn btn-block btn-outline-primary my-2" (click)="onReloadRooms()">join</button>
+      <button class="btn btn-block btn-outline-primary my-2" (click)="onJoinRoom(getRoomDetails().id)">join</button>
     </div>
     <!-- Room Not Selected -->
     <div *ngIf="!getRoomDetails()" class="card-body p-3 text-center border rounded">

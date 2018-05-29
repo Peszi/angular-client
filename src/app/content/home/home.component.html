@@ -10,14 +10,17 @@
       </div>
       <div class="col-md-7 px-2 mb-2">
         <div class="rounded bg-white border d-flex justify-content-between p-2">
-          <div class="list-group flex-row btn-group">
-            <button *ngFor="let route of routesList"
-                    routerLink="{{ route.endpoint | lowercase }}"
-                    [ngClass]="{'active': route.active}"
-                    type="button"
-                    class="btn btn-sm btn-outline-primary">
-              {{ route.endpoint | lowercase }}
-            </button>
+          <div class="list-group flex-row mx-2" style="margin-bottom: -0.5rem !important; margin-top: -0.5rem !important;">
+            <div *ngFor="let route of routesList" class="px-2 py-auto" style="line-height: 44px"
+                 [ngClass]="{'border-line': route.active}">
+              {{ route.endpoint }}
+            </div>
+            <!--<button *ngFor="let route of routesList"-->
+                    <!--[ngClass]="{'active': route.active}"-->
+                    <!--type="button"-->
+                    <!--class="btn btn-sm btn-outline-primary">-->
+              <!--{{ route.endpoint | lowercase }}-->
+            <!--</button>-->
           </div>
           <button class="btn btn-sm btn-outline-primary" (click)="onRefresh()">refresh</button>
         </div>

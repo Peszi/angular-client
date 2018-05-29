@@ -73,14 +73,27 @@ export class AuthorizationService {
   makePostRequest<T>(url: string, body?: any|null) {
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + this.getAccessToken());
-    return this.httpClient.post<T>(BASE_API_URL + url, body,{observe: 'body', headers: headers });
+    return this.httpClient.post<T>(BASE_API_URL + url, body, {observe: 'body', headers: headers});
+  }
+
+  makePostTextRequest(url: string, body?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.post(BASE_API_URL + url, body, {observe: 'body', headers: headers, responseType: 'text'});
   }
 
   // Global GET REQUEST
   makeGetRequest<T>(url: string, params?: any|null) {
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + this.getAccessToken());
-    return this.httpClient.get<T>(BASE_API_URL + url,{observe: 'body', headers: headers, params: params });
+    return this.httpClient.get<T>(BASE_API_URL + url, {observe: 'body', headers: headers, params: params});
+  }
+
+  // Global DELETE REQUEST
+  makeDeleteRequest(url: string, params?: any|null) {
+    const headers = new HttpHeaders()
+      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+    return this.httpClient.delete(BASE_API_URL + url, {observe: 'body', headers: headers, params: params, responseType: 'text'});
   }
 
   // Setup token

@@ -24,7 +24,7 @@ export class QueueComponent implements OnInit, OnDestroy {
         console.log('got room details');
       });
     this.teamForm = new FormGroup({
-      'alias': new FormControl(null, [Validators.maxLength(20)])
+      'alias': new FormControl(null, [Validators.required, Validators.maxLength(20)])
     });
   }
 
@@ -32,13 +32,31 @@ export class QueueComponent implements OnInit, OnDestroy {
     this.roomDetailsSub.unsubscribe();
   }
 
+  // Request
+
   onTeamCreate() {
-    console.log(this.teamForm.value['alias']);
     this.userRoomService.postCreateTeamRequest(this.teamForm.value['alias'])
-      .subscribe(
-        (value) => { console.log(value); },
-            (error) => { console.log(error); }
-            );
+      .subscribe((value) => {}, (error) => {});
+  }
+
+  onTeamRemove(teamId: number) {
+    this.userRoomService.deleteTeamRequest(teamId)
+      .subscribe((value) => {}, (error) => {});
+  }
+
+  onJoinTeam(teamId: number) {
+    this.userRoomService.postJoinTeamRequest(teamId)
+      .subscribe((value) => {}, (error) => {});
+  }
+
+  onLeaveRoom() {
+    this.userRoomService.deleteLeaveRoomRequest()
+      .subscribe((value) => {}, (error) => {});
+  }
+
+  onRoomDelete() {
+    this.userRoomService.deleteRoomRequest()
+      .subscribe((value) => {}, (error) => {});
   }
 
   getRoomDetails(): RoomDetailsModel {

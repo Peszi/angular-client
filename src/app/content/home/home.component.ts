@@ -7,6 +7,7 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {RouterEvent} from '@angular/router/src/events';
 import {AuthorizationService} from '../../services/auth.service';
+import {UserRoomService} from '../../services/user-room.service';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private userDataSub: Subscription;
 
-  constructor(private authService: AuthorizationService, private userDataService: UserDataService, private router: Router) { }
+  constructor(private authService: AuthorizationService,
+              private userDataService: UserDataService,
+              private userRoomService: UserRoomService,
+              private router: Router) { }
 
   ngOnInit() {
     this.setupActivatedRoute(this.router.url.substring(this.router.url.lastIndexOf('/') + 1));
@@ -32,6 +36,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userDataSub = this.userDataService.getRequestSub().subscribe(
       (alert: AlertMessage) => { this.alert.showAlert(alert.message, alert.error); }
       );
+    this.userDataSub = this.userRoomService.getRequestSub().subscribe(
+      (alert: AlertMessage) => { this.alert.showAlert(alert.message, alert.error); }
+    );
   }
 
   private parseEndpoint(url: string) {
@@ -57,6 +64,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onRefresh() {
     // TODO pass event to child components
+    this.authService.getUserDataRequest();
+    this.userDataService.getRoomsListRequest();
+    this.userRoomService.getRoomDetailsRequest();
   }
 
   getUsername() {

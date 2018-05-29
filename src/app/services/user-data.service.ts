@@ -28,16 +28,31 @@ export class UserDataService {
       );
   }
 
-  postNewRoomRequest(): Observable<String> {
-    return this.authService.makePostRequest<String>('/room')
+  postNewRoomRequest() {
+    return this.authService.makePostTextRequest('/room')
       .pipe(
         map(res => {
           this.getRoomsListRequest();
           this.requestsSubject.next({ error: false, message: 'New room created!'});
           return res;
         }),
-        catchError(err => { // TODO need check !!!
+        catchError(err => {
           this.requestsSubject.next({ error: true, message: 'Room already exists!'});
+          return of(err);
+        })
+      );
+  }
+
+  postJoinRoomRequest(roomId: number) {
+    return this.authService.makePostTextRequest('/rooms/' + roomId)
+      .pipe(
+        map(res => {
+          this.getRoomsListRequest();
+          this.requestsSubject.next({ error: false, message: 'You joined to the room!'});
+          return res;
+        }),
+        catchError(err => {
+          this.requestsSubject.next({ error: true, message: 'Cannot join to this room!'});
           return of(err);
         })
       );

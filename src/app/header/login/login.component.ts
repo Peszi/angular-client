@@ -62,7 +62,7 @@ export class LoginComponent implements OnInit {
     this.authService.postLoginRequest({email: this.loginForm.value.email, password: this.loginForm.value.password})
       .subscribe(
         () => {},
-        (error) => { this.onLoggingFail(error.error_description); },
+        () => { this.onLoggingFail('Cannot log in!'); },
         () => { this.onLoggingSuccess(); }
       );
   }

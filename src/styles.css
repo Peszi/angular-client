@@ -110,6 +110,10 @@ button.btn-small:not(:disabled):not(.disabled) {
   cursor: pointer;
 }
 
+.border-line {
+  border-bottom: 3px solid var(--primary);
+}
+
 .center-center {
   display: flex;
   justify-content: center;

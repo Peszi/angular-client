@@ -45,12 +45,14 @@ export class BrowseComponent implements OnInit, OnDestroy {
 
   // Requests
 
-  onReloadRooms() {
-    this.userDataService.getRoomsListRequest();
+  onJoinRoom(roomId: number) {
+    this.userDataService.postJoinRoomRequest(roomId)
+      .subscribe(() => {});
   }
 
   onCreateRoom() {
-    this.userDataService.postNewRoomRequest();
+    this.userDataService.postNewRoomRequest()
+      .subscribe(() => {});
   }
 
   // Getters

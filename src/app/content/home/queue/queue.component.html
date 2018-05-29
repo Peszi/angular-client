@@ -25,12 +25,13 @@
                 <div *ngFor="let user of getRoomDetails().teamsList[i].usersList"
                      class="d-flex w-100 justify-content-between align-items-center border p-2">
                   <div class="mx-3">{{ user.name }}</div>
-                  <button *ngIf="getRoomDetails().isRoomHost" class="btn btn-sm btn-outline-warning">Kick</button>
+                  <button *ngIf="getRoomDetails().isRoomHost" class="btn btn-sm btn-outline-dark">Kick</button>
                 </div>
                 <div *ngIf="getRoomDetails().teamsList[i].usersList.length === 0" class="list-group-item list-group-item-action text-warning">Empty!</div>
                 <div *ngIf="getRoomDetails().isRoomHost || !team.isMyTeam" class="list-group-item list-group-item-action d-flex flex-row justify-content-between">
                   <button *ngIf="!team.isMyTeam" class="btn btn-sm btn-block btn-outline-success" (click)="onJoinTeam(team.id)">Join</button>
-                  <button *ngIf="getRoomDetails().isRoomHost" class="btn btn-sm btn-outline-danger w-25 ml-2" [ngClass]="{'w-100 mr-2': team.isMyTeam}" (click)="onTeamRemove(team.id)">Remove</button>
+                  <button *ngIf="getRoomDetails().isRoomHost" class="btn btn-sm btn-outline-danger w-25 ml-2"
+                          [ngClass]="{'w-100 mr-2': team.isMyTeam}" (click)="onTeamRemove(team.id)">Remove</button>
                 </div>
               </div>
             </div>
@@ -38,6 +39,7 @@
         </div>
       </div>
     </div>
+    <!-- Create Team Form -->
     <form *ngIf="getRoomDetails().isRoomHost" [formGroup]="teamForm" (ngSubmit)="onTeamCreate()">
       <div class="content row mx-0 my-2 p-2 rounded border border-primary">
         <div class="col-9 p-0 pr-2">
@@ -48,16 +50,6 @@
         </div>
       </div>
     </form>
-    <!--<form [formGroup]="teamForm" (ngSubmit)="onTeamCreate()">-->
-      <!--<div class="row border border-primary rounded m-0">-->
-        <!--<div class="col-9">-->
-          <!--<input type="text" class="form-control form-control-sm my-auto" id="alias" placeholder="team alias" formControlName="alias"/>-->
-        <!--</div>-->
-        <!--<div class="col-3">-->
-         <!---->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</form>-->
   </div>
   <!-- Room Details Column -->
   <div class="col-md-7 px-2">
@@ -74,26 +66,39 @@
       <!-- Room Details -->
       <div class="card-body p-0">
         <div id="roomAccordion">
+          <!-- Room Location -->
           <div class="card">
             <div class="card-header p-2" id="headingOne">
               <div class="d-flex w-100 justify-content-between align-items-center">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Main</button>
-                <button *ngIf="getRoomDetails().isRoomHost" class="btn btn-sm btn-outline-dark">apply</button>
+                <div>
+                  <button *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
+                          class="btn btn-sm btn-outline-dark mr-2" (click)="onZoneApply()">apply</button>
+                  <button *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
+                          class="btn btn-sm btn-outline-danger" (click)="onZoneDiscard()">discard</button>
+                </div>
               </div>
             </div>
             <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#roomAccordion">
               <div class="card-body">
                 <agm-map style="height: 400px" #map
                   [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
-                  [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" >
-                  <agm-circle
-                    [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
-                    [fillColor]="'red'" [fillOpacity]="0.35" [editable]="getRoomDetails().isRoomHost">
+                  [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
+                  <!-- Room Circle -->
+                  <agm-circle *ngIf="getRoomDetails().isRoomHost" #zone
+                              [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
+                              [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
+                  </agm-circle>
+                  <!-- Host Circle -->
+                  <agm-circle *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
+                              [(latitude)]="newZone.lat" [(longitude)]="newZone.lng" [(radius)]="newZone.radius"
+                              [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
                   </agm-circle>
                 </agm-map>
               </div>
             </div>
           </div>
+          <!-- Room Mode -->
           <div class="card">
             <div class="card-header p-2" id="headingTwo">
               <div class="d-flex w-100 justify-content-between align-items-center">

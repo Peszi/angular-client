@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthorizationService} from './auth.service';
-import {RoomDetailsModel} from './model/user-data.model';
+import {RoomDetailsModel, ZoneDataModel} from './model/user-data.model';
 import {of, Subject} from 'rxjs';
 import {AlertMessage} from './user-data.service';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -79,11 +79,11 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'New room created!'});
+          this.requestsSubject.next({ error: false, message: 'New team created!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Room already exists!'});
+          this.requestsSubject.next({ error: true, message: 'Team already exists!'});
           return of(err);
         })
       );
@@ -121,16 +121,15 @@ export class UserRoomService {
 
   // Editing
 
-  postZoneChange(zone: {lat: string, lng: string, radius: string}) {
+  postZoneChange(zone: ZoneDataModel) {
     const bodyParams = new HttpParams()
-      .append('zoneLat', zone.lat)
-      .append('zoneLng', zone.lng)
-      .append('zoneRadius', zone.radius);
+      .append('zoneLat', String(zone.lat))
+      .append('zoneLng', String(zone.lng))
+      .append('zoneRadius', String(Math.floor(zone.radius)));
     return this.authService.makePostTextRequest('/room/host/zone', bodyParams)
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'Zone changed!'});
           return res;
         }),
         catchError(err => {

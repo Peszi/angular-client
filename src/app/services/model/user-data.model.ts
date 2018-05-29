@@ -43,3 +43,7 @@ export interface RoomsDataListModel {
   hasRoom: boolean;
   roomsList: RoomDataModel[];
 }
+
+export interface ZoneDataModel {
+  lat: number, lng: number, radius: number;
+}

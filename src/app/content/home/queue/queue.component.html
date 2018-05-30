@@ -64,56 +64,83 @@
         </div>
       </div>
       <!-- Room Details -->
-      <div class="card-body p-0">
-        <div id="roomAccordion">
-          <!-- Room Location -->
-          <div class="card">
-            <div class="card-header p-2" id="headingOne">
-              <div class="d-flex w-100 justify-content-between align-items-center">
-                <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Main</button>
-                <div>
-                  <button *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
-                          class="btn btn-sm btn-outline-dark mr-2" (click)="onZoneApply()">apply</button>
-                  <button *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
-                          class="btn btn-sm btn-outline-danger" (click)="onZoneDiscard()">discard</button>
+        <div class="card-body p-0">
+          <div *ngIf="getRoomDetails().isRoomHost && hasChanges()" (click)="changeZone = !changeZone">
+            <div *ngIf="changeZone" class="row m-0 p-2">
+              <div class="col-6 p-0 pr-1">
+                <button class="btn btn-sm btn-block btn-outline-success" (click)="onZoneApply()">apply</button>
+              </div>
+              <div class="col-6 p-0 pl-1">
+                <button class="btn btn-sm btn-block btn-outline-danger" (click)="onZoneDiscard()">discard</button>
+              </div>
+            </div>
+            <div *ngIf="!changeZone" class="row py-1 m-0 border bg-success rounded">
+              <small class="text-center text-white font-weight-bold w-100">click to apply changes!</small>
+            </div>
+          </div>
+          <div id="roomAccordion">
+            <!-- Room Location -->
+            <div class="card">
+              <div class="card-header p-2" id="headingOne">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Location</button>
+                </div>
+              </div>
+              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#roomAccordion">
+                <div class="card-body">
+                  <agm-map style="height: 400px" #map
+                    [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
+                    [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
+                    <!-- Room Circle -->
+                    <agm-circle *ngIf="getRoomDetails().isRoomHost" #zone
+                                [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
+                                [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
+                    </agm-circle>
+                    <!-- Host Circle -->
+                    <agm-circle *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
+                                [(latitude)]="newZone.lat" [(longitude)]="newZone.lng" [(radius)]="newZone.radius"
+                                [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
+                    </agm-circle>
+                  </agm-map>
                 </div>
               </div>
             </div>
-            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#roomAccordion">
-              <div class="card-body">
-                <agm-map style="height: 400px" #map
-                  [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
-                  [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
-                  <!-- Room Circle -->
-                  <agm-circle *ngIf="getRoomDetails().isRoomHost" #zone
-                              [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
-                              [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
-                  </agm-circle>
-                  <!-- Host Circle -->
-                  <agm-circle *ngIf="getRoomDetails().isRoomHost && newZonePlaced"
-                              [(latitude)]="newZone.lat" [(longitude)]="newZone.lng" [(radius)]="newZone.radius"
-                              [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
-                  </agm-circle>
-                </agm-map>
+            <!-- Room Mode -->
+            <div class="card">
+              <div class="card-header p-2" id="headingTwo">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                  <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Settings</button>
+                </div>
               </div>
-            </div>
-          </div>
-          <!-- Room Mode -->
-          <div class="card">
-            <div class="card-header p-2" id="headingTwo">
-              <div class="d-flex w-100 justify-content-between align-items-center">
-                <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">Mode</button>
-                <select class="custom-select custom-select-sm w-auto">
-                  <option value="1">BattleRoyal</option>
-                  <option value="2" selected>ZoneControll</option>
-                </select>
+              <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo" data-parent="#roomAccordion">
+                <div class="card-body">
+                  <div class="d-flex border-bottom pb-3 mb-3">
+                    <div class="mr-2">Mode: </div>
+                    <div class="flex-fill">
+                      <select class="custom-select custom-select-sm w-100" #modeSelect>
+                        <option value="1">BattleRoyal</option>
+                        <option value="2" selected>ZoneControll</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div [ngSwitch]="modeSelect.value">
+                    <div *ngSwitchCase="1">Mode 0</div>
+                    <div *ngSwitchCase="2" class="row">
+                      <div class="col-6">
+                        <p>points limit</p>
+                      </div>
+                      <div class="col-6">
+                        <p>time limit</p>
+                        <button class="btn btn-primary">focusable</button>
+                        <app-time-picker class="btn btn-primary">Btn</app-time-picker>
+                      </div>
+                      <div class="col-6">
+                        <p>zone capacity</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#roomAccordion">
-              <div class="card-body">
-                Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-              </div>
-            </div>
           </div>
         </div>
       </div>

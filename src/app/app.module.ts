@@ -13,7 +13,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormErrorDirective } from './shared/form-error.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoadingButtonComponent } from './shared/loading-button/loading-button.component';
 import { LoadingButtonDirective } from './shared/loading-button.directive';
 import { PingIndicatorComponent } from './shared/ping/ping-indicator.component';
 import { CookieModule } from 'ngx-cookie';
@@ -25,6 +24,8 @@ import { QueueComponent } from './content/home/queue/queue.component';
 import { BrowseComponent } from './content/home/browse/browse.component';
 import {UserDataService} from './services/user-data.service';
 import {UserRoomService} from './services/user-room.service';
+import {TimePickerComponent} from './shared/elements/time-picker.component';
+import {ProgressButtonComponent} from './shared/elements/progress-button.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -49,7 +50,6 @@ const appRoutes: Routes = [
     SignupComponent,
     IndexComponent,
     FormErrorDirective,
-    LoadingButtonComponent,
     LoadingButtonDirective,
     PingIndicatorComponent,
     LoginComponent,
@@ -57,7 +57,9 @@ const appRoutes: Routes = [
     HomeComponent,
     AlertComponent,
     QueueComponent,
-    BrowseComponent
+    BrowseComponent,
+    TimePickerComponent,
+    ProgressButtonComponent
   ],
   imports: [
     BrowserModule,

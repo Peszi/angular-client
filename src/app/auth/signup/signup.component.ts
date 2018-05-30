@@ -4,17 +4,13 @@ import {Observable, Subject} from 'rxjs';
 import {ErrorMessage} from '../../shared/form-error.directive';
 import {AuthorizationService} from '../../services/auth.service';
 import {AnimationEvent} from '@angular/animations';
-import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
-import {s} from '@angular/core/src/render3';
-import {LoadingButtonComponent} from '../../shared/loading-button/loading-button.component';
 import {Router} from '@angular/router';
 import {AlertComponent} from '../../shared/alert/alert.component';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.css'],
-  animations: [ BACKGROUND_SCROLL ]
+  styleUrls: ['./signup.component.css']
 })
 export class SignupComponent implements OnInit {
 

@@ -5,20 +5,20 @@ import {Router} from '@angular/router';
 import {AuthorizationService} from '../../services/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
+import {ProgressButtonComponent} from '../../shared/elements/progress-button.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  animations: [ BACKGROUND_SCROLL ]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
 
+  @ViewChild(ProgressButtonComponent) private progressBtn: ProgressButtonComponent;
   @ViewChild('loginDropdown') private loginDropdown: NgbDropdown;
 
   loginForm: FormGroup;
   errorMessage: String = '';
-  loadingStatus: String = 'normal';
 
   constructor(private authService: AuthorizationService) {}
 
@@ -34,21 +34,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  onCheck() {
-    if (!this.loginForm.valid) {
-      if (!this.loginForm.get('email').valid && this.loginForm.get('email').touched) {
-        this.errorMessage = 'Please enter a valid email!';
-      } else if (!this.loginForm.get('password').valid && this.loginForm.get('password').touched) {
-        this.errorMessage = 'Incorrect password! (6 to 20 chars)';
-      }
-    }
-  }
-
   onSubmit() {
     if (this.loginForm.valid) {
       this.sendLoginRequest();
     } else {
-      this.onLoggingFail('Credentials cannot be empty!');
+      if (!this.loginForm.get('email').valid && this.loginForm.get('email').touched) {
+        this.errorMessage = 'Please enter a valid email!';
+      } else if (!this.loginForm.get('password').valid && this.loginForm.get('password').touched) {
+        this.errorMessage = 'Incorrect password! (6 to 20 chars)';
+      } else {
+        this.errorMessage = 'Credentials cannot be empty!';
+      }
     }
   }
 
@@ -58,42 +54,22 @@ export class LoginComponent implements OnInit {
   }
 
   private sendLoginRequest() {
-    this.loadingStatus = 'pending';
     this.authService.postLoginRequest({email: this.loginForm.value.email, password: this.loginForm.value.password})
       .subscribe(
         () => {},
-        () => { this.onLoggingFail('Cannot log in!'); },
+        () => { this.onLoggingFail('Incorrect credentials!'); },
         () => { this.onLoggingSuccess(); }
       );
   }
 
   private onLoggingSuccess() {
-    this.loadingStatus = 'success';
+    this.progressBtn.setSucceed();
     this.loginForm.reset();
-    // TODO redirect
   }
 
   private onLoggingFail(message: String) {
-    this.loadingStatus = 'fail';
+    this.progressBtn.setFailed();
     this.errorMessage = message;
-    console.log(message);
   }
 
-  onLoadingEnd(event: AnimationEvent) {
-    if (this.loadingStatus === 'success' || this.loadingStatus === 'fail') {
-      setTimeout(() => {
-        this.loadingStatus = 'normal';
-      }, 0);
-    } else if (this.loadingStatus === 'normal') {} else {
-      if (event.toState === 'pending') {
-        setTimeout(() => {
-          this.loadingStatus = 'pendingOn';
-        }, 0);
-      } else {
-        setTimeout(() => {
-          this.loadingStatus = 'pending';
-        }, 0);
-      }
-    }
-  }
 }

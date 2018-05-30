@@ -1,0 +1,8 @@
+<div [formGroup]="form">
+  <button type="submit" class="btn btn-block btn-primary progress-bar-striped px-0 py-1" [disabled]="disabled"
+          [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onAnimationEnd($event)" (click)="onSubmit()">
+    <div style="background-color: inherit">
+      <ng-content></ng-content>
+    </div>
+  </button>
+</div>

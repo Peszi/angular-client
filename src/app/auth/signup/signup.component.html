@@ -27,10 +27,7 @@
             <small *ngIf="!registerForm.get('checkbox').valid && registerForm.get('checkbox').touched"
                    class="help-block text-muted">Please accept terms&conditions first!</small>
           </div>
-          <button type="submit" class="btn btn-primary btn-block progress-bar-striped px-0 py-1"
-                  [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onLoadingEnd($event)" [disabled]="!enableRegister">
-            <div class="p-1" style="background-color: inherit">Submit</div>
-          </button>
+          <app-progress-btn [form]="registerForm" [disabled]="!enableRegister">Submit</app-progress-btn>
           <div class="text-center mt-2">
             <a class="form-text text-primary" routerLink="/" >already registered?</a>
           </div>

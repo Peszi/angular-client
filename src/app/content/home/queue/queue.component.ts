@@ -1,12 +1,9 @@
 import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
 import {RoomDetailsModel, ZoneDataModel} from '../../../services/model/user-data.model';
-import {UserDataService} from '../../../services/user-data.service';
 import {Subscription} from 'rxjs';
 import {UserRoomService} from '../../../services/user-room.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
-import {e} from "@angular/core/src/render3";
-import {AgmCircle, CircleManager} from "@agm/core";
-import {Circle, CircleOptions} from "@agm/core/services/google-maps-types";
+import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-queue',
@@ -16,10 +13,13 @@ export class QueueComponent implements OnInit, OnDestroy {
 
   private roomDetailsSub: Subscription;
 
+  changeZone: boolean;
   newZonePlaced: boolean;
   newZone: ZoneDataModel;
 
   teamForm: FormGroup;
+
+  time: any;
 
   constructor(private userRoomService: UserRoomService) { }
 
@@ -61,6 +61,13 @@ export class QueueComponent implements OnInit, OnDestroy {
 
   onZoneDiscard() {
     this.newZonePlaced = false;
+  }
+
+  hasChanges() {
+    if (this.newZonePlaced) {
+      return true;
+    }
+    return false;
   }
 
   // Request

@@ -12,10 +12,7 @@
         <div class="text-center mb-1">
           <small><a class="form-text text-primary" (click)="onDiscard()" routerLink="/signup">not registered yet?</a></small>
         </div>
-        <button type="submit" (click)="onCheck()" class="btn btn-sm btn-primary btn-block progress-bar-striped px-0 py-1"
-                [@loadingScroll]="loadingStatus" (@loadingScroll.done)="onLoadingEnd($event)">
-          <div class="pb-1" style="background-color: inherit">Sign in</div>
-        </button>
+        <app-progress-btn [form]="loginForm" >Sign in</app-progress-btn>
         <div *ngIf="errorMessage.length > 0" class="text-center"><small class="text-danger">{{ errorMessage }}</small></div>
       </form>
     </div>

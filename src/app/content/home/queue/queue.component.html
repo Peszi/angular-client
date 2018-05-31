@@ -125,17 +125,24 @@
                   </div>
                   <div [ngSwitch]="modeSelect.value">
                     <div *ngSwitchCase="1">Mode 0</div>
-                    <div *ngSwitchCase="2" class="row">
-                      <div class="col-6">
-                        <p>points limit</p>
+                    <div *ngSwitchCase="2" class="row px-2">
+                      <div class="col-6 p-2">
+                        <div class="border rounded h-100">
+                          <div class="text-white rounded-top bg-dark py-1 px-3">points limit</div>
+                          <p>a</p>
+                        </div>
                       </div>
-                      <div class="col-6">
-                        <p>time limit</p>
-                        <button class="btn btn-primary">focusable</button>
-                        <app-time-picker class="btn btn-primary">Btn</app-time-picker>
+                      <div class="col-6 p-2">
+                        <div class="border rounded h-100">
+                          <div class="text-white rounded-top bg-dark py-1 px-3">time limit</div>
+                        </div>
+                        <!--<app-time-picker class="btn btn-primary">Btn</app-time-picker>-->
                       </div>
-                      <div class="col-6">
-                        <p>zone capacity</p>
+                      <div class="col-6 p-2">
+                        <div class="border rounded h-100">
+                          <div class="text-white rounded-top bg-dark py-1 px-3">zone capacity</div>
+                          <p>some settings</p>
+                        </div>
                       </div>
                     </div>
                   </div>

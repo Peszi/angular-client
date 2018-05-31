@@ -26,6 +26,7 @@ import {UserDataService} from './services/user-data.service';
 import {UserRoomService} from './services/user-room.service';
 import {TimePickerComponent} from './shared/elements/time-picker.component';
 import {ProgressButtonComponent} from './shared/elements/progress-button.component';
+import {PropertyInputComponent} from "./shared/elements/property-input.component";
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -59,7 +60,8 @@ const appRoutes: Routes = [
     QueueComponent,
     BrowseComponent,
     TimePickerComponent,
-    ProgressButtonComponent
+    ProgressButtonComponent,
+    PropertyInputComponent
   ],
   imports: [
     BrowserModule,

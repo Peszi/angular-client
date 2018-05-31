@@ -125,25 +125,10 @@
                   </div>
                   <div [ngSwitch]="modeSelect.value">
                     <div *ngSwitchCase="1">Mode 0</div>
-                    <div *ngSwitchCase="2" class="row px-2">
-                      <div class="col-6 p-2">
-                        <div class="border rounded h-100">
-                          <div class="text-white rounded-top bg-dark py-1 px-3">points limit</div>
-                          <p>a</p>
-                        </div>
-                      </div>
-                      <div class="col-6 p-2">
-                        <div class="border rounded h-100">
-                          <div class="text-white rounded-top bg-dark py-1 px-3">time limit</div>
-                        </div>
-                        <!--<app-time-picker class="btn btn-primary">Btn</app-time-picker>-->
-                      </div>
-                      <div class="col-6 p-2">
-                        <div class="border rounded h-100">
-                          <div class="text-white rounded-top bg-dark py-1 px-3">zone capacity</div>
-                          <p>some settings</p>
-                        </div>
-                      </div>
+                    <div *ngSwitchCase="2" class="row m-0">
+                      <app-property-input [title]="'game limit'" class="col-md-12 p-2"></app-property-input>
+                      <app-property-input [title]="'points limit'" class="col-md-6 p-2"></app-property-input>
+                      <app-property-input [title]="'zone capacity'" class="col-md-6 p-2"></app-property-input>
                     </div>
                   </div>
                 </div>

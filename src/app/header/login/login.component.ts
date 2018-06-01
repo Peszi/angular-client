@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {NgbDropdown} from '@ng-bootstrap/ng-bootstrap';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-import {AuthorizationService} from '../../services/auth.service';
+import {AuthorizationService} from '../../services/auth/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
 import {ProgressButtonComponent} from '../../shared/elements/progress-button.component';

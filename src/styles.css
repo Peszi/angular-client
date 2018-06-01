@@ -149,3 +149,7 @@ checking {
   box-shadow:0 0 0 .2rem rgba(255,196,0,.25);
 }
 
+.is-changed {
+  border: 1px solid orange;
+  box-shadow:0 0 0 .2rem rgba(255,196,0,.25);
+}

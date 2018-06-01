@@ -6,7 +6,7 @@ import {AlertComponent} from '../../shared/alert/alert.component';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {RouterEvent} from '@angular/router/src/events';
-import {AuthorizationService} from '../../services/auth.service';
+import {AuthorizationService} from '../../services/auth/auth.service';
 import {UserRoomService} from '../../services/user-room.service';
 
 @Component({

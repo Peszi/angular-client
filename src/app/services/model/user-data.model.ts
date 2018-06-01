@@ -11,6 +11,7 @@ export interface RoomDataModel {
   hostName: string;
   started: false;
   teamsCount: number;
+  gameMode: number;
   createdAt: string;
   elapsedTime: string;
 
@@ -45,5 +46,5 @@ export interface RoomsDataListModel {
 }
 
 export interface ZoneDataModel {
-  lat: number, lng: number, radius: number;
+  lat: number; lng: number; radius: number;
 }

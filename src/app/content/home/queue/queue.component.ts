@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RoomDetailsModel, ZoneDataModel} from '../../../services/model/user-data.model';
 import {Subscription} from 'rxjs';
 import {UserRoomService} from '../../../services/user-room.service';
@@ -9,34 +9,33 @@ import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
   selector: 'app-queue',
   templateUrl: './queue.component.html'
 })
-export class QueueComponent implements OnInit, OnDestroy {
-
-  private roomDetailsSub: Subscription;
+export class QueueComponent implements OnInit {
 
   changeZone: boolean;
   newZonePlaced: boolean;
-  newZone: ZoneDataModel;
+  newZone: ZoneDataModel = {lat: 0, lng: 0, radius: 32};
 
   teamForm: FormGroup;
 
-  time: any;
+  private gameMode: number;
+  isModeChanged: boolean;
 
   constructor(private userRoomService: UserRoomService) { }
 
   ngOnInit() {
-    this.newZone = {lat: 0, lng: 0, radius: 32};
     this.userRoomService.getRoomDetailsRequest();
-    this.roomDetailsSub = this.userRoomService.getRoomDetailsSub()
-      .subscribe((roomDetails: RoomDetailsModel) => {
-        console.log('got room details');
-      });
     this.teamForm = new FormGroup({
       'alias': new FormControl(null, [Validators.required, Validators.maxLength(20)])
     });
   }
 
-  ngOnDestroy(): void {
-    this.roomDetailsSub.unsubscribe();
+  onModeChange(option: number) {
+    this.gameMode = option;
+    this.isModeChanged = (this.gameMode != this.getGameMode());
+  }
+
+  onModeApply() {
+    this.userRoomService.postModeChangeRequest(this.gameMode).subscribe();
   }
 
   onZoneChanged(event: any) {
@@ -96,6 +95,14 @@ export class QueueComponent implements OnInit, OnDestroy {
 
   getRoomDetails(): RoomDetailsModel {
     return this.userRoomService.roomDetails;
+  }
+
+  getGameMode(): number {
+    return this.userRoomService.roomDetails.gameMode;
+  }
+
+  isHost() {
+    return this.userRoomService.roomDetails.isRoomHost;
   }
 
 }

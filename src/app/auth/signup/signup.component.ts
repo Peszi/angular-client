@@ -2,7 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {AbstractControl, FormControl, FormGroup, Validators} from '@angular/forms';
 import {Observable, Subject} from 'rxjs';
 import {ErrorMessage} from '../../shared/form-error.directive';
-import {AuthorizationService} from '../../services/auth.service';
+import {AuthorizationService} from '../../services/auth/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {Router} from '@angular/router';
 import {AlertComponent} from '../../shared/alert/alert.component';

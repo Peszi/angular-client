@@ -1,15 +1,15 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {BASE_API_URL, BASE_URL, BASIC_AUTH, BEARER_PREFIX, TOKEN_COOKIE} from '../shared/globals';
+import {BASE_API_URL, BASE_URL, BASIC_AUTH, BEARER_PREFIX, TOKEN_COOKIE} from '../../shared/globals';
 import {CookieService} from 'ngx-cookie';
-import {AuthResponse} from './model/auth-response.model';
+import {AuthResponse} from '../model/auth-response.model';
 import {Router} from '@angular/router';
-import {UserDataModel} from './model/user-data.model';
-import {AlertMessage} from './user-data.service';
+import {UserDataModel} from '../model/user-data.model';
 
 @Injectable()
 export class AuthorizationService {
+
   public isLogged: boolean;
   public userData: UserDataModel;
 
@@ -101,6 +101,14 @@ export class AuthorizationService {
     const expireDate = new Date(new Date().getTime() + (authRes.expires_in * 1000));
     this.cookieService.put(TOKEN_COOKIE, authRes.access_token, {expires: expireDate});
     this.postLoggedIn();
+  }
+
+  isAuthenticated() {
+    const promise = new Promise((resolve, reject) => {
+        const logged = this.hasAccessToken();
+        resolve(logged);
+      });
+    return promise;
   }
 
   // Check Token

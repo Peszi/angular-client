@@ -8,8 +8,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SignupComponent } from './auth/signup/signup.component';
 import { IndexComponent } from './content/index/index.component';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthorizationService } from './services/auth.service';
-import { ReactiveFormsModule } from '@angular/forms';
+import { AuthorizationService } from './services/auth/auth.service';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormErrorDirective } from './shared/form-error.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -26,7 +26,10 @@ import {UserDataService} from './services/user-data.service';
 import {UserRoomService} from './services/user-room.service';
 import {TimePickerComponent} from './shared/elements/time-picker.component';
 import {ProgressButtonComponent} from './shared/elements/progress-button.component';
-import {PropertyInputComponent} from "./shared/elements/property-input.component";
+import {CountInputComponent} from './shared/elements/inputs/count-input/count-input.component';
+import { TimeInputComponent } from './shared/elements/inputs/time-input/time-input.component';
+import {AuthGuardService} from './services/auth/auth-guard.service';
+import { ModeEditComponent } from './content/home/queue/mode-edit/mode-edit.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -34,6 +37,7 @@ const appRoutes: Routes = [
   { path: 'signup', component: SignupComponent },
   {
     path: 'home',
+    // canActivate: [AuthGuardService],
     component: HomeComponent,
     children: [
       {path: '', redirectTo: 'browse', pathMatch: 'full' },
@@ -61,9 +65,12 @@ const appRoutes: Routes = [
     BrowseComponent,
     TimePickerComponent,
     ProgressButtonComponent,
-    PropertyInputComponent
+    CountInputComponent,
+    TimeInputComponent,
+    ModeEditComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
@@ -78,6 +85,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthorizationService,
+    AuthGuardService,
     UserDataService,
     UserRoomService
   ],

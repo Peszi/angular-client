@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {AuthorizationService} from './auth.service';
+import {AuthorizationService} from './auth/auth.service';
 import {RoomDetailsModel, ZoneDataModel} from './model/user-data.model';
 import {of, Subject} from 'rxjs';
 import {AlertMessage} from './user-data.service';
@@ -134,6 +134,21 @@ export class UserRoomService {
         }),
         catchError(err => {
           this.requestsSubject.next({ error: true, message: 'Cannot change the zone!'});
+          return of(err);
+        })
+      );
+  }
+
+  postModeChangeRequest(gameMode: number) {
+    return this.authService.makePostTextRequest('/room/host/mode/' + gameMode)
+      .pipe(
+        map(res => {
+          this.getRoomDetailsRequest();
+          this.requestsSubject.next({ error: false, message: 'You have changed mode!'});
+          return res;
+        }),
+        catchError(err => {
+          this.requestsSubject.next({ error: true, message: 'Cannot change game mode!'});
           return of(err);
         })
       );

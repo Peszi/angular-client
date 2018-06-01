@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {AuthorizationService} from './auth.service';
+import {AuthorizationService} from './auth/auth.service';
 import {Observable, of, Subject} from 'rxjs';
 import {RoomDetailsModel, RoomsDataListModel, UserDataModel} from './model/user-data.model';
 import {catchError, map} from 'rxjs/operators';

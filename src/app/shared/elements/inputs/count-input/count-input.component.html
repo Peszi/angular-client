@@ -1,0 +1,10 @@
+<div class="px-2 pb-2">
+  <small class="text-muted mx-1">{{ title }}</small>
+  <button class="badge border border-danger text-danger float-right mt-1" *ngIf="editable" (click)="onReset()">reset</button>
+  <div class="m-0">
+    <div class="d-flex justify-content-center" *ngIf="editable"><i class="fa fa-chevron-up text-primary p-1" (click)="changeValue(1)"></i></div>
+    <input type="text" class="form-control form-control-sm text-center" id="mins" placeholder="{{ placeholder }}" [disabled]="!editable"
+           [(ngModel)]="valueOutput" (keyup.enter)="onValueChange()" (keyup.arrowup)="changeValue(1)" (keyup.arrowdown)="changeValue(-1)">
+    <div class="d-flex justify-content-center" *ngIf="editable"><i class="fa fa-chevron-down text-primary p-1" (click)="changeValue(-1)"></i></div>
+  </div>
+</div>

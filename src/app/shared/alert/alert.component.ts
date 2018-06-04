@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {b} from '@angular/core/src/render3';
 import {animate, AnimationEvent, state, style, transition, trigger} from '@angular/animations';
+import {AlertService} from '../../services/alert.service';
+import {Alert} from 'selenium-webdriver';
+import {AlertMessage} from '../../services/user-data.service';
 
 @Component({
   selector: 'app-alert',
@@ -47,9 +50,16 @@ export class AlertComponent implements OnInit {
   private isShowing: boolean;
   private isError: boolean;
 
-  constructor() { }
+  constructor(private alertService: AlertService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.alertService.alertSub
+      .subscribe(() => {
+          if (!this.isShowing) {
+            this.checkQueue();
+          }
+      });
+  }
 
   onEnd(event: AnimationEvent) {
     if (event.toState === 'open') {
@@ -62,23 +72,25 @@ export class AlertComponent implements OnInit {
       this.state = 'close';
     } else if (event.toState === 'close') {
       this.isShowing = false;
+      setTimeout(() => {
+        this.checkQueue();
+      }, 0);
     }
   }
 
-  showError(message: string) {
-    this.showAlert(message, true);
+  checkQueue() {
+    const alert = this.alertService.getAlert();
+    if (alert) {
+      this.showAlert(alert);
+    }
   }
 
-  showSuccess(message: string) {
-    this.showAlert(message, false);
-  }
-
-  showAlert(message: string, error: boolean) {
-    this.errorMessage = message;
+  showAlert(alert: AlertMessage) {
+    this.errorMessage = alert.message;
     if (this.isShowing === false) {
-      this.isError = error;
+      this.isError = alert.error;
       this.isShowing = true;
-      if (error) {
+      if (alert.error) {
         this.errorTitle = 'Error!';
       } else {
         this.errorTitle = 'Success!';

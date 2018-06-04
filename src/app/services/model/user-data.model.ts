@@ -48,3 +48,7 @@ export interface RoomsDataListModel {
 export interface ZoneDataModel {
   lat: number; lng: number; radius: number;
 }
+
+export interface GameSettingsModel {
+  gameMode: number; lat: number; lng: number; radius: number;
+}

@@ -42,12 +42,10 @@
     <!-- Create Team Form -->
     <form *ngIf="getRoomDetails().isRoomHost" [formGroup]="teamForm" (ngSubmit)="onTeamCreate()">
       <div class="content row mx-0 my-2 p-2 rounded border border-primary">
-        <div class="col-9 p-0 pr-2">
-          <input type="text" class="form-control form-control-sm" id="alias" placeholder="team alias" formControlName="alias" autocomplete="off"/>
+        <div class="col-12 p-0">
+          <input type="text" class="form-control form-control-sm" id="alias" placeholder="add a new team" formControlName="alias" autocomplete="off" (blur)="teamForm.reset()"/>
         </div>
-        <div class="col-3 p-0">
-          <button type="submit" class="btn btn-sm btn-block btn-primary" [disabled]="!teamForm.valid">add team</button>
-        </div>
+        <button type="submit" class="btn btn-sm btn-block btn-outline-primary" [disabled]="!teamForm.valid" hidden>add team</button>
       </div>
     </form>
   </div>
@@ -72,8 +70,8 @@
               <div class="d-flex w-100 justify-content-between align-items-center">
                 <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">Location</button>
                 <div *ngIf="isHost() && hasChanges()">
-                  <button class="btn btn-sm btn-outline-success" (click)="onZoneApply()">apply</button>
-                  <button class="btn btn-sm btn-outline-danger ml-1" (click)="onZoneDiscard()">discard</button>
+                  <button class="btn btn-sm btn-outline-success" (click)="onSettingsApply()">apply</button>
+                  <button class="btn btn-sm btn-outline-danger ml-1" (click)="onSettingsDiscard()">discard</button>
                 </div>
               </div>
             </div>
@@ -83,32 +81,34 @@
                   <div class="mr-2">Mode: </div>
                   <div class="flex-fill">
                     <select class="custom-select custom-select-sm w-100" [disabled]="!isHost()"
-                            [ngClass]="{'is-valid': isModeChanged}" (change)="onModeChange($event.target.value)" >
-                      <option value="0" #optionBR [selected]="optionBR.value == getGameMode()">BattleRoyal</option>
-                      <option value="1" #optionZC [selected]="optionZC.value == getGameMode()">ZoneControl</option>
+                            [ngClass]="{'is-changed': isModeChanged}" (change)="onModeChange($event.target.value)" >
+                      <option value="0" #optionBR [selected]="optionBR.value == gameSettings.gameMode">BattleRoyal</option>
+                      <option value="1" #optionZC [selected]="optionZC.value == gameSettings.gameMode">ZoneControl</option>
                     </select>
                   </div>
-                  <button class="btn btn-sm btn-outline-primary ml-2" *ngIf="isModeChanged" (click)="onModeApply()">apply</button>
                 </div>
-                <agm-map style="height: 400px" #map
-                         [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
-                         [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
-                  <!-- Room Circle -->
-                  <agm-circle #zone
-                              [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
-                              [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
-                  </agm-circle>
-                  <!-- Host Circle -->
-                  <agm-circle *ngIf="isHost() && newZonePlaced"
-                              [(latitude)]="newZone.lat" [(longitude)]="newZone.lng" [(radius)]="newZone.radius"
-                              [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
-                  </agm-circle>
-                </agm-map>
+                <div [ngClass]="{'is-changed': isZoneChanged}" class="light-border">
+                  <agm-map style="height: 400px" #map
+                           [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
+                           [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
+                    <!-- Room Circle -->
+                    <agm-circle #zone
+                                [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
+                                [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
+                    </agm-circle>
+                    <!-- Host Circle -->
+                    <agm-circle *ngIf="isHost() && isZoneChanged"
+                                [(latitude)]="gameSettings.lat" [(longitude)]="gameSettings.lng" [(radius)]="gameSettings.radius"
+                                [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
+                    </agm-circle>
+                  </agm-map>
+                </div>
+
               </div>
             </div>
           </div>
           <!-- Room Mode -->
-          <app-mode-edit [isHost]="isHost()" [gameMode]="getGameMode()"></app-mode-edit>
+          <app-mode-edit [isHost]="isHost()"></app-mode-edit>
         </div>
       </div>
     </div>

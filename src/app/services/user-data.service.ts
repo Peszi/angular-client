@@ -3,7 +3,7 @@ import {AuthorizationService} from './auth/auth.service';
 import {Observable, of, Subject} from 'rxjs';
 import {RoomDetailsModel, RoomsDataListModel, UserDataModel} from './model/user-data.model';
 import {catchError, map} from 'rxjs/operators';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class UserDataService {

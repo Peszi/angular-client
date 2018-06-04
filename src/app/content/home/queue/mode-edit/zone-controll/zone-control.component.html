@@ -1,0 +1,16 @@
+<div class="rounded border mb-2">
+  <div class="rounded border bg-dark pb-1 px-2"><small class="text-white">Game Limit</small></div>
+  <div class="row m-0">
+    <app-time-input class="col-md-6" [editable]="isHost" [title]="'time limit'" [(seconds)]="zoneControlModel.timeLimit" #timeLimitInput
+                    (statusChange)="onGameTimeChanged($event)"></app-time-input>
+    <app-count-input class="col-md-6" [editable]="isHost" [title]="'points limit'" [(value)]="zoneControlModel.pointsLimit" #pointsLimitInput
+                     (statusChange)="onGamePointsChanged($event)"></app-count-input>
+  </div>
+</div>
+<div class="rounded border">
+  <div class="rounded border bg-dark pb-1 px-2"><small class="text-white">Zone Params</small></div>
+  <div class="row m-0">
+    <app-count-input class="col-md-12" [editable]="isHost" [title]="'zone capacity'" [(value)]="zoneControlModel.zoneCapacity" #zoneCapacityInput
+                     (statusChange)="onZonePointsChanged($event)"></app-count-input>
+  </div>
+</div>

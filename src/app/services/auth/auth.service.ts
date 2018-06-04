@@ -39,7 +39,7 @@ export class AuthorizationService {
 
   // Login REQUEST
   postLoginRequest(userData: {email: string, password: string}) {
-    const headers = new HttpHeaders()
+      const headers = new HttpHeaders()
       .set('Authorization', BASIC_AUTH)
       .set('Content-Type', 'application/x-www-form-urlencoded');
     const body = new URLSearchParams();

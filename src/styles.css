@@ -149,7 +149,12 @@ checking {
   box-shadow:0 0 0 .2rem rgba(255,196,0,.25);
 }
 
+.light-border {
+  border: 1px solid #dee2e6;
+}
+
+
 .is-changed {
-  border: 1px solid orange;
-  box-shadow:0 0 0 .2rem rgba(255,196,0,.25);
+  border: 1px solid #28a745 !important;
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
 }

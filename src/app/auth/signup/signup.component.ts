@@ -6,6 +6,7 @@ import {AuthorizationService} from '../../services/auth/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {Router} from '@angular/router';
 import {AlertComponent} from '../../shared/alert/alert.component';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
   selector: 'app-signup',
@@ -27,13 +28,13 @@ export class SignupComponent implements OnInit {
                                               {error: 'minlength', message: 'Password is too short, at least 6 characters!'},
                                               {error: 'maxlength', message: 'Password is too long, at most 20 characters!'}];
 
-  @ViewChild('alertDialog') alert: AlertComponent;
-
   registerForm: FormGroup;
   enableRegister: boolean;
   loadingStatus: String = 'normal';
 
-  constructor(private authService: AuthorizationService, private router: Router) { }
+  constructor(private authService: AuthorizationService,
+              private alertService: AlertService,
+              private router: Router) { }
 
   ngOnInit() {
     this.registerForm = new FormGroup({
@@ -69,7 +70,7 @@ export class SignupComponent implements OnInit {
   private onSigningSuccess(): void {
     this.loadingStatus = 'success';
     this.registerForm.reset();
-    this.alert.showSuccess('Successfully registered!');
+    this.alertService.showAlert({message: 'Successfully registered!', error: false});
     setTimeout(() => {
       this.router.navigate(['/']);
     }, 2000);
@@ -77,7 +78,7 @@ export class SignupComponent implements OnInit {
 
   private onSigningFail(error: string): void {
     this.loadingStatus = 'fail';
-    this.alert.showError(error);
+    this.alertService.showAlert({message: 'Cannot sign in!', error: true});
     console.log(error);
   }
 

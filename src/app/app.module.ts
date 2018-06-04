@@ -13,7 +13,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FormErrorDirective } from './shared/form-error.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoadingButtonDirective } from './shared/loading-button.directive';
 import { PingIndicatorComponent } from './shared/ping/ping-indicator.component';
 import { CookieModule } from 'ngx-cookie';
 import { LoginComponent } from './header/login/login.component';
@@ -30,6 +29,10 @@ import {CountInputComponent} from './shared/elements/inputs/count-input/count-in
 import { TimeInputComponent } from './shared/elements/inputs/time-input/time-input.component';
 import {AuthGuardService} from './services/auth/auth-guard.service';
 import { ModeEditComponent } from './content/home/queue/mode-edit/mode-edit.component';
+import {AlertService} from './services/alert.service';
+import {ZoneControlComponent} from './content/home/queue/mode-edit/zone-controll/zone-control.component';
+import { BattleRoyalComponent } from './content/home/queue/mode-edit/battle-royal/battle-royal.component';
+import {RoomModeService} from './services/room-mode.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -55,7 +58,6 @@ const appRoutes: Routes = [
     SignupComponent,
     IndexComponent,
     FormErrorDirective,
-    LoadingButtonDirective,
     PingIndicatorComponent,
     LoginComponent,
     ManageComponent,
@@ -67,7 +69,9 @@ const appRoutes: Routes = [
     ProgressButtonComponent,
     CountInputComponent,
     TimeInputComponent,
-    ModeEditComponent
+    ModeEditComponent,
+    ZoneControlComponent,
+    BattleRoyalComponent
   ],
   imports: [
     FormsModule,
@@ -87,7 +91,9 @@ const appRoutes: Routes = [
     AuthorizationService,
     AuthGuardService,
     UserDataService,
-    UserRoomService
+    UserRoomService,
+    RoomModeService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

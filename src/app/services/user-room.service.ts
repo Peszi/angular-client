@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthorizationService} from './auth/auth.service';
-import {RoomDetailsModel, ZoneDataModel} from './model/user-data.model';
+import {GameSettingsModel, RoomDetailsModel, ZoneDataModel} from './model/user-data.model';
 import {of, Subject} from 'rxjs';
 import {AlertMessage} from './user-data.service';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -10,6 +10,7 @@ import {HttpParams} from '@angular/common/http';
 
 @Injectable()
 export class UserRoomService {
+
   public roomDetails: RoomDetailsModel;
 
   private roomDetailsSubject = new Subject<RoomDetailsModel>();
@@ -120,6 +121,26 @@ export class UserRoomService {
   }
 
   // Editing
+
+  postGameSettingsRequest(gameSettings: GameSettingsModel) {
+    const bodyParams = new HttpParams()
+      .append('gameMode', String(gameSettings.gameMode))
+      .append('zoneLat', String(gameSettings.lat))
+      .append('zoneLng', String(gameSettings.lng))
+      .append('zoneRadius', String(Math.floor(gameSettings.radius)));
+    return this.authService.makePostTextRequest('/room/host/game', bodyParams)
+      .pipe(
+        map(res => {
+          this.getRoomDetailsRequest();
+          this.requestsSubject.next({ error: false, message: 'You have changed game settings!'});
+          return res;
+        }),
+        catchError(err => {
+          this.requestsSubject.next({ error: true, message: 'Cannot change game settings!'});
+          return of(err);
+        })
+      );
+  }
 
   postZoneChange(zone: ZoneDataModel) {
     const bodyParams = new HttpParams()

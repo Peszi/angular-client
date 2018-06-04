@@ -1,6 +1,6 @@
-import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RoomDetailsModel, ZoneDataModel} from '../../../services/model/user-data.model';
-import {Subscription} from 'rxjs';
+import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {GameSettingsModel, RoomDetailsModel, ZoneDataModel} from '../../../services/model/user-data.model';
+import {Subject, Subscription} from 'rxjs';
 import {UserRoomService} from '../../../services/user-room.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
@@ -11,59 +11,65 @@ import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 })
 export class QueueComponent implements OnInit {
 
-  changeZone: boolean;
-  newZonePlaced: boolean;
-  newZone: ZoneDataModel = {lat: 0, lng: 0, radius: 32};
+  gameSettings: GameSettingsModel = {gameMode: 0, lat: 0, lng: 0, radius: 0};
+  isZoneChanged: boolean;
+  isModeChanged: boolean;
+
+  gameModeSub: Subject<number> = new Subject();
 
   teamForm: FormGroup;
-
-  private gameMode: number;
-  isModeChanged: boolean;
 
   constructor(private userRoomService: UserRoomService) { }
 
   ngOnInit() {
+    this.userRoomService.getRoomDetailsSub()
+      .subscribe(() => {
+        this.initSettings();
+      });
     this.userRoomService.getRoomDetailsRequest();
     this.teamForm = new FormGroup({
       'alias': new FormControl(null, [Validators.required, Validators.maxLength(20)])
     });
   }
 
-  onModeChange(option: number) {
-    this.gameMode = option;
-    this.isModeChanged = (this.gameMode != this.getGameMode());
+  private initSettings() {
+    this.gameSettings.gameMode = this.userRoomService.roomDetails.gameMode;
+    this.gameSettings.lat = this.userRoomService.roomDetails.zoneLat;
+    this.gameSettings.lng = this.userRoomService.roomDetails.zoneLng;
+    this.gameSettings.radius = this.userRoomService.roomDetails.zoneRadius;
+    this.isModeChanged = false;
+    this.isZoneChanged = false;
+    this.gameModeSub.next(this.gameSettings.gameMode);
   }
 
-  onModeApply() {
-    this.userRoomService.postModeChangeRequest(this.gameMode).subscribe();
+  onModeChange(option: number) {
+    this.gameSettings.gameMode = option;
+    this.isModeChanged = (this.gameSettings.gameMode != this.userRoomService.roomDetails.gameMode);
   }
 
   onZoneChanged(event: any) {
-    this.newZone.lat = event.coords.lat;
-    this.newZone.lng = event.coords.lng;
-    this.newZonePlaced = true;
+    this.gameSettings.lat = event.coords.lat;
+    this.gameSettings.lng = event.coords.lng;
+    this.isZoneChanged = true;
   }
 
   onZoneClicked(event: any) {
-    this.newZone.lat = +event.attributes[0].value;
-    this.newZone.lng = +event.attributes[1].value;
-    this.newZone.radius = +event.attributes[4].value;
-    this.newZonePlaced = true;
+    this.gameSettings.lat = +event.attributes[0].value;
+    this.gameSettings.lng = +event.attributes[1].value;
+    this.gameSettings.radius = +event.attributes[4].value;
+    this.isZoneChanged = true;
   }
 
-  onZoneApply() {
-    this.userRoomService.postZoneChange(this.newZone)
-      .subscribe(() => {
-        this.newZonePlaced = false;
-      });
+  onSettingsApply() {
+    this.userRoomService.postGameSettingsRequest(this.gameSettings).subscribe();
   }
 
-  onZoneDiscard() {
-    this.newZonePlaced = false;
+  onSettingsDiscard() {
+    this.initSettings();
   }
 
   hasChanges() {
-    if (this.newZonePlaced) {
+    if (this.isZoneChanged || this.isModeChanged) {
       return true;
     }
     return false;
@@ -97,12 +103,12 @@ export class QueueComponent implements OnInit {
     return this.userRoomService.roomDetails;
   }
 
-  getGameMode(): number {
-    return this.userRoomService.roomDetails.gameMode;
-  }
-
   isHost() {
     return this.userRoomService.roomDetails.isRoomHost;
+  }
+
+  getGameMode() {
+    return this.userRoomService.roomDetails.gameMode;
   }
 
 }

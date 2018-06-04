@@ -7,8 +7,19 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
     :host {
       padding: 0;
     }
-    button:hover, i:hover {
+    button {
+      background-color: #fff;
+    }
+    button:hover {
       cursor: pointer;
+      color: #fff !important;
+      background-color: #dc3545;
+    }
+    i:hover {
+      cursor: pointer;
+      color: #fff !important;
+      border-radius: 2px;
+      background-color: #007bff;
     }
   `],
 })
@@ -17,10 +28,12 @@ export class CountInputComponent implements OnInit {
   @Input() editable: boolean;
   @Input() placeholder: String = 'value';
   @Input() value: number;
+  @Input() defaultValue: number;
   @Output() valueChange = new EventEmitter<number>();
+  @Output() statusChange = new EventEmitter<boolean>();
 
-  private defaultValue: number;
   valueOutput: number;
+  isChanged: boolean;
 
   constructor() {}
 
@@ -34,7 +47,14 @@ export class CountInputComponent implements OnInit {
     this.showValue();
   }
 
+  setValue(value: number) {
+    this.defaultValue = value;
+    this.onReset();
+  }
+
   showValue() {
+    this.isChanged = (this.value !== this.defaultValue);
+    this.statusChange.next(this.isChanged);
     this.valueOutput = this.value;
     this.valueChange.next(this.value);
   }

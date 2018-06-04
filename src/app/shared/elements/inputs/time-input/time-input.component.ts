@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Subject} from 'rxjs';
+import {b} from '@angular/core/src/render3';
 
 @Component({
   selector: 'app-time-input',
@@ -8,8 +9,19 @@ import {Subject} from 'rxjs';
     :host {
       padding: 0;
     }
-    button:hover, i:hover {
+    button {
+      background-color: #fff;
+    }
+    button:hover {
       cursor: pointer;
+      color: #fff !important;
+      background-color: #dc3545;
+    }
+    i:hover {
+      cursor: pointer;
+      color: #fff !important;
+      border-radius: 2px;
+      background-color: #007bff;
     }
   `],
 })
@@ -18,10 +30,12 @@ export class TimeInputComponent implements OnInit {
   @Input() editable: boolean;
   @Input() seconds: number;
   @Output() secondsChange = new EventEmitter<number>();
+  @Output() statusChange = new EventEmitter<boolean>();
 
   private defaultValue: number;
   secValue: string;
   minValue: string;
+  isChanged: boolean;
 
   constructor() { }
 
@@ -35,7 +49,14 @@ export class TimeInputComponent implements OnInit {
     this.showTime();
   }
 
-  showTime() {
+  setValue(value: number) {
+    this.defaultValue = value;
+    this.onReset();
+  }
+
+  private showTime() {
+    this.isChanged = (this.seconds !== this.defaultValue);
+    this.statusChange.next(this.isChanged);
     this.secValue = this.seconds % 60 + ' sec';
     this.minValue = Math.floor(this.seconds / 60) + ' min';
     this.secondsChange.next(this.seconds);

@@ -8,13 +8,13 @@ import {filter, map} from 'rxjs/operators';
 import {RouterEvent} from '@angular/router/src/events';
 import {AuthorizationService} from '../../services/auth/auth.service';
 import {UserRoomService} from '../../services/user-room.service';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  @ViewChild('alertMessenger') alert: AlertComponent;
 
   routesList: ActiveRoute[] = [{endpoint: 'Browse', active: false}, {endpoint: 'Queue', active: false}];
 
@@ -23,6 +23,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(private authService: AuthorizationService,
               private userDataService: UserDataService,
               private userRoomService: UserRoomService,
+              private alertService: AlertService,
               private router: Router) { }
 
   ngOnInit() {
@@ -34,10 +35,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
     this.authService.getUserDataRequest();
     this.userDataSub = this.userDataService.getRequestSub().subscribe(
-      (alert: AlertMessage) => { this.alert.showAlert(alert.message, alert.error); }
+      (alert: AlertMessage) => { this.alertService.showAlert(alert); }
       );
     this.userDataSub = this.userRoomService.getRequestSub().subscribe(
-      (alert: AlertMessage) => { this.alert.showAlert(alert.message, alert.error); }
+      (alert: AlertMessage) => { this.alertService.showAlert(alert); }
     );
   }
 

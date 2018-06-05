@@ -1,0 +1,27 @@
+<div class="rounded border">
+  <div class="d-flex justify-content-between rounded border bg-dark p-1 small-height" style="height: 36px;">
+    <small class="text-center text-white px-2 py-1 my-auto">Location</small>
+    <div *ngIf="isHost && isZoneChanged">
+      <button class="btn-tiny" (click)="onSettingsApply()">apply</button>
+      <button class="btn-tiny ml-1" (click)="onSettingsDiscard()">discard</button>
+    </div>
+  </div>
+  <div class="m-0 p-2 p-md-2">
+    <div [ngClass]="{'is-changed': isZoneChanged}" class="light-border">
+      <agm-map style="height: 300px" #map
+               [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng"
+               [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="true" (mapClick)="onZoneChanged($event)">
+        <!-- Room Circle -->
+        <agm-circle #zone
+                    [latitude]="getRoomDetails().zoneLat" [longitude]="getRoomDetails().zoneLng" [radius]="getRoomDetails().zoneRadius"
+                    [fillColor]="'red'" [fillOpacity]="0.35" (circleClick)="onZoneClicked(zone)">
+        </agm-circle>
+        <!-- Host Circle -->
+        <agm-circle *ngIf="isHost && isZoneChanged"
+                    [(latitude)]="gameSettings.lat" [(longitude)]="gameSettings.lng" [(radius)]="gameSettings.radius"
+                    [fillColor]="'yellow'" [fillOpacity]="0.35" [editable]="true">
+        </agm-circle>
+      </agm-map>
+    </div>
+  </div>
+</div>

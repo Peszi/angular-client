@@ -1,0 +1,29 @@
+<div class="rounded border">
+  <div class="d-flex justify-content-between rounded border bg-dark p-1 small-height" style="height: 36px;">
+    <small class="text-center text-white px-2 py-1 my-auto">Game Params</small>
+    <div *ngIf="isHost && hasChanges()">
+      <button class="btn-tiny" (click)="onAcceptChanges()">apply</button>
+      <button class="btn-tiny ml-1" (click)="onDiscardChanges()">discard</button>
+    </div>
+  </div>
+  <div>
+    <div class="d-flex border-contour-dark p-1 mb-2 mx-1">
+      <small class="ml-2 text-muted text-uppercase">limits</small>
+    </div>
+    <div class="row m-0">
+      <app-time-input class="col-md-6" [editable]="isHost" [title]="'time limit'" [(seconds)]="zoneControlModel.timeLimit" #timeLimitInput
+                      (statusChange)="gameTimeChanged = $event"></app-time-input>
+      <app-count-input class="col-md-6" [editable]="isHost" [title]="'points limit'" [(value)]="zoneControlModel.pointsLimit" #pointsLimitInput
+                       (statusChange)="zonePointsChanged = $event"></app-count-input>
+    </div>
+  </div>
+  <div>
+    <div class="d-flex border-contour-dark p-1 mb-2 mx-1">
+      <small class="ml-2 text-muted text-uppercase">zone</small>
+    </div>
+    <div class="row m-0">
+      <app-count-input class="col-md-12" [editable]="isHost" [title]="'zone capacity'" [(value)]="zoneControlModel.zoneCapacity" #zoneCapacityInput
+                     (statusChange)="zonePointsChanged = $event"></app-count-input>
+    </div>
+  </div>
+</div>

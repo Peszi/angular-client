@@ -14,12 +14,13 @@ import {Utility} from '../../../services/utility.class';
 import {RoomDataModel, RoomsDataListModel} from '../../../services/model/user-data.model';
 import {AgmMap, GoogleMapsAPIWrapper} from '@agm/core';
 import {createDirective} from "@angular/compiler/src/core";
+import {RefreshInterface} from '../refresh.interface';
 
 @Component({
   selector: 'app-browse',
   templateUrl: './browse.component.html'
 })
-export class BrowseComponent implements OnInit, OnDestroy {
+export class BrowseComponent implements OnInit, OnDestroy, RefreshInterface {
 
   private selectedRoomIndex: number;
   private roomsListSub: Subscription;
@@ -30,13 +31,17 @@ export class BrowseComponent implements OnInit, OnDestroy {
     this.roomsListSub = this.userDataService.getRoomsListSub()
       .subscribe(() => { this.checkTime(); });
     this.userDataService.getRoomsListRequest();
-    setInterval(() => {
-      this.checkTime();
-    }, 10000);
+    // setInterval(() => {
+    //   this.checkTime();
+    // }, 10000);
   }
 
   ngOnDestroy(): void {
     this.roomsListSub.unsubscribe();
+  }
+
+  onRefresh() {
+    this.userDataService.getRoomsListRequest();
   }
 
   onRoomSelected(index: number) {

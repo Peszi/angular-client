@@ -28,11 +28,13 @@ import {ProgressButtonComponent} from './shared/elements/progress-button.compone
 import {CountInputComponent} from './shared/elements/inputs/count-input/count-input.component';
 import { TimeInputComponent } from './shared/elements/inputs/time-input/time-input.component';
 import {AuthGuardService} from './services/auth/auth-guard.service';
-import { ModeEditComponent } from './content/home/queue/mode-edit/mode-edit.component';
 import {AlertService} from './services/alert.service';
-import {ZoneControlComponent} from './content/home/queue/mode-edit/zone-controll/zone-control.component';
-import { BattleRoyalComponent } from './content/home/queue/mode-edit/battle-royal/battle-royal.component';
+import {ZoneControlComponent} from './content/home/queue/modes/zone-controll/zone-control.component';
+import { BattleRoyalComponent } from './content/home/queue/modes/battle-royal/battle-royal.component';
 import {RoomModeService} from './services/room-mode.service';
+import { SimpleTimeInputComponent } from './shared/elements/inputs/simple-time-input/simple-time-input.component';
+import { QueueMapComponent } from './content/home/queue/queue-map/queue-map.component';
+import { GameComponent } from './content/home/game/game.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -46,9 +48,10 @@ const appRoutes: Routes = [
       {path: '', redirectTo: 'browse', pathMatch: 'full' },
       {path: 'browse', component: BrowseComponent },
       {path: 'queue', component: QueueComponent },
+      {path: 'game', component: GameComponent }
     ]
   },
-  {path: '**', component: IndexComponent}
+  // {path: '**', component: IndexComponent}
 ];
 
 @NgModule({
@@ -69,9 +72,11 @@ const appRoutes: Routes = [
     ProgressButtonComponent,
     CountInputComponent,
     TimeInputComponent,
-    ModeEditComponent,
     ZoneControlComponent,
-    BattleRoyalComponent
+    BattleRoyalComponent,
+    SimpleTimeInputComponent,
+    QueueMapComponent,
+    GameComponent
   ],
   imports: [
     FormsModule,
@@ -89,7 +94,7 @@ const appRoutes: Routes = [
   ],
   providers: [
     AuthorizationService,
-    AuthGuardService,
+    // AuthGuardService,
     UserDataService,
     UserRoomService,
     RoomModeService,

@@ -12,7 +12,7 @@ export class IndexComponent implements OnInit {
 
   ngOnInit() {
     if (this.authService.isLogged) {
-      this.router.navigate(['/home']);
+      this.router.navigate(['../home']);
     }
   }
 }

@@ -5,8 +5,9 @@ import {of, Subject} from 'rxjs';
 import {AlertMessage} from './user-data.service';
 import {catchError, map, tap} from 'rxjs/operators';
 import {a} from '@angular/core/src/render3';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {HttpParams} from '@angular/common/http';
+import {AlertService} from './alert.service';
 
 @Injectable()
 export class UserRoomService {
@@ -14,9 +15,10 @@ export class UserRoomService {
   public roomDetails: RoomDetailsModel;
 
   private roomDetailsSubject = new Subject<RoomDetailsModel>();
-  private requestsSubject = new Subject<AlertMessage>();
 
-  constructor(private authService: AuthorizationService, private router: Router) { }
+  constructor(private authService: AuthorizationService,
+              private alertService: AlertService,
+              private router: Router) { }
 
   // User
 
@@ -24,17 +26,21 @@ export class UserRoomService {
     this.authService.makeGetRequest<RoomDetailsModel>('/room')
       .subscribe(
         (roomDetails: RoomDetailsModel) => {
-          roomDetails.teamsList
-            .forEach(team => {
-              team.isMyTeam = (team.usersList.filter(user => user.id === this.authService.userData.id).length > 0);
-            });
-          this.roomDetails = roomDetails;
-          this.roomDetails.isRoomHost = (this.authService.userData.id === roomDetails.hostId); // set host flag
-          this.roomDetailsSubject.next(roomDetails);
+          if (roomDetails.started) {
+            this.router.navigate(['../home/game']);
+          } else {
+            roomDetails.teamsList
+              .forEach(team => {
+                team.isMyTeam = (team.usersList.filter(user => user.id === this.authService.userData.id).length > 0);
+              });
+            this.roomDetails = roomDetails;
+            this.roomDetails.isRoomHost = (this.authService.userData.id === roomDetails.hostId); // set host flag
+            this.roomDetailsSubject.next(roomDetails);
+          }
         },
         () => {
-          this.router.navigate(['/browse']);
-          this.requestsSubject.next({ error: true, message: 'Cannot get room details!'});
+          this.router.navigate(['../home/browse']);
+          this.alertService.showAlert({ error: true, message: 'Cannot get room details!'});
         }
       );
   }
@@ -44,11 +50,11 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'You have changed team!'});
+          this.alertService.showAlert({ error: false, message: 'You have changed team!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot join this team!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot join this team!'});
           return of(err);
         })
       );
@@ -58,20 +64,18 @@ export class UserRoomService {
     return this.authService.makeDeleteRequest('/rooms')
       .pipe(
         map(res => {
-          this.requestsSubject.next({ error: false, message: 'You left the room!'});
-          this.router.navigate(['/browse']);
+          this.alertService.showAlert({ error: false, message: 'You left the room!'});
+          this.router.navigate(['../home/browse']);
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot leave this room!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot leave this room!'});
           return of(err);
         })
       );
   }
 
   getRoomDetailsSub() { return this.roomDetailsSubject.asObservable(); }
-
-  getRequestSub() { return this.requestsSubject.asObservable(); }
 
   // Host
 
@@ -80,11 +84,11 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'New team created!'});
+          this.alertService.showAlert({ error: false, message: 'New team created!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Team already exists!'});
+          this.alertService.showAlert({ error: true, message: 'Team already exists!'});
           return of(err);
         })
       );
@@ -95,11 +99,11 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'Room removed!'});
+          this.alertService.showAlert({ error: false, message: 'Room removed!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot remove this room!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot remove this room!'});
           return of(err);
         })
       );
@@ -109,12 +113,12 @@ export class UserRoomService {
     return this.authService.makeDeleteRequest('/room/host/delete')
       .pipe(
         map(res => {
-          this.requestsSubject.next({ error: false, message: 'You successfully removed the room!'});
-          this.router.navigate(['/browse']);
+          this.alertService.showAlert({ error: false, message: 'You successfully removed the room!'});
+          this.router.navigate(['../home/browse']);
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot remove this room!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot remove this room!'});
           return of(err);
         })
       );
@@ -132,11 +136,11 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'You have changed game settings!'});
+          this.alertService.showAlert({ error: false, message: 'You have changed game settings!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot change game settings!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot change game settings!'});
           return of(err);
         })
       );
@@ -154,7 +158,7 @@ export class UserRoomService {
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot change the zone!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot change the zone!'});
           return of(err);
         })
       );
@@ -165,11 +169,26 @@ export class UserRoomService {
       .pipe(
         map(res => {
           this.getRoomDetailsRequest();
-          this.requestsSubject.next({ error: false, message: 'You have changed mode!'});
+          this.alertService.showAlert({ error: false, message: 'You have changed mode!'});
           return res;
         }),
         catchError(err => {
-          this.requestsSubject.next({ error: true, message: 'Cannot change game mode!'});
+          this.alertService.showAlert({ error: true, message: 'Cannot change game mode!'});
+          return of(err);
+        })
+      );
+  }
+
+  postGameStartRequest() {
+    return this.authService.makePostTextRequest('/room/game')
+      .pipe(
+        map(res => {
+          this.getRoomDetailsRequest();
+          this.alertService.showAlert({ error: false, message: 'The game is started!'});
+          return res;
+        }),
+        catchError(err => {
+          this.alertService.showAlert({ error: true, message: 'Cannot start the game!'});
           return of(err);
         })
       );

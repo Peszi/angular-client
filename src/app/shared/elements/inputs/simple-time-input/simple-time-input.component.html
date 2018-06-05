@@ -1,0 +1,4 @@
+<div class="p-1">
+  <input type="text" class="form-control form-control-sm text-center" id="mins" placeholder="min" [disabled]="!editable" [ngClass]="{'is-changed': isChanged}"
+         [(ngModel)]="secondsValue" (keyup.enter)="onTimeApply()" (blur)="resetValue()" (keyup.arrowup)="changeTime(1)" (keyup.arrowdown)="changeTime(-1)">
+</div>

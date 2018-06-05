@@ -1,0 +1,29 @@
+<div class="rounded border">
+  <div class="d-flex justify-content-between rounded border bg-dark p-1 small-height" style="height: 36px;">
+    <small class="text-center text-white px-2 py-1 my-auto">Zone Params</small>
+    <div *ngIf="isHost && hasChanges">
+      <button class="btn-tiny" (click)="onAcceptChanges()">apply</button>
+      <button class="btn-tiny ml-1" (click)="onDiscardChanges()">discard</button>
+    </div>
+  </div>
+  <div class="row border-bottom m-0 p-1">
+    <small class="col-1 text-center text-muted p-0"></small>
+    <small class="col-3 text-center text-muted p-0">Radius</small>
+    <small class="col-4 text-center text-muted p-0">Delay</small>
+    <small class="col-4 text-center text-muted p-0">Shrink</small>
+  </div>
+  <div class="row border-bottom m-0" *ngFor="let zone of zonesList">
+    <div class="col-1 p-0 d-flex justify-content-center align-items-center border-right">
+      <div class="m-0 text-center">{{ zone.idx }}</div>
+    </div>
+    <div class="col-3 p-0">
+      <app-simple-time-input [editable]="isHost" [(seconds)]="zone.radius" ></app-simple-time-input>
+    </div>
+    <div class="col-4 p-0">
+      <app-simple-time-input [editable]="isHost" [(seconds)]="zone.delay" ></app-simple-time-input>
+    </div>
+    <div class="col-4 p-0">
+      <app-simple-time-input [editable]="isHost" [(seconds)]="zone.shrink" ></app-simple-time-input>
+    </div>
+  </div>
+</div>

@@ -19,7 +19,6 @@ export class ProgressButtonComponent implements OnInit {
   constructor(private element: ElementRef, private renderer: Renderer2) {}
 
   ngOnInit(): void {
-    console.log(this.btnClass);
     // this.renderer.addClass(this.element.nativeElement, this.btnClass);
   }
 

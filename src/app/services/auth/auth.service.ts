@@ -6,6 +6,7 @@ import {CookieService} from 'ngx-cookie';
 import {AuthResponse} from '../model/auth-response.model';
 import {Router} from '@angular/router';
 import {UserDataModel} from '../model/user-data.model';
+import {AlertService} from '../alert.service';
 
 @Injectable()
 export class AuthorizationService {
@@ -16,7 +17,10 @@ export class AuthorizationService {
   private authSubject = new Subject<boolean>();
   private userDataSubject = new Subject<UserDataModel>();
 
-  constructor(private httpClient: HttpClient, private router: Router, private cookieService: CookieService) {}
+  constructor(private httpClient: HttpClient,
+              private router: Router,
+              private cookieService: CookieService,
+              private alertService: AlertService) {}
 
   // Server status REQUEST
   getApiStatusRequest() {
@@ -71,28 +75,33 @@ export class AuthorizationService {
 
   // Global POST REQUEST
   makePostRequest<T>(url: string, body?: any|null) {
+    const token = this.getAccessToken();
     const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+      .set('Authorization', BEARER_PREFIX + token);
     return this.httpClient.post<T>(BASE_API_URL + url, body, {observe: 'body', headers: headers});
   }
 
   makePostTextRequest(url: string, body?: any|null) {
+    const token = this.getAccessToken();
+    if (!token) { return null; }
     const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+      .set('Authorization', BEARER_PREFIX + token);
     return this.httpClient.post(BASE_API_URL + url, body, {observe: 'body', headers: headers, responseType: 'text'});
   }
 
   // Global GET REQUEST
   makeGetRequest<T>(url: string, params?: any|null) {
+    const token = this.getAccessToken();
     const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+      .set('Authorization', BEARER_PREFIX + token);
     return this.httpClient.get<T>(BASE_API_URL + url, {observe: 'body', headers: headers, params: params});
   }
 
   // Global DELETE REQUEST
   makeDeleteRequest(url: string, params?: any|null) {
+    const token = this.getAccessToken();
     const headers = new HttpHeaders()
-      .set('Authorization', BEARER_PREFIX + this.getAccessToken());
+      .set('Authorization', BEARER_PREFIX + token);
     return this.httpClient.delete(BASE_API_URL + url, {observe: 'body', headers: headers, params: params, responseType: 'text'});
   }
 
@@ -126,6 +135,9 @@ export class AuthorizationService {
     if (access_token) {
       return access_token;
     } else { // Token expired
+      if (this.isLogged) {
+        this.alertService.showAlert({error: true, message: 'your session expired!'});
+      }
       this.postLoggedOut();
     }
   }
@@ -134,6 +146,9 @@ export class AuthorizationService {
   revokeAccessToken() {
     if (this.hasAccessToken()) {
       this.cookieService.remove(TOKEN_COOKIE);
+      if (this.isLogged) {
+        this.alertService.showAlert({error: false, message: 'you successfully logged out!'});
+      }
       this.postLoggedOut();
     }
   }
@@ -142,7 +157,7 @@ export class AuthorizationService {
     this.getUserDataRequest();
     this.authSubject.next(true);
     this.isLogged = true;
-    this.router.navigate(['/home']);
+    this.router.navigate(['../home']);
   }
 
   private postLoggedOut() {

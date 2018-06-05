@@ -1,14 +1,9 @@
-import {Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
-import {AlertMessage, UserDataService} from '../../services/user-data.service';
-import {Subscription} from 'rxjs';
-import {b, s} from '@angular/core/src/render3';
-import {AlertComponent} from '../../shared/alert/alert.component';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {Component, OnDestroy, OnInit, Output, ViewChild} from '@angular/core';
+import { NavigationEnd, Router} from '@angular/router';
 import {filter, map} from 'rxjs/operators';
 import {RouterEvent} from '@angular/router/src/events';
 import {AuthorizationService} from '../../services/auth/auth.service';
-import {UserRoomService} from '../../services/user-room.service';
-import {AlertService} from '../../services/alert.service';
+import {RefreshInterface} from './refresh.interface';
 
 @Component({
   selector: 'app-home',
@@ -16,30 +11,38 @@ import {AlertService} from '../../services/alert.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
 
-  routesList: ActiveRoute[] = [{endpoint: 'Browse', active: false}, {endpoint: 'Queue', active: false}];
+  routesList: ActiveRoute[] = [{endpoint: 'Browse', active: false}, {endpoint: 'Queue', active: false}, {endpoint: 'Game', active: false}];
 
-  private userDataSub: Subscription;
+  private refreshHandler: any;
+  private refreshChildInterface: RefreshInterface;
 
   constructor(private authService: AuthorizationService,
-              private userDataService: UserDataService,
-              private userRoomService: UserRoomService,
-              private alertService: AlertService,
               private router: Router) { }
 
   ngOnInit() {
     this.setupActivatedRoute(this.router.url.substring(this.router.url.lastIndexOf('/') + 1));
     this.router.events.pipe(
-        filter((event) => event instanceof NavigationEnd),
-        map((data: RouterEvent) => this.parseEndpoint(data.url))
-      ).subscribe((route) => { this.setupActivatedRoute(route); }
+      filter((event) => event instanceof NavigationEnd),
+      map((data: RouterEvent) => this.parseEndpoint(data.url))
+    ).subscribe((route) => {
+        this.setupActivatedRoute(route);
+      }
     );
     this.authService.getUserDataRequest();
-    this.userDataSub = this.userDataService.getRequestSub().subscribe(
-      (alert: AlertMessage) => { this.alertService.showAlert(alert); }
-      );
-    this.userDataSub = this.userRoomService.getRequestSub().subscribe(
-      (alert: AlertMessage) => { this.alertService.showAlert(alert); }
-    );
+    // Auto Refresh
+    this.refreshHandler = setInterval(() => {
+      this.onRefresh();
+    }, 10000);
+  }
+
+  ngOnDestroy(): void {
+    if (this.refreshHandler) {
+      clearInterval(this.refreshHandler);
+    }
+  }
+
+  onActivate(childComponent: RefreshInterface) {
+    this.refreshChildInterface = childComponent;
   }
 
   private parseEndpoint(url: string) {
@@ -52,22 +55,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     const matches = this.routesList
       .filter((router: ActiveRoute) => router.endpoint.toLowerCase() === currentRoute)
       .length;
-    if (matches === 0) {
-      this.routesList
-        .filter((router: ActiveRoute) => router.endpoint.toLowerCase() === 'browse')
-        .forEach((router: ActiveRoute) => router.active = true);
-    }
-  }
-
-  ngOnDestroy(): void {
-    this.userDataSub.unsubscribe();
+    // if (matches === 0) {
+    //   this.routesList
+    //     .filter((router: ActiveRoute) => router.endpoint.toLowerCase() === 'browse')
+    //     .forEach((router: ActiveRoute) => router.active = true);
+    // }
   }
 
   onRefresh() {
-    // TODO pass event to child components
     this.authService.getUserDataRequest();
-    this.userDataService.getRoomsListRequest();
-    this.userRoomService.getRoomDetailsRequest();
+    if (this.refreshChildInterface) {
+      this.refreshChildInterface.onRefresh();
+    }
   }
 
   getUsername() {

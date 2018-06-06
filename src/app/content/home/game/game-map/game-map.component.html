@@ -1,0 +1,14 @@
+<agm-map style="height: 400px" #map
+         [latitude]="getUserPosition().lat" [longitude]="getUserPosition().lng"
+         [zoom]="16" [mapTypeId]="'satellite'" [usePanning]="false" [gestureHandling]="'none'" (mapClick)="onUserPositionChanged($event.coords)">
+  <!-- Base Zone Circle -->
+  <agm-circle [latitude]="baseZone.lat" [longitude]="baseZone.lng" [radius]="baseZone.radius"
+              [fillColor]="'white'" [fillOpacity]="0.25" (circleClick)="onUserPositionChanged($event.coords)">
+  </agm-circle>
+  <!-- Capture Zones Circles -->
+  <agm-circle *ngFor="let zone of captureZones"
+              [latitude]="zone.lat" [longitude]="zone.lng" [radius]="zone.radius"
+              [fillColor]="zone.color" [fillOpacity]="0.35">
+  </agm-circle>
+  <agm-marker [latitude]="getUserPosition().lat" [longitude]="getUserPosition().lng" [title]="'your position'"></agm-marker>
+</agm-map>

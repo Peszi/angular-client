@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {GameSettingsModel, RoomDetailsModel, ZoneDataModel} from '../../../services/model/user-data.model';
+import {GameSettingsModel, RoomDetailsModel } from '../../../services/model/user-data.model';
 import {Subject, Subscription} from 'rxjs';
 import {UserRoomService} from '../../../services/user-room.service';
 import {FormControl, FormGroup, Validators} from '@angular/forms';

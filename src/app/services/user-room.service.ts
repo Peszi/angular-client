@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {AuthorizationService} from './auth/auth.service';
-import {GameSettingsModel, RoomDetailsModel, ZoneDataModel} from './model/user-data.model';
+import {GameSettingsModel, RoomDetailsModel } from './model/user-data.model';
 import {of, Subject} from 'rxjs';
 import {AlertMessage} from './user-data.service';
 import {catchError, map, tap} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {a} from '@angular/core/src/render3';
 import {ActivatedRoute, Router} from '@angular/router';
 import {HttpParams} from '@angular/common/http';
 import {AlertService} from './alert.service';
+import {ZoneModel} from './game-data.service';
 
 @Injectable()
 export class UserRoomService {
@@ -146,7 +147,7 @@ export class UserRoomService {
       );
   }
 
-  postZoneChange(zone: ZoneDataModel) {
+  postZoneChange(zone: ZoneModel) {
     const bodyParams = new HttpParams()
       .append('zoneLat', String(zone.lat))
       .append('zoneLng', String(zone.lng))

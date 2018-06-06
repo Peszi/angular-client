@@ -1,3 +1,4 @@
+import {ZoneModel} from '../game-data.service';
 
 export interface UserDataModel {
   id: number;
@@ -45,8 +46,12 @@ export interface RoomsDataListModel {
   roomsList: RoomDataModel[];
 }
 
-export interface ZoneDataModel {
-  lat: number; lng: number; radius: number;
+export interface PositionModel {
+  lat: number; lng: number;
+}
+
+export interface CaptureZoneModel extends ZoneModel {
+  color: string;
 }
 
 export interface GameSettingsModel {

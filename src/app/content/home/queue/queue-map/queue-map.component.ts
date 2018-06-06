@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GameSettingsModel, RoomDetailsModel, ZoneDataModel} from '../../../../services/model/user-data.model';
+import {GameSettingsModel, RoomDetailsModel, ZoneModel} from '../../../../services/model/user-data.model';
 import {UserRoomService} from '../../../../services/user-room.service';
 import {Subscription} from 'rxjs';
 
@@ -11,7 +11,7 @@ import {Subscription} from 'rxjs';
 export class QueueMapComponent implements OnInit {
   @Input() isHost: boolean;
 
-  gameSettings: ZoneDataModel = {lat: 0, lng: 0, radius: 0};
+  gameSettings: ZoneModel = {lat: 0, lng: 0, radius: 0};
   isZoneChanged: boolean;
 
   private userRoomSubscription: Subscription;

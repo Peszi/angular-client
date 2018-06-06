@@ -8,6 +8,7 @@ import {AlertService} from './alert.service';
 
 @Injectable()
 export class UserDataService {
+
   public roomsListModel: RoomsDataListModel;
 
   private roomsListSubject = new Subject<RoomsDataListModel>();

@@ -35,6 +35,8 @@ import {RoomModeService} from './services/room-mode.service';
 import { SimpleTimeInputComponent } from './shared/elements/inputs/simple-time-input/simple-time-input.component';
 import { QueueMapComponent } from './content/home/queue/queue-map/queue-map.component';
 import { GameComponent } from './content/home/game/game.component';
+import { GameMapComponent } from './content/home/game/game-map/game-map.component';
+import {GameDataService} from './services/game-data.service';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -76,7 +78,8 @@ const appRoutes: Routes = [
     BattleRoyalComponent,
     SimpleTimeInputComponent,
     QueueMapComponent,
-    GameComponent
+    GameComponent,
+    GameMapComponent
   ],
   imports: [
     FormsModule,
@@ -98,6 +101,7 @@ const appRoutes: Routes = [
     UserDataService,
     UserRoomService,
     RoomModeService,
+    GameDataService,
     AlertService
   ],
   bootstrap: [AppComponent]

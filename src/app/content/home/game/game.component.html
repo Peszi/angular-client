@@ -2,8 +2,8 @@
   <div class="col-md-5 px-2 mb-2">
     <div class="card">
       <!-- Users Header -->
-      <div class="card-header d-flex justify-content-center border badge-dark p-2">
-        <p class="m-0"><strong>Users list</strong></p>
+      <div class="card-header d-flex justify-content-center align-items-center border badge-dark p-2">
+        <p class="m-0"><strong>Users Table</strong></p>
       </div>
       <!-- Teams List -->
       <div class="card-body p-0">
@@ -12,15 +12,31 @@
   </div>
   <div class="col-md-7 px-2 mb-2">
     <div class="card">
-      <!-- Users Header -->
-      <div class="card-header d-flex justify-content-center border badge-dark p-2">
-        <p class="m-0"><strong>Some data</strong></p>
+      <!-- Map Header -->
+      <div class="card-header d-flex justify-content-between align-items-center border badge-dark p-2">
+        <div class="mx-2"><strong>Map</strong></div>
+        <div class="badge badge-light">{{ getStatus() }}</div>
       </div>
-      <!-- Teams List -->
-      <div class="card-body p-0">
-        <p>
-          game works!
-        </p>
+      <!-- Game Map -->
+      <div class="card-body mb-1">
+        <div class="row" style="margin-left: -0.25rem; margin-right: -0.25rem">
+          <div class="col-4 p-1">
+            <div class="border rounded">
+              <i class="fa fa-user"></i>
+            </div>
+          </div>
+          <div class="col-4 p-1">
+            <div class="border rounded">
+              <i class="fa fa-user"></i>
+            </div>
+          </div>
+          <div class="col-4 p-1">
+            <div class="border rounded">
+              <i class="fa fa-user"></i>
+            </div>
+          </div>
+        </div>
+        <app-game-map></app-game-map>
       </div>
     </div>
   </div>

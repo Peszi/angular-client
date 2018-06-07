@@ -2,6 +2,8 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {CaptureZoneModel, PositionModel} from '../../../../services/model/user-data.model';
 import {GameDataModel, GameDataService, ZoneModel} from '../../../../services/game-data.service';
 import {Subscription} from 'rxjs';
+import {GoogleMapsAPIWrapper} from '@agm/core';
+import {google, GoogleMap} from '@agm/core/services/google-maps-types';
 
 @Component({
   selector: 'app-game-map',
@@ -18,6 +20,10 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   private gameDataSub: Subscription;
   private loopHandle: any;
+
+  private nativeMap: GoogleMap;
+
+  private centeringHandle: number;
 
   constructor(private gameDataService: GameDataService) { }
 
@@ -38,7 +44,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   updateLoop() {
     this.loopHandle = setInterval(() => {
-      if (this.userPosition) {
+      if (this.userPosition && this.nativeMap) {
         const speed = 0.000005;
         const offset = 0.00001;
         const latDiff = this.userPosition.lat - this.newPosition.lat;
@@ -51,6 +57,34 @@ export class GameMapComponent implements OnInit, OnDestroy {
         }
       }
     }, 250);
+  }
+
+  onCenterChange() {
+    if (this.centeringHandle) {
+      clearTimeout(this.centeringHandle);
+    }
+    this.centeringHandle = setTimeout(() => {
+      this.nativeMap.panTo({
+        lat: this.getUserPosition().lat,
+        lng: this.getUserPosition().lng,
+      });
+    }, 1000);
+  }
+
+  onMapReady(nativeMap: GoogleMap) {
+    this.nativeMap = nativeMap;
+
+    // googleMap.setZoom(10);
+    // const cityCircle = new google.maps.Circle({
+    //   strokeColor: '#FF0000',
+    //   strokeOpacity: 0.8,
+    //   strokeWeight: 2,
+    //   fillColor: '#FF0000',
+    //   fillOpacity: 0.35,
+    //   map: googleMap,
+    //   center: googleMap.getCenter(),
+    //   radius: 1000
+    // });
   }
 
   onUserPositionChanged(newPosition: PositionModel) {

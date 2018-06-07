@@ -10,6 +10,10 @@ import {GameDataModel, GameDataService} from '../../../services/game-data.servic
 })
 export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
+  zoneIndicators: ZoneIndicator[] = [{owner: 'John', points: 100, capt: false, color: 'green'},
+                                      {owner: 'John', points: 25, capt: true, color: 'cyan'},
+                                      {owner: 'John', points: 0, capt: true, color: 'yellow'}];
+
   isGame: boolean;
 
   private gameDataSub: Subscription;
@@ -36,4 +40,36 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     return 'awaiting players..';
   }
 
+  getZoneIndicatorDesc(idx: number) {
+    if (this.zoneIndicators[idx].capt) {
+      return 'capturing...';
+    }
+    if (this.zoneIndicators[idx].owner) {
+      return this.zoneIndicators[idx].owner;
+    }
+    return 'free zone';
+  }
+
+  getZoneIndicatorIcon(idx: number): string {
+    if (this.zoneIndicators[idx].capt) {
+      return 'fas fa-crosshairs spin-animate';
+    }
+    if (this.zoneIndicators[idx].owner) {
+      return 'fas fa-podcast';
+    }
+    return 'fas fa-bullseye';
+  }
+
+  getZoneIndicatorColor(idx: number) {
+    switch (idx) {
+      case 0: return 'bg-success';
+      case 1: return 'bg-primary';
+    }
+    return 'bg-warning';
+  }
+
+}
+
+export interface ZoneIndicator {
+  owner: string; points: number; capt: boolean; color: string;
 }

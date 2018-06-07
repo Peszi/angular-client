@@ -19,24 +19,23 @@
       </div>
       <!-- Game Map -->
       <div class="card-body mb-1">
-        <div class="row" style="margin-left: -0.25rem; margin-right: -0.25rem">
-          <div class="col-4 p-1">
-            <div class="border rounded">
-              <i class="fa fa-user"></i>
+        <app-game-map>
+          <div class="mx-1">
+            <div class="col-md-6 p-1" *ngFor="let zoneIdc of zoneIndicators; let i = index">
+              <div class="d-flex align-items-center">
+                <h5 class="m-0 pr-2" [ngStyle]="{'font-color': zoneIdc.color }">
+                  <i class="fa outline-white" [ngClass]="getZoneIndicatorIcon(i)"></i>
+                </h5>
+                <div class="progress flex-fill" style="position: relative"
+                     [ngClass]="{'box-outline-white' : !zoneIdc.capt, 'box-outline-red' : zoneIdc.capt}">
+                  <div class="progress-bar progress-bar-striped progress-bar-animated so-static"
+                       [ngStyle]="{'width' : zoneIdc.points + '%'}" [ngClass]="getZoneIndicatorColor(i)"></div>
+                  <small class="outline-white font-weight-bold so-static text-center">{{ zoneIdc.owner }}</small>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="col-4 p-1">
-            <div class="border rounded">
-              <i class="fa fa-user"></i>
-            </div>
-          </div>
-          <div class="col-4 p-1">
-            <div class="border rounded">
-              <i class="fa fa-user"></i>
-            </div>
-          </div>
-        </div>
-        <app-game-map></app-game-map>
+        </app-game-map>
       </div>
     </div>
   </div>

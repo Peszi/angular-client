@@ -1,7 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {GameSettingsModel, RoomDetailsModel, ZoneModel} from '../../../../services/model/user-data.model';
+import {GameSettingsModel, RoomDetailsModel } from '../../../../services/model/user-data.model';
 import {UserRoomService} from '../../../../services/user-room.service';
 import {Subscription} from 'rxjs';
+import {ZoneModel} from '../../../../services/game-data.service';
 
 @Component({
   selector: 'app-queue-map',

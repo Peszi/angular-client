@@ -194,3 +194,42 @@ checking {
 .border-contour-dark {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
 }
+
+@keyframes spin-anim {
+  0%  { transform: rotateY(0deg); }
+  20% { transform: rotateY(90deg); }
+  30% { transform: rotateX(90deg); }
+  50% { transform: rotateX(0deg); color: var(--danger); }
+  70% { transform: rotateX(90deg); }
+  80% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0deg); color: var(--dark); }
+}
+
+.spin-animate {
+  animation: spin-anim 2s linear infinite;
+}
+
+.so-static {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.outline-white {
+  text-shadow:
+    -1px -1px 1px #fff,
+    1px -1px 1px #fff,
+    1px 1px 1px #fff,
+    -1px 1px 1px #fff;
+}
+
+.box-outline-white {
+  box-shadow: 0 0 0.1rem .1rem var(--white) !important;
+}
+
+.box-outline-red {
+  box-shadow: 0 0 0.1rem .1rem var(--danger) !important;
+}
+

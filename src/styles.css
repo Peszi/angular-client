@@ -199,14 +199,23 @@ checking {
   0%  { transform: rotateY(0deg); }
   20% { transform: rotateY(90deg); }
   30% { transform: rotateX(90deg); }
-  50% { transform: rotateX(0deg); color: var(--danger); }
+  50% { transform: rotateX(0deg); }
   70% { transform: rotateX(90deg); }
   80% { transform: rotateY(90deg); }
-  100% { transform: rotateY(0deg); color: var(--dark); }
+  100% { transform: rotateY(0deg); }
+}
+
+@keyframes spin-anim-icon {
+  0% { content: '\f05b'; color: var(--dark); }
+  50% { content: '\f017'; color: var(--danger); }
 }
 
 .spin-animate {
   animation: spin-anim 2s linear infinite;
+}
+
+.spin-animate::before {
+  animation: spin-anim-icon 2s linear infinite;
 }
 
 .so-static {

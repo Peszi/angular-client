@@ -29,8 +29,8 @@
                 <div class="progress flex-fill" style="position: relative"
                      [ngClass]="{'box-outline-white' : !zoneIdc.capt, 'box-outline-red' : zoneIdc.capt}">
                   <div class="progress-bar progress-bar-striped progress-bar-animated so-static"
-                       [ngStyle]="{'width' : zoneIdc.points + '%'}" [ngClass]="getZoneIndicatorColor(i)"></div>
-                  <small class="outline-white font-weight-bold so-static text-center">{{ zoneIdc.owner }}</small>
+                       [ngStyle]="{'width' : zoneIdc.points + '%', 'background-color' : getZoneIndicatorColor(i) }"></div>
+                  <small class="outline-white font-weight-bold so-static text-center">{{ getZoneIndicatorDesc(i) }}</small>
                 </div>
               </div>
             </div>

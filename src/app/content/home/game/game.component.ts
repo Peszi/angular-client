@@ -12,7 +12,7 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
   zoneIndicators: ZoneIndicator[] = [{owner: 'John', points: 100, capt: false, color: 'green'},
                                       {owner: 'John', points: 25, capt: true, color: 'cyan'},
-                                      {owner: 'John', points: 0, capt: true, color: 'yellow'}];
+                                      {owner: '', points: 15, capt: false, color: 'yellow'}];
 
   isGame: boolean;
 
@@ -42,12 +42,12 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
   getZoneIndicatorDesc(idx: number) {
     if (this.zoneIndicators[idx].capt) {
-      return 'capturing...';
+      return '(capturing...)';
     }
     if (this.zoneIndicators[idx].owner) {
-      return this.zoneIndicators[idx].owner;
+      return this.zoneIndicators[idx].owner + ' zone';
     }
-    return 'free zone';
+    return '(free zone)';
   }
 
   getZoneIndicatorIcon(idx: number): string {
@@ -62,10 +62,10 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
   getZoneIndicatorColor(idx: number) {
     switch (idx) {
-      case 0: return 'bg-success';
-      case 1: return 'bg-primary';
+      case 0: return '#00acc1';
+      case 1: return '#ff4350';
     }
-    return 'bg-warning';
+    return '#ffbf46';
   }
 
 }

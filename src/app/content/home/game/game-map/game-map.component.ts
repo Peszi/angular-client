@@ -104,4 +104,12 @@ export class GameMapComponent implements OnInit, OnDestroy {
     return {lat: 0, lng: 0};
   }
 
+  getZoneIndicatorColor(idx: number) {
+    switch (idx) {
+      case 0: return '#00acc1';
+      case 1: return '#ff4350';
+    }
+    return '#ffbf46';
+  }
+
 }

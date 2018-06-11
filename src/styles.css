@@ -242,3 +242,6 @@ checking {
   box-shadow: 0 0 0.1rem .1rem var(--danger) !important;
 }
 
+p strong {
+  text-shadow: 1px 2px 0 #000;
+}

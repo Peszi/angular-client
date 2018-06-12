@@ -2,6 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {RefreshInterface} from '../refresh.interface';
 import {Subscription} from 'rxjs';
 import {GameDataModel, GameDataService} from '../../../services/game-data.service';
+import {CaptureZoneModel} from '../../../services/model/user-data.model';
 
 @Component({
   selector: 'app-game',
@@ -10,9 +11,7 @@ import {GameDataModel, GameDataService} from '../../../services/game-data.servic
 })
 export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
-  zoneIndicators: ZoneIndicator[] = [{owner: 'John', points: 100, capt: false, color: 'green'},
-                                      {owner: 'John', points: 25, capt: true, color: 'cyan'},
-                                      {owner: '', points: 15, capt: false, color: 'yellow'}];
+  captureZones: CaptureZoneModel[] = [];
 
   isGame: boolean;
 
@@ -24,6 +23,15 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     this.gameDataSub = this.gameDataService.getGameDataSub()
       .subscribe((gameData: GameDataModel) => {
         this.isGame = gameData.gameStatus.inGame;
+        if (this.captureZones.length === 0) {
+          this.captureZones = gameData.gameStatus.captureZones;
+        } else {
+          for (let i = 0; i < this.captureZones.length; i++) {
+            this.captureZones[i].points = gameData.gameStatus.captureZones[i].points;
+            this.captureZones[i].owner = gameData.gameStatus.captureZones[i].owner;
+            this.captureZones[i].capt = gameData.gameStatus.captureZones[i].capt;
+          }
+        }
       });
   }
 
@@ -41,20 +49,20 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   }
 
   getZoneIndicatorDesc(idx: number) {
-    if (this.zoneIndicators[idx].capt) {
+    if (this.captureZones[idx].capt) {
       return '(capturing...)';
     }
-    if (this.zoneIndicators[idx].owner) {
-      return this.zoneIndicators[idx].owner + ' zone';
+    if (this.captureZones[idx].owner) {
+      return this.captureZones[idx].owner + ' zone';
     }
     return '(free zone)';
   }
 
   getZoneIndicatorIcon(idx: number): string {
-    if (this.zoneIndicators[idx].capt) {
+    if (this.captureZones[idx].capt) {
       return 'fas fa-crosshairs spin-animate';
     }
-    if (this.zoneIndicators[idx].owner) {
+    if (this.captureZones[idx].owner) {
       return 'fas fa-podcast';
     }
     return 'fas fa-bullseye';
@@ -68,8 +76,9 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     return '#ffbf46';
   }
 
-}
+  getZoneCptProgress(idx: number) {
+    const zoneCapLimit = this.gameDataService.gameData.gameStatus.attributes.zoneCapacity;
+    return this.captureZones[idx].points / zoneCapLimit  * 100 + '%';
+  }
 
-export interface ZoneIndicator {
-  owner: string; points: number; capt: boolean; color: string;
 }

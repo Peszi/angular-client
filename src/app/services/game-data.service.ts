@@ -4,6 +4,8 @@ import {AlertService} from './alert.service';
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {CaptureZoneModel, PositionModel } from './model/user-data.model';
+import {b} from '@angular/core/src/render3';
+import {ZoneControlModel} from './room-mode.service';
 
 @Injectable()
 export class GameDataService {
@@ -17,15 +19,12 @@ export class GameDataService {
               private router: Router) {
   }
 
-  getGameDataRequest() {
-    this.authService.makeGetRequest<GameDataModel>('/room/game')
+  postGameDataRequest(userData: UserGameDataModel) {
+    this.authService.makePostRequest<GameDataModel>('/room/game/update', userData)
       .subscribe(
         (gameData: GameDataModel) => {
           this.gameData = gameData;
           this.gameDataSubject.next(gameData);
-        },
-        () => {
-          this.alertService.showAlert({error: true, message: 'Cannot get game data!'});
         }
       );
   }
@@ -35,45 +34,43 @@ export class GameDataService {
   }
 }
 
-// {
-//   "gameStatus": {
-//     "gameTime": 1,
-//     "inGame": false,
-//     "gameZone": {
-//       "zoneLongitude": 19.044788183853143,
-//       "zoneLatitude": 49.82619827221035,
-//       "zoneRadius": 32
-//     }
-// },
-//   "userStatus": {
-//   "userData": {
-//     "id": 3,
-//       "name": "John",
-//       "died": false,
-//       "longitude": 0.0,
-//       "latitude": 0.0
-//   },
-//   "alliesList": []
-// }
-// }
-
 export interface GameStatusModel {
   gameTime: number;
   inGame: boolean;
   baseZone: ZoneModel;
   captureZones: CaptureZoneModel[];
+  attributes: ZoneControlAttributesModel;
 }
 
 export interface UserStatusModel {
-  userData: any;
+  userData: UserDataModel;
   alliesList: any;
+}
+
+export interface GameDataModel {
+  respZone: ZoneModel;
 }
 
 export interface GameDataModel {
   gameStatus: GameStatusModel;
   userStatus: UserStatusModel;
+  gameData: GameDataModel;
 }
 
 export interface ZoneModel extends PositionModel {
   radius: number;
+}
+
+export interface UserGameDataModel extends PositionModel {
+  ready: boolean;
+}
+
+export interface UserDataModel extends PositionModel {
+  id: number;
+  name: string;
+  died:	boolean;
+}
+
+export interface ZoneControlAttributesModel {
+  pointsLimit: number; timeLimit: number; zoneCapacity: number;
 }

@@ -21,15 +21,15 @@
       <div class="card-body mb-1">
         <app-game-map>
           <div class="mx-1">
-            <div class="col-md-6 p-1" *ngFor="let zoneIdc of zoneIndicators; let i = index">
+            <div class="col-md-6 p-1" *ngFor="let zone of captureZones; let i = index">
               <div class="d-flex align-items-center">
-                <h5 class="m-0 pr-2" [ngStyle]="{'font-color': zoneIdc.color }">
+                <h5 class="m-0 pr-2" [ngStyle]="{'font-color': zone.color }">
                   <i class="fa outline-white" [ngClass]="getZoneIndicatorIcon(i)"></i>
                 </h5>
                 <div class="progress flex-fill" style="position: relative"
-                     [ngClass]="{'box-outline-white' : !zoneIdc.capt, 'box-outline-red' : zoneIdc.capt}">
+                     [ngClass]="{'box-outline-white' : !zone.capt, 'box-outline-red' : zone.capt}">
                   <div class="progress-bar progress-bar-striped progress-bar-animated so-static"
-                       [ngStyle]="{'width' : zoneIdc.points + '%', 'background-color' : getZoneIndicatorColor(i) }"></div>
+                       [ngStyle]="{'width' : getZoneCptProgress(i), 'background-color' : getZoneIndicatorColor(i) }"></div>
                   <small class="outline-white font-weight-bold so-static text-center">{{ getZoneIndicatorDesc(i) }}</small>
                 </div>
               </div>

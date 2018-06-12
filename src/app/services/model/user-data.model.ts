@@ -1,4 +1,5 @@
 import {ZoneModel} from '../game-data.service';
+import {s, st} from '@angular/core/src/render3';
 
 export interface UserDataModel {
   id: number;
@@ -51,7 +52,7 @@ export interface PositionModel {
 }
 
 export interface CaptureZoneModel extends ZoneModel {
-  color: string;
+  color: string; owner: string; points: number; capt: boolean;
 }
 
 export interface GameSettingsModel {

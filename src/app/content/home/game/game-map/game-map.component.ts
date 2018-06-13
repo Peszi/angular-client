@@ -56,7 +56,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
   updateLoop() {
     this.loopHandle = setInterval(() => {
       if (this.userGameData && this.nativeMap) {
-        const speed = 0.00001;
+        const speed = 0.00002;
         const offset = 0.00001;
         const latDiff = this.userGameData.lat - this.newPosition.lat;
         if (Math.abs(latDiff) > offset) {
@@ -68,7 +68,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
         }
         this.gameDataService.postGameDataRequest(this.userGameData);
       }
-    }, 250);
+    }, 500);
   }
 
   onCenterChange() {

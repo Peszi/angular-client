@@ -226,6 +226,14 @@ checking {
   left: 0;
 }
 
+.so-static-margin {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0.25rem;
+  right: 0.25rem;
+}
+
 .outline-white {
   text-shadow:
     -1px -1px 1px #fff,
@@ -244,4 +252,8 @@ checking {
 
 p strong {
   text-shadow: 2px 2px 1px #222;
+}
+
+.hide:hover {
+  opacity: 0.5;
 }

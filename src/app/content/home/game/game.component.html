@@ -20,13 +20,13 @@
       <!-- Game Map -->
       <div class="card-body mb-1">
         <app-game-map>
-          <div class="mx-1">
-            <div class="col-md-6 p-1" *ngFor="let zone of captureZones; let i = index">
+          <div class="row m-1">
+            <div class="col-md-4 p-0" style="position: relative" *ngFor="let zone of captureZones; let i = index">
               <div class="d-flex align-items-center">
-                <h5 class="m-0 pr-2" [ngStyle]="{'font-color': zone.color }">
+                <h5 class="m-0 hide" style="z-index: 1005; margin-right: -4rem" [ngStyle]="{'font-color': zone.color }">
                   <i class="fa outline-white" [ngClass]="getZoneIndicatorIcon(i)"></i>
                 </h5>
-                <div class="progress flex-fill" style="position: relative"
+                <div class="progress flex-fill so-static-margin"
                      [ngClass]="{'box-outline-white' : !zone.capt, 'box-outline-red' : zone.capt}">
                   <div class="progress-bar progress-bar-striped progress-bar-animated so-static"
                        [ngStyle]="{'width' : getZoneCptProgress(i), 'background-color' : getZoneIndicatorColor(i) }"></div>

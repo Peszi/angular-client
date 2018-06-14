@@ -27,7 +27,6 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   ngOnInit() {
     this.gameDataService.getGamePrefsRequest()
       .subscribe(() => this.afterPrefsLoaded());
-    this.gameDataService.postGameDataRequest(this.gameAttrs);
     this.gameDataSub = this.gameDataService.getGameDataSub()
       .subscribe(() => {
         this.checkZonesData();
@@ -35,17 +34,19 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   }
 
   checkZonesData() {
-    for (const zoneData of this.gameDataService.gameData.zones) {
-      let hasLocation = false;
-      for (const zoneLocation of this.gameDataService.zonesLocation.zones) {
-        if (zoneLocation.order === zoneData.order) {
-          hasLocation = true;
+    if (this.gameDataService.zonesLocation) {
+      for (const zoneData of this.gameDataService.gameData.zones) {
+        let hasLocation = false;
+        for (const zoneLocation of this.gameDataService.zonesLocation.zones) {
+          if (zoneLocation.order === zoneData.order) {
+            hasLocation = true;
+            break;
+          }
+        }
+        if (!hasLocation) {
+          this.updateZonesLocations();
           break;
         }
-      }
-      if (!hasLocation) {
-        this.updateZonesLocations();
-        break;
       }
     }
   }

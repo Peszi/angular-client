@@ -17,6 +17,10 @@ export class UserDataService {
               private alertService: AlertService,
               private router: Router) { }
 
+  getUserDataRequest() {
+    this.getUserDataRequest();
+  }
+
   getRoomsListRequest() {
     return this.authService.makeGetRequest<RoomsDataListModel>('/rooms')
       .subscribe(

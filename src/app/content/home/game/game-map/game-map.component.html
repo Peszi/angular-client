@@ -1,24 +1,21 @@
-<div class="p-2" style="position: relative; height: 500px">
-  <agm-map class="so-static" style="height: 500px" #map (mapReady)="onMapReady($event)"
-           [zoom]="17" [mapTypeId]="'satellite'" [usePanning]="true" [panControl]="false" [zoomControl]="true"
-           (mapClick)="onUserPositionChanged($event.coords)" (boundsChange)="onCenterChange()">
-    <!-- Game Zone Circle -->
-    <agm-circle [latitude]="baseZone.lat" [longitude]="baseZone.lng" [radius]="baseZone.radius"
-                [fillColor]="'red'" [fillOpacity]="0.05" (circleClick)="onUserPositionChanged($event.coords)"
-                [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="2" [strokeColor]="'#fff'">
-    </agm-circle>
-    <!-- Team Resp Circle -->
-    <agm-circle [latitude]="respZone.lat" [longitude]="respZone.lng" [radius]="respZone.radius"
-                [fillColor]="'white'" [fillOpacity]="0.25"
-                [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="2" [strokeColor]="'white'">
-    </agm-circle>
-    <!-- Capture Zones Circles -->
-    <agm-circle *ngFor="let zone of captureZones; let i = index"
-                [latitude]="zone.lat" [longitude]="zone.lng" [radius]="zone.radius" [clickable]="false"
-                [fillColor]="getZoneIndicatorColor(i)" [fillOpacity]="0.35"
-                [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="1" [strokeColor]="getZoneIndicatorColor(i)">
-    </agm-circle>
-    <agm-marker [latitude]="userPosition.lat" [longitude]="userPosition.lng" [title]="'your position'"></agm-marker>
-  </agm-map>
-  <ng-content class="so-static" style="z-index: 1005"></ng-content>
-</div>
+<agm-map class="h-100" (mapReady)="onMapReady($event)"
+         [zoom]="17" [mapTypeId]="'satellite'" [usePanning]="true" [panControl]="false" [zoomControl]="true"
+         (mapClick)="onUserPositionChanged($event.coords)" (boundsChange)="onCenterChange()">
+  <!-- Game Zone Circle -->
+  <agm-circle [latitude]="getGamePrefs().location.lat" [longitude]="getGamePrefs().location.lng" [radius]="getGamePrefs().location.radius"
+              [fillColor]="'red'" [fillOpacity]="0.05" (circleClick)="onUserPositionChanged($event.coords)"
+              [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="2" [strokeColor]="'#fff'">
+  </agm-circle>
+  <!-- Team Resp Circle -->
+  <agm-circle [latitude]="getGamePrefs().resp.lat" [longitude]="getGamePrefs().resp.lng" [radius]="getGamePrefs().resp.radius"
+              [fillColor]="'white'" [fillOpacity]="0.25"
+              [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="2" [strokeColor]="'white'">
+  </agm-circle>
+  <!-- Capture Zones Circles -->
+  <agm-circle *ngFor="let zone of getZonesLocation(); let i = index"
+              [latitude]="zone.lat" [longitude]="zone.lng" [radius]="getGamePrefs().zones.radius" [clickable]="false"
+              [fillColor]="getZoneColor(i)" [fillOpacity]="0.35"
+              [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="1" [strokeColor]="getZoneColor(i)">
+  </agm-circle>
+  <agm-marker [latitude]="getGameData().user.lat" [longitude]="getGameData().user.lng" [title]="'your position'"></agm-marker>
+</agm-map>

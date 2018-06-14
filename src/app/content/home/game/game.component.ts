@@ -1,8 +1,9 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RefreshInterface} from '../refresh.interface';
 import {Subscription} from 'rxjs';
-import {GameDataModel, GameDataService} from '../../../services/game-data.service';
-import {CaptureZoneModel} from '../../../services/model/user-data.model';
+import {CptZoneDataModel, GameAttributes, GameDataModel, GameDataService, GamePrefsModel} from '../../../services/game-data.service';
+import {CaptureZoneModel, LocationModel} from '../../../services/model/user-data.model';
+import {GameMapComponent} from './game-map/game-map.component';
 
 @Component({
   selector: 'app-game',
@@ -10,75 +11,103 @@ import {CaptureZoneModel} from '../../../services/model/user-data.model';
   styleUrls: ['./game.component.css']
 })
 export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
+  @ViewChild(GameMapComponent) gameMap: GameMapComponent;
 
-  captureZones: CaptureZoneModel[] = [];
+  private gameAttrs: GameAttributes = {lat: 0, lng: 0, ready: false};
 
-  isGame: boolean;
-
+  private loopHandle: number;
   private gameDataSub: Subscription;
+  // var
+  private targetPosition: LocationModel;
 
   constructor(private gameDataService: GameDataService) { }
 
+  // Init
+
   ngOnInit() {
+    this.gameDataService.getGamePrefsRequest()
+      .subscribe(() => this.afterPrefsLoaded());
+    this.gameDataService.postGameDataRequest(this.gameAttrs);
     this.gameDataSub = this.gameDataService.getGameDataSub()
-      .subscribe((gameData: GameDataModel) => {
-        this.isGame = gameData.gameStatus.inGame;
-        if (this.captureZones.length === 0) {
-          this.captureZones = gameData.gameStatus.captureZones;
-        } else {
-          for (let i = 0; i < this.captureZones.length; i++) {
-            this.captureZones[i].points = gameData.gameStatus.captureZones[i].points;
-            this.captureZones[i].owner = gameData.gameStatus.captureZones[i].owner;
-            this.captureZones[i].capt = gameData.gameStatus.captureZones[i].capt;
-          }
-        }
+      .subscribe(() => {
+        this.checkZonesData();
       });
   }
 
+  checkZonesData() {
+    for (const zoneData of this.gameDataService.gameData.zones) {
+      let hasLocation = false;
+      for (const zoneLocation of this.gameDataService.zonesLocation.zones) {
+        if (zoneLocation.order === zoneData.order) {
+          hasLocation = true;
+          break;
+        }
+      }
+      if (!hasLocation) {
+        this.updateZonesLocations();
+        break;
+      }
+    }
+  }
+
+  afterPrefsLoaded() {
+    this.updateZonesLocations();
+    this.gameAttrs.lat = this.gameDataService.gamePrefs.resp.lat;
+    this.gameAttrs.lng = this.gameDataService.gamePrefs.resp.lng;
+    this.gameDataService.postGameDataRequest(this.gameAttrs);
+    this.updateLoop();
+  }
+
+  // End
+
   ngOnDestroy(): void {
     this.gameDataSub.unsubscribe();
+    clearInterval(this.loopHandle);
   }
 
-  onRefresh() {
-    // console.log('in game refresh works!');
+  // Updates
+
+  updateLoop() {
+    this.loopHandle = setInterval(() => {
+      this.updateUserPosition();
+      this.gameDataService.postGameDataRequest(this.gameAttrs);
+    }, 500);
   }
+
+  updateZonesLocations() {
+    this.gameDataService.getZonesLocationRequest().subscribe(() => {});
+  }
+
+  updateUserPosition() {
+    if (this.targetPosition) {
+      const speed = 0.00005;
+      const offset = 0.00001;
+      const latDiff = this.targetPosition.lat - this.gameAttrs.lat;
+      if (Math.abs(latDiff) > offset) {
+        this.gameAttrs.lat += Math.sign(latDiff) * speed;
+      }
+      const lngDiff = this.targetPosition.lng - this.gameAttrs.lng;
+      if (Math.abs(lngDiff) > offset) {
+        this.gameAttrs.lng += Math.sign(lngDiff) * speed;
+      }
+    }
+  }
+
+  // Events
+
+  onUserPositionChanged(targetPosition: LocationModel) {
+    this.targetPosition = targetPosition;
+  }
+
+  onRefresh() {}
+
+  // Getters
 
   getStatus() {
-    if (this.isGame) { return 'in game'; }
-    return 'awaiting players..';
+    return (this.gameDataService.gameData && this.gameDataService.gameData.started ? 'started' : 'awaiting players..');
   }
 
-  getZoneIndicatorDesc(idx: number) {
-    if (this.captureZones[idx].capt) {
-      return '(capturing...)';
-    }
-    if (this.captureZones[idx].owner) {
-      return this.captureZones[idx].owner + ' zone';
-    }
-    return '(free zone)';
+  isDataLoaded() {
+    return (this.gameDataService.gamePrefs && this.gameDataService.gameData);
   }
-
-  getZoneIndicatorIcon(idx: number): string {
-    if (this.captureZones[idx].capt) {
-      return 'fas fa-crosshairs spin-animate';
-    }
-    if (this.captureZones[idx].owner) {
-      return 'fas fa-podcast';
-    }
-    return 'fas fa-bullseye';
-  }
-
-  getZoneIndicatorColor(idx: number) {
-    switch (idx) {
-      case 0: return '#00acc1';
-      case 1: return '#ff4350';
-    }
-    return '#ffbf46';
-  }
-
-  getZoneCptProgress(idx: number) {
-    const zoneCapLimit = this.gameDataService.gameData.gameStatus.attributes.zoneCapacity;
-    return this.captureZones[idx].points / zoneCapLimit  * 100 + '%';
-  }
-
 }

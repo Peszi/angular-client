@@ -19,23 +19,11 @@
       </div>
       <!-- Game Map -->
       <div class="card-body mb-1">
-        <app-game-map>
-          <div class="row m-1">
-            <div class="col-md-4 p-0" style="position: relative" *ngFor="let zone of captureZones; let i = index">
-              <div class="d-flex align-items-center">
-                <h5 class="m-0 hide" style="z-index: 1005; margin-right: -4rem" [ngStyle]="{'font-color': zone.color }">
-                  <i class="fa outline-white" [ngClass]="getZoneIndicatorIcon(i)"></i>
-                </h5>
-                <div class="progress flex-fill so-static-margin"
-                     [ngClass]="{'box-outline-white' : !zone.capt, 'box-outline-red' : zone.capt}">
-                  <div class="progress-bar progress-bar-striped progress-bar-animated so-static"
-                       [ngStyle]="{'width' : getZoneCptProgress(i), 'background-color' : getZoneIndicatorColor(i) }"></div>
-                  <small class="outline-white font-weight-bold so-static text-center">{{ getZoneIndicatorDesc(i) }}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-        </app-game-map>
+        <div class="position-relative map-height" *ngIf="isDataLoaded()">
+          <app-game-map class="so-static map-height" (positionChanged)="onUserPositionChanged($event)" ></app-game-map>
+          <app-game-bar class="so-static map-height"></app-game-bar>
+        </div>
+        <div *ngIf="!isDataLoaded()">loading data...</div>
       </div>
     </div>
   </div>

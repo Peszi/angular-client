@@ -1,0 +1,20 @@
+<div class="row m-2">
+  <div class="progress flex-fill box-outline-white">
+    <div class="progress-bar progress-bar-striped" [ngStyle]="{'width' : '75%'}">1:00</div>
+  </div>
+</div>
+<div class="row mx-1 my-2">
+  <div class="col-4 p-0 position-relative" *ngFor="let i of zones">
+    <div class="d-flex align-items-center">
+      <i class="fa outline-white so-static-margin" style="z-index: 6"
+          [ngStyle]="{'font-color': getZoneColor(i) }" [ngClass]="getZoneIcon(i)"></i>
+      <div class="progress flex-fill box-outline-white position-relative mx-1"
+          [ngClass]="{'box-outline-white' : !isZoneCapturing(i), 'box-outline-red' : isZoneCapturing(i)}">
+        <div class="progress-bar progress-bar-striped progress-bar-animated"
+          [ngStyle]="{'width' : getZoneProgress(i), 'background-color' : getZoneColor(i) }">
+        </div>
+        <small class="outline-white font-weight-bold text-center so-static">{{ getZoneTitle(i) }}</small>
+      </div>
+    </div>
+  </div>
+</div>

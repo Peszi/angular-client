@@ -47,7 +47,7 @@ export interface RoomsDataListModel {
   roomsList: RoomDataModel[];
 }
 
-export interface PositionModel {
+export interface LocationModel {
   lat: number; lng: number;
 }
 

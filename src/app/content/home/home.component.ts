@@ -63,7 +63,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onRefresh() {
-    this.authService.getUserDataRequest();
     if (this.refreshChildInterface) {
       this.refreshChildInterface.onRefresh();
     }

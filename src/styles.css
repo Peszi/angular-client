@@ -227,11 +227,12 @@ checking {
 }
 
 .so-static-margin {
+  width: 100%;
   height: 100%;
   position: absolute;
-  top: 0;
-  left: 0.25rem;
-  right: 0.25rem;
+  top: 3px;
+  left: 0;
+  font-size: 26px;
 }
 
 .outline-white {
@@ -256,4 +257,8 @@ p strong {
 
 .hide:hover {
   opacity: 0.5;
+}
+
+.map-height {
+  height: 500px !important;
 }

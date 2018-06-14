@@ -90,7 +90,7 @@ export class AuthorizationService {
   }
 
   // Global GET REQUEST
-  makeGetRequest<T>(url: string, params?: any|null) {
+  makeGetRequest<T>(url: string, params?: any|null): Observable<T> {
     const token = this.getAccessToken();
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + token);

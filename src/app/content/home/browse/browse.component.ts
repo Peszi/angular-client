@@ -41,6 +41,7 @@ export class BrowseComponent implements OnInit, OnDestroy, RefreshInterface {
   }
 
   onRefresh() {
+    this.userDataService.getUserDataRequest();
     this.userDataService.getRoomsListRequest();
   }
 

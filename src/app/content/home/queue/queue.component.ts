@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {NgbTimeStruct} from '@ng-bootstrap/ng-bootstrap';
 import {RefreshInterface} from '../refresh.interface';
 import {RoomModeService} from '../../../services/room-mode.service';
+import {AuthorizationService} from '../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-queue',
@@ -20,7 +21,8 @@ export class QueueComponent implements OnInit, OnDestroy, RefreshInterface {
 
   private userRoomSubscription: Subscription;
 
-  constructor(private userRoomService: UserRoomService,
+  constructor(private authService: AuthorizationService,
+              private userRoomService: UserRoomService,
               private roomModeService: RoomModeService) {
     this.isModeChanged = false;
   }
@@ -41,6 +43,7 @@ export class QueueComponent implements OnInit, OnDestroy, RefreshInterface {
   }
 
   onRefresh() {
+    this.authService.getUserDataRequest();
     this.userRoomService.getRoomDetailsRequest();
     this.roomModeService.getZoneControlRequest();
   }

@@ -37,6 +37,7 @@ import { QueueMapComponent } from './content/home/queue/queue-map/queue-map.comp
 import { GameComponent } from './content/home/game/game.component';
 import { GameMapComponent } from './content/home/game/game-map/game-map.component';
 import {GameDataService} from './services/game-data.service';
+import { GameBarComponent } from './content/home/game/game-bar/game-bar.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -79,7 +80,8 @@ const appRoutes: Routes = [
     SimpleTimeInputComponent,
     QueueMapComponent,
     GameComponent,
-    GameMapComponent
+    GameMapComponent,
+    GameBarComponent
   ],
   imports: [
     FormsModule,

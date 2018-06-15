@@ -21,7 +21,8 @@
       <div class="card-body mb-1">
         <div class="position-relative map-height" *ngIf="isDataLoaded()">
           <app-game-map class="so-static map-height" (positionChanged)="onUserPositionChanged($event)" ></app-game-map>
-          <app-game-bar class="so-static map-height"></app-game-bar>
+          <app-game-bar class="so-static map-height" *ngIf="!isGameFinished()"></app-game-bar>
+          <app-game-result class="so-static map-height" *ngIf="isGameFinished()"></app-game-result>
         </div>
         <div *ngIf="!isDataLoaded()">loading data...</div>
       </div>

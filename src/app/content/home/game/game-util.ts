@@ -1,6 +1,6 @@
 export class GameUtil {
 
-  static readonly ZONE_COLORS = ['#00acc1', '#ff4350', '#ffbf46']
+  static readonly ZONE_COLORS = ['#00acc1', '#ff4350', '#ffbf46'];
 
   static readonly ZONE_CAPTURING_ICON = 'fas fa-crosshairs spin-animate';
   static readonly ZONE_CAPTURED_ICON = 'fas fa-podcast';

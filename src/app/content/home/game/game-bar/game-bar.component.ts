@@ -46,4 +46,21 @@ export class GameBarComponent implements OnInit {
   isZoneCapturing(idx: number) {
     return this.gameDataService.gameData.zones[idx].cptStatus;
   }
+
+  getTimeLeft() {
+    const timeLeft = this.gameDataService.gameData.time;
+    if (timeLeft > 0) { return this.convertToTime(timeLeft); }
+    return 'preparing..';
+  }
+
+  getTimeLeftProgress() {
+    const timeLimit = this.gameDataService.gamePrefs.limits.time;
+    const timeLeft = this.gameDataService.gameData.time;
+    return timeLeft / timeLimit * 100 + '%';
+  }
+
+  private convertToTime(seconds: number) {
+    const secs = seconds % 60 + ' sec';
+    return Math.floor(seconds / 60) + ' min ' + secs;
+  }
 }

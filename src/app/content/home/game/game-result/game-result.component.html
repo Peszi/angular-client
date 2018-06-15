@@ -1,0 +1,16 @@
+<div class="full-container">
+  <div class="d-flex flex-column justify-content-center align-items-center h-100">
+    <div class="d-flex flex-column justify-content-center" *ngIf="getGameResults()">
+      <h4 class="font-weight-bold text-warning outline-white">#1 the winner is {{ getGameResults().results[0].alias }}'s team!</h4>
+      <ul>
+        <li *ngFor="let result of getGameResults().results; let i = index"
+          class="font-weight-bold outline-white">
+          <p class="m-0" *ngIf="i > 0"># {{ (i + 1) + ' ' + result.alias + ' ends with ' + result.points }} points</p>
+        </li>
+      </ul>
+    </div>
+    <button *ngIf="getGameResults()"
+            class="btn btn-sm btn-outline-light" (click)="onBack()">back to menu</button>
+    <div *ngIf="!getGameResults()">loading results...</div>
+  </div>
+</div>

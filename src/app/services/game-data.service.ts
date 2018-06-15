@@ -4,7 +4,7 @@ import {AlertService} from './alert.service';
 import {Router} from '@angular/router';
 import {Injectable} from '@angular/core';
 import {CaptureZoneModel, LocationModel } from './model/user-data.model';
-import {b, e} from '@angular/core/src/render3';
+import {b, e, s, st} from '@angular/core/src/render3';
 import {ZoneControlModel} from './room-mode.service';
 import {map} from 'rxjs/operators';
 
@@ -14,6 +14,7 @@ export class GameDataService {
   public gamePrefs: GamePrefsModel;
   public zonesLocation: ZonesLocationModel;
   public gameData: GameDataModel;
+  public gameResults: GameResultsModel;
 
   private gameDataSubject = new Subject<GameDataModel>();
 
@@ -38,6 +39,10 @@ export class GameDataService {
       ));
   }
 
+  postUserReadyRequest() {
+    return this.authService.makePostTextRequest('/room/game/ready');
+  }
+
   postGameDataRequest(gameAttributes: GameAttributes) {
     this.authService.makePostRequest<GameDataModel>('/room/game/update', gameAttributes)
       .subscribe(
@@ -49,6 +54,14 @@ export class GameDataService {
           this.router.navigate(['../home/queue']);
         }
       );
+  }
+
+  getGameResultsRequest() {
+    return this.authService.makeGetRequest<GameResultsModel>('/room/game/results')
+      .pipe(map((gameResults: GameResultsModel) => {
+          return (this.gameResults = gameResults);
+        }
+      ));
   }
 
   getGameDataSub() {
@@ -99,9 +112,12 @@ export interface CptZoneModel extends LocationModel {
 export interface GameDataModel {
   time: number;
   started: boolean;
+  finished: boolean;
   zones: CptZoneDataModel[];
+  results: ResultModel[];
 
   points: number;
+  alias: string;
   user: GameUserDataModel;
   allies: GameUserDataModel[];
 }
@@ -115,12 +131,20 @@ export interface CptZoneDataModel {
 }
 
 export interface GameUserDataModel extends LocationModel {
-  id: number;
-  alive:	boolean;
+  id: number; alive:	boolean;
+}
+
+// Results
+export interface GameResultsModel {
+  results: ResultModel[];
 }
 
 // Shared
 
 export interface ZoneModel extends LocationModel {
   radius: number;
+}
+
+export interface ResultModel {
+  alias: string; points: number;
 }

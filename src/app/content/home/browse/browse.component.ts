@@ -12,8 +12,6 @@ import {Subscription} from 'rxjs';
 import { UserDataService } from '../../../services/user-data.service';
 import {Utility} from '../../../services/utility.class';
 import {RoomDataModel, RoomsDataListModel} from '../../../services/model/user-data.model';
-import {AgmMap, GoogleMapsAPIWrapper} from '@agm/core';
-import {createDirective} from "@angular/compiler/src/core";
 import {RefreshInterface} from '../refresh.interface';
 
 @Component({

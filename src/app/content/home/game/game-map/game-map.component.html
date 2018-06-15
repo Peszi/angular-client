@@ -18,4 +18,5 @@
               [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="1" [strokeColor]="getZoneColor(i)">
   </agm-circle>
   <agm-marker [latitude]="getGameData().user.lat" [longitude]="getGameData().user.lng" [title]="'your position'"></agm-marker>
+  <agm-marker [latitude]="getGameData().user.lat + 0.0001" [longitude]="getGameData().user.lng" [iconUrl]="'../assets/ally.png'"></agm-marker>
 </agm-map>

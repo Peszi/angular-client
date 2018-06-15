@@ -1,8 +1,10 @@
+<!-- Time Left Progress -->
 <div class="row m-2">
   <div class="progress flex-fill box-outline-white">
-    <div class="progress-bar progress-bar-striped" [ngStyle]="{'width' : '75%'}">1:00</div>
+    <div class="progress-bar progress-bar-striped" [ngStyle]="{'width' : getTimeLeftProgress()}">{{ getTimeLeft() }}</div>
   </div>
 </div>
+<!-- Zones Status Bar -->
 <div class="row mx-1 my-2">
   <div class="col-4 p-0 position-relative" *ngFor="let i of zones">
     <div class="d-flex align-items-center">
@@ -17,4 +19,12 @@
       </div>
     </div>
   </div>
+</div>
+<!-- Team Results List -->
+<div class="container-bottom">
+  <ul class="mx-3 my-4 px-0">
+    <li *ngFor="let result of getGameData().results; let i = index"
+        [ngClass]="{'text-small' : i != 0, 'text-highlight' : result.alias == getGameData().alias }"
+        class="font-weight-bold outline-white">#{{ (i + 1) + ' ' + result.alias + ' : ' + result.points }} points</li>
+  </ul>
 </div>

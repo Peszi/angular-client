@@ -4,6 +4,7 @@ import {Subscription} from 'rxjs';
 import {CptZoneDataModel, GameAttributes, GameDataModel, GameDataService, GamePrefsModel} from '../../../services/game-data.service';
 import {CaptureZoneModel, LocationModel} from '../../../services/model/user-data.model';
 import {GameMapComponent} from './game-map/game-map.component';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-game',
@@ -20,16 +21,22 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   // var
   private targetPosition: LocationModel;
 
-  constructor(private gameDataService: GameDataService) { }
+  constructor(private gameDataService: GameDataService, private router: Router) { }
 
   // Init
 
   ngOnInit() {
     this.gameDataService.getGamePrefsRequest()
-      .subscribe(() => this.afterPrefsLoaded());
+      .subscribe(
+        () => { this.afterPrefsLoaded(); },
+      () => { this.router.navigate(['../home/queue']); }
+      );
     this.gameDataSub = this.gameDataService.getGameDataSub()
-      .subscribe(() => {
+      .subscribe((gameData: GameDataModel) => {
         this.checkZonesData();
+        if (gameData.finished) {
+          clearInterval(this.loopHandle);
+        }
       });
   }
 
@@ -55,6 +62,7 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     this.updateZonesLocations();
     this.gameAttrs.lat = this.gameDataService.gamePrefs.resp.lat;
     this.gameAttrs.lng = this.gameDataService.gamePrefs.resp.lng;
+    this.gameDataService.postUserReadyRequest().subscribe();
     this.gameDataService.postGameDataRequest(this.gameAttrs);
     this.updateLoop();
   }
@@ -110,5 +118,10 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
   isDataLoaded() {
     return (this.gameDataService.gamePrefs && this.gameDataService.gameData);
+  }
+
+  isGameFinished() {
+    if (this.gameDataService.gameData) { return this.gameDataService.gameData.finished; }
+    return false;
   }
 }

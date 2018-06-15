@@ -1,5 +1,5 @@
 import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
-import {GoogleMap} from '@agm/core/services/google-maps-types';
+import {google, GoogleMap} from '@agm/core/services/google-maps-types';
 import {GameUtil} from '../game-util';
 import {LocationModel} from '../../../../services/model/user-data.model';
 import {GameDataService} from '../../../../services/game-data.service';
@@ -34,6 +34,7 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   onMapReady(nativeMap: GoogleMap) {
     this.nativeMap = nativeMap;
+
   }
 
   onCenterChange() { // map auto panning

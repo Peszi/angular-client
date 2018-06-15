@@ -5,3 +5,22 @@
 p {
   color: #fff;
 }
+
+ul {
+  list-style-type: none;
+}
+
+.text-small {
+  font-size: 0.9rem;
+}
+
+.text-highlight {
+  color: #c4ad17 !important;
+}
+
+.container-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

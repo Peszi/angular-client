@@ -22,7 +22,7 @@ export class ProgressButtonComponent implements OnInit {
     // this.renderer.addClass(this.element.nativeElement, this.btnClass);
   }
 
-  protected onSubmit() {
+  onSubmit() {
     if (this.form.valid) {
       this.loadingStatus = 'pending';
     } else {
@@ -38,7 +38,7 @@ export class ProgressButtonComponent implements OnInit {
     this.loadingStatus = 'fail';
   }
 
-  protected onAnimationEnd(event: AnimationEvent) {
+  onAnimationEnd(event: AnimationEvent) {
     if (this.loadingStatus === 'success' || this.loadingStatus === 'fail') {
       setTimeout(() => {
         this.loadingStatus = 'normal';

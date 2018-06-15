@@ -2,7 +2,8 @@ import {Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core'
 import {google, GoogleMap} from '@agm/core/services/google-maps-types';
 import {GameUtil} from '../game-util';
 import {LocationModel} from '../../../../services/model/user-data.model';
-import {GameDataService} from '../../../../services/game-data.service';
+import {GameDataService, GameUserDataModel} from '../../../../services/game-data.service';
+import {Subscription} from "rxjs/index";
 
 @Component({
   selector: 'app-game-map',
@@ -19,14 +20,25 @@ import {GameDataService} from '../../../../services/game-data.service';
 export class GameMapComponent implements OnInit, OnDestroy {
   @Output() positionChanged = new EventEmitter<LocationModel>();
 
+  private gameDataSub: Subscription;
   private centeringHandle: number;
   private nativeMap: GoogleMap;
 
+  userAllies: GameUserDataModel[] = [];
+
   constructor(private gameDataService: GameDataService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.gameDataSub = this.gameDataService.getGameDataSub()
+      .subscribe(() => {
+        for (let ally of this.gameDataService.gameData.allies) {
+          // TODO update allies
+        }
+      });
+  }
 
   ngOnDestroy() {
+    this.gameDataSub.unsubscribe();
     clearTimeout(this.centeringHandle);
   }
 
@@ -34,7 +46,6 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   onMapReady(nativeMap: GoogleMap) {
     this.nativeMap = nativeMap;
-
   }
 
   onCenterChange() { // map auto panning
@@ -72,5 +83,9 @@ export class GameMapComponent implements OnInit, OnDestroy {
 
   getZoneColor(idx: number) {
     return GameUtil.getZoneColor(idx);
+  }
+
+  getAllyIcon(alive: boolean) {
+    return GameUtil.getAllyIconUrl(alive);
   }
 }

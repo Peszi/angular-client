@@ -48,7 +48,7 @@ export class AlertComponent implements OnInit {
   errorMessage: String = 'invalid error!';
   errorTitle: String = 'Alert!';
   private isShowing: boolean;
-  private isError: boolean;
+  isError: boolean;
 
   constructor(private alertService: AlertService) { }
 

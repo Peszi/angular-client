@@ -17,6 +17,9 @@
               [fillColor]="getZoneColor(i)" [fillOpacity]="0.35"
               [strokeOpacity]="0.5" [strokePosition]="0" [strokeWeight]="1" [strokeColor]="getZoneColor(i)">
   </agm-circle>
+  <!-- User Position Marker -->
   <agm-marker [latitude]="getGameData().user.lat" [longitude]="getGameData().user.lng" [title]="'your position'"></agm-marker>
-  <agm-marker [latitude]="getGameData().user.lat + 0.0001" [longitude]="getGameData().user.lng" [iconUrl]="'../assets/ally.png'"></agm-marker>
+  <!-- Allies Markers -->
+  <agm-marker *ngFor="let ally of userAllies"
+    [latitude]="ally.lat" [longitude]="ally.lng" [iconUrl]="getAllyIcon(ally.alive)"></agm-marker>
 </agm-map>

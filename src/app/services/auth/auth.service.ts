@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable, Subject} from 'rxjs';
-import {BASE_API_URL, BASE_URL, BASIC_AUTH, BEARER_PREFIX, TOKEN_COOKIE} from '../../shared/globals';
+import { BASIC_AUTH, BEARER_PREFIX, TOKEN_COOKIE } from '../../shared/globals';
 import {CookieService} from 'ngx-cookie';
 import {AuthResponse} from '../model/auth-response.model';
 import {Router} from '@angular/router';
 import {UserDataModel} from '../model/user-data.model';
 import {AlertService} from '../alert.service';
+import {environment} from "../../../environments/environment";
 
 @Injectable()
 export class AuthorizationService {
@@ -24,12 +25,12 @@ export class AuthorizationService {
 
   // Server status REQUEST
   getApiStatusRequest() {
-    return this.httpClient.get(BASE_URL + '/ping', { responseType: 'text', observe: 'body' });
+    return this.httpClient.get(environment.API_URL + '/ping', { responseType: 'text', observe: 'body' });
   }
 
   // Check Credentials REQUEST
   getCredentialStatusRequest(name: string, value: string): Observable<string> {
-    return this.httpClient.get(BASE_API_URL + '/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
+    return this.httpClient.get(environment.API_URL + '/api/register/check/' + name + '/' + value, { responseType: 'text', observe: 'body' });
   }
 
   // Register REQUEST
@@ -38,7 +39,7 @@ export class AuthorizationService {
       .set('email', userData.email)
       .append('nickname', userData.nickname)
       .append('password', userData.password);
-    return this.httpClient.post(BASE_API_URL + '/register', params, {responseType: 'text', observe: 'body'});
+    return this.httpClient.post(environment.API_URL + '/api/register', params, {responseType: 'text', observe: 'body'});
   }
 
   // Login REQUEST
@@ -51,7 +52,7 @@ export class AuthorizationService {
       body.append('username', userData.email);
       body.append('password', userData.password);
     const subject = new Subject<number>();
-    this.httpClient.post<AuthResponse>(BASE_URL + '/oauth/token', body.toString(), { observe: 'body', headers: headers })
+    this.httpClient.post<AuthResponse>(environment.API_URL + '/oauth/token', body.toString(), { observe: 'body', headers: headers })
       .subscribe(
         (authRes: AuthResponse) => {
             this.setupAccessToken(authRes);
@@ -78,7 +79,7 @@ export class AuthorizationService {
     const token = this.getAccessToken();
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + token);
-    return this.httpClient.post<T>(BASE_API_URL + url, body, {observe: 'body', headers: headers});
+    return this.httpClient.post<T>(environment.API_URL + '/api' + url, body, {observe: 'body', headers: headers});
   }
 
   makePostTextRequest(url: string, body?: any|null) {
@@ -86,7 +87,7 @@ export class AuthorizationService {
     if (!token) { return null; }
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + token);
-    return this.httpClient.post(BASE_API_URL + url, body, {observe: 'body', headers: headers, responseType: 'text'});
+    return this.httpClient.post(environment.API_URL + '/api' + url, body, {observe: 'body', headers: headers, responseType: 'text'});
   }
 
   // Global GET REQUEST
@@ -94,7 +95,7 @@ export class AuthorizationService {
     const token = this.getAccessToken();
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + token);
-    return this.httpClient.get<T>(BASE_API_URL + url, {observe: 'body', headers: headers, params: params});
+    return this.httpClient.get<T>(environment.API_URL + '/api' + url, {observe: 'body', headers: headers, params: params});
   }
 
   // Global DELETE REQUEST
@@ -102,7 +103,7 @@ export class AuthorizationService {
     const token = this.getAccessToken();
     const headers = new HttpHeaders()
       .set('Authorization', BEARER_PREFIX + token);
-    return this.httpClient.delete(BASE_API_URL + url, {observe: 'body', headers: headers, params: params, responseType: 'text'});
+    return this.httpClient.delete(environment.API_URL + '/api' + url, {observe: 'body', headers: headers, params: params, responseType: 'text'});
   }
 
   // Setup token

@@ -1,7 +1,14 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RefreshInterface} from '../refresh.interface';
 import {Subscription} from 'rxjs';
-import {CptZoneDataModel, GameAttributes, GameDataModel, GameDataService, GamePrefsModel} from '../../../services/game-data.service';
+import {
+  CptZoneDataModel,
+  GameAttributes,
+  GameDataModel,
+  GameDataService,
+  GamePrefsModel,
+  GameUserDataModel
+} from '../../../services/game-data.service';
 import {CaptureZoneModel, LocationModel} from '../../../services/model/user-data.model';
 import {GameMapComponent} from './game-map/game-map.component';
 import {Router} from '@angular/router';
@@ -14,11 +21,14 @@ import {Router} from '@angular/router';
 export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   @ViewChild(GameMapComponent) gameMap: GameMapComponent;
 
+  readonly MOVING_SPEED = 0.00002;
+  readonly MOVING_DEAD_ZONE = 0.00002;
+
   private gameAttrs: GameAttributes = {lat: 0, lng: 0, ready: false};
 
   private loopHandle: number;
   private gameDataSub: Subscription;
-  // var
+
   private targetPosition: LocationModel;
 
   constructor(private gameDataService: GameDataService, private router: Router) { }
@@ -89,15 +99,13 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
 
   updateUserPosition() {
     if (this.targetPosition) {
-      const speed = 0.00005;
-      const offset = 0.00001;
       const latDiff = this.targetPosition.lat - this.gameAttrs.lat;
-      if (Math.abs(latDiff) > offset) {
-        this.gameAttrs.lat += Math.sign(latDiff) * speed;
+      if (Math.abs(latDiff) > this.MOVING_DEAD_ZONE) {
+        this.gameAttrs.lat += Math.sign(latDiff) * this.MOVING_SPEED;
       }
       const lngDiff = this.targetPosition.lng - this.gameAttrs.lng;
-      if (Math.abs(lngDiff) > offset) {
-        this.gameAttrs.lng += Math.sign(lngDiff) * speed;
+      if (Math.abs(lngDiff) > this.MOVING_DEAD_ZONE) {
+        this.gameAttrs.lng += Math.sign(lngDiff) * this.MOVING_SPEED;
       }
     }
   }

@@ -54,7 +54,7 @@ export class TimeInputComponent implements OnInit {
     this.onReset();
   }
 
-  private showTime() {
+  showTime() {
     this.isChanged = (this.seconds !== this.defaultValue);
     this.statusChange.next(this.isChanged);
     this.secValue = this.seconds % 60 + ' sec';

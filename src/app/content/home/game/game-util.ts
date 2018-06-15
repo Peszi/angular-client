@@ -15,4 +15,9 @@ export class GameUtil {
     }
     return this.ZONE_COLORS[0];
   }
+
+  static getAllyIconUrl(alive: boolean) {
+    if (alive) { return '../assets/ally_alive.png'; }
+    return '../assets/ally.png';
+  }
 }

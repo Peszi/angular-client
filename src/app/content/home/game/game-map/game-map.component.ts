@@ -31,8 +31,10 @@ export class GameMapComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.gameDataSub = this.gameDataService.getGameDataSub()
       .subscribe(() => {
-        for (let ally of this.gameDataService.gameData.allies) {
+        for (let i = 0; i < this.gameDataService.gameData.allies.length; i++) {
+          const ally = this.gameDataService.gameData.allies;
           // TODO update allies
+          this.userAllies[i] = ally[i];
         }
       });
   }

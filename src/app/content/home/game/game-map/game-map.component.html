@@ -20,6 +20,6 @@
   <!-- User Position Marker -->
   <agm-marker [latitude]="getGameData().user.lat" [longitude]="getGameData().user.lng" [title]="'your position'"></agm-marker>
   <!-- Allies Markers -->
-  <agm-marker *ngFor="let ally of userAllies"
+  <agm-marker *ngFor="let ally of getGameData().allies"
     [latitude]="ally.lat" [longitude]="ally.lng" [iconUrl]="getAllyIcon(ally.alive)"></agm-marker>
 </agm-map>

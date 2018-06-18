@@ -7,7 +7,7 @@ import {
   GameDataModel,
   GameDataService,
   GamePrefsModel,
-  GameUserDataModel
+  GameUserDataModel, GameUsersModel
 } from '../../../services/game-data.service';
 import {CaptureZoneModel, LocationModel} from '../../../services/model/user-data.model';
 import {GameMapComponent} from './game-map/game-map.component';
@@ -24,14 +24,18 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
   readonly MOVING_SPEED = 0.00002;
   readonly MOVING_DEAD_ZONE = 0.00002;
 
-  private gameAttrs: GameAttributes = {lat: 0, lng: 0, ready: false};
+  private gameAttrs: GameAttributes;
 
   private loopHandle: number;
+  private gameUsersSub: Subscription;
   private gameDataSub: Subscription;
 
+  usersList: GameUsersModel;
   private targetPosition: LocationModel;
+  private positionAccumulator: LocationModel;
 
-  constructor(private gameDataService: GameDataService, private router: Router) { }
+  constructor(private gameDataService: GameDataService,
+              private router: Router) { }
 
   // Init
 
@@ -44,10 +48,11 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     this.gameDataSub = this.gameDataService.getGameDataSub()
       .subscribe((gameData: GameDataModel) => {
         this.checkZonesData();
-        if (gameData.finished) {
-          clearInterval(this.loopHandle);
-        }
+        if (!this.gameAttrs) { this.initUserPosition(gameData); }
+        if (gameData.finished) { this.onGameEnd(); }
       });
+    this.gameUsersSub = this.gameDataService.getGameUsersSub()
+      .subscribe((gameUsers: GameUsersModel) => { this.updateUsersList(gameUsers); });
   }
 
   checkZonesData() {
@@ -68,18 +73,26 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     }
   }
 
-  afterPrefsLoaded() {
+  private afterPrefsLoaded() {
     this.updateZonesLocations();
-    this.gameAttrs.lat = this.gameDataService.gamePrefs.resp.lat;
-    this.gameAttrs.lng = this.gameDataService.gamePrefs.resp.lng;
     this.gameDataService.postUserReadyRequest().subscribe();
-    this.gameDataService.postGameDataRequest(this.gameAttrs);
+    this.gameDataService.getGameUsersRequest();
+    this.gameDataService.postGameDataRequest(null);
     this.updateLoop();
+  }
+
+  private initUserPosition(gameData: GameDataModel) {
+    if (gameData.user.lat === 0 && gameData.user.lng === 0) {
+      this.gameAttrs = { ready: false, lat: this.gameDataService.gamePrefs.resp.lat, lng: this.gameDataService.gamePrefs.resp.lng };
+    } else {
+      this.gameAttrs = { ready: false, lat: gameData.user.lat, lng: gameData.user.lng };
+    }
   }
 
   // End
 
   ngOnDestroy(): void {
+    this.gameUsersSub.unsubscribe();
     this.gameDataSub.unsubscribe();
     clearInterval(this.loopHandle);
   }
@@ -90,7 +103,7 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     this.loopHandle = setInterval(() => {
       this.updateUserPosition();
       this.gameDataService.postGameDataRequest(this.gameAttrs);
-    }, 500);
+    }, 250);
   }
 
   updateZonesLocations() {
@@ -110,15 +123,29 @@ export class GameComponent implements OnInit, OnDestroy, RefreshInterface {
     }
   }
 
+  updateUsersList(gameUsers: GameUsersModel) {
+    this.usersList = gameUsers;
+  }
+
   // Events
 
   onUserPositionChanged(targetPosition: LocationModel) {
     this.targetPosition = targetPosition;
   }
 
-  onRefresh() {}
+  onGameEnd() {
+    clearInterval(this.loopHandle);
+  }
+
+  onRefresh() {
+    this.gameDataService.getGameUsersRequest();
+  }
 
   // Getters
+
+  getUsersList() {
+    if (this.usersList) { return this.usersList.teams; } return [];
+  }
 
   getStatus() {
     return (this.gameDataService.gameData && this.gameDataService.gameData.started ? 'started' : 'awaiting players..');

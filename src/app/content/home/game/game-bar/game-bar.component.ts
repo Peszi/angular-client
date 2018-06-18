@@ -13,7 +13,8 @@ export class GameBarComponent implements OnInit {
 
   constructor(private gameDataService: GameDataService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   getGameData() {
     return this.gameDataService.gameData;

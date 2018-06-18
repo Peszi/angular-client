@@ -29,18 +29,21 @@ export class GameMapComponent implements OnInit, OnDestroy {
   constructor(private gameDataService: GameDataService) { }
 
   ngOnInit() {
-    this.gameDataSub = this.gameDataService.getGameDataSub()
-      .subscribe(() => {
-        for (let i = 0; i < this.gameDataService.gameData.allies.length; i++) {
-          const ally = this.gameDataService.gameData.allies;
-          // TODO update allies
-          this.userAllies[i] = ally[i];
-        }
-      });
+    // this.gameDataSub = this.gameDataService.getGameDataSub()
+    //   .subscribe(() => {
+    //     if (this.userAllies.length === 0) {
+    //       this.userAllies = this.gameDataService.gameData.allies;
+    //     }
+    //     for (let i = 0; i < this.gameDataService.gameData.allies.length; i++) {
+    //       const ally = this.gameDataService.gameData.allies;
+    //       this.userAllies[i].lat = ally[i].lat;
+    //       this.userAllies[i].lng = ally[i].lng;
+    //     }
+    //   });
   }
 
   ngOnDestroy() {
-    this.gameDataSub.unsubscribe();
+    // this.gameDataSub.unsubscribe();
     clearTimeout(this.centeringHandle);
   }
 

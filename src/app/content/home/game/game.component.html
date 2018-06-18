@@ -3,10 +3,22 @@
     <div class="card">
       <!-- Users Header -->
       <div class="card-header d-flex justify-content-center align-items-center border badge-dark p-2">
-        <p class="m-0"><strong>Users Table</strong></p>
+        <p class="m-0 font-weight-bold">Users</p>
       </div>
       <!-- Teams List -->
       <div class="card-body p-0">
+        <div class="card" *ngFor="let team of getUsersList(); let i = index">
+          <div class="card-header pr-2">
+            <small class="text-primary"><strong>{{ team.alias }}'s</strong> team</small>
+          </div>
+          <div class="card-body d-flex flex-column pt-2 pb-1 px-3">
+            <div class="d-flex flex-row justify-content-between" *ngFor="let user of team.users">
+              <small class="mb-1">- {{ user.name }}</small>
+              <small class="badge badge-pill badge-danger my-auto" *ngIf="!user.ready">not ready</small>
+              <small class="badge badge-pill badge-secondary my-auto" *ngIf="user.ready && user.alive">alive</small>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

@@ -31,7 +31,11 @@ export class UserDataService {
               this.router.navigate(['../home/queue']);
             }
         },
-        () => { this.alertService.showAlert({ error: true, message: 'Cannot get rooms list!'}); }
+        () => {
+          // this.alertService.showAlert({ error: true, message: 'Cannot get rooms list!'});
+          console.log('redir to ../')
+          this.router.navigate(['../']);
+        }
       );
   }
 

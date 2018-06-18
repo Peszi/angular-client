@@ -40,8 +40,9 @@ export class UserRoomService {
           }
         },
         () => {
-          this.router.navigate(['../home/browse']);
-          this.alertService.showAlert({ error: true, message: 'Cannot get room details!'});
+          console.log('redir to ../')
+          this.router.navigate(['../']);
+          // this.alertService.showAlert({ error: true, message: 'Cannot get room details!'});
         }
       );
   }

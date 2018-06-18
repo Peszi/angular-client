@@ -17,6 +17,7 @@ export class GameDataService {
   public gameResults: GameResultsModel;
 
   private gameDataSubject = new Subject<GameDataModel>();
+  private gameUsersSubject = new Subject<GameUsersModel>();
 
   constructor(private authService: AuthorizationService,
               private alertService: AlertService,
@@ -29,6 +30,14 @@ export class GameDataService {
           return (this.gamePrefs = gamePrefs);
         }
       ));
+  }
+
+  getGameUsersRequest() {
+    this.authService.makeGetRequest<GameUsersModel>('/room/game/users')
+      .subscribe((gameUsers: GameUsersModel) => {
+          this.gameUsersSubject.next(gameUsers);
+        }
+      );
   }
 
   getZonesLocationRequest() {
@@ -64,6 +73,10 @@ export class GameDataService {
       ));
   }
 
+  getGameUsersSub() {
+    return this.gameUsersSubject.asObservable();
+  }
+
   getGameDataSub() {
     return this.gameDataSubject.asObservable();
   }
@@ -95,6 +108,21 @@ export interface ZonePrefsModel {
 
 export interface UserDataModel {
   id: number; name: string;
+}
+
+// Users
+
+export interface GameUsersModel {
+  teams: GameTeamModel[];
+}
+
+export interface GameTeamModel {
+  alias: string;
+  users: UserPrefsModel[];
+}
+
+export interface UserPrefsModel {
+  name: string; ready: boolean; alive: boolean;
 }
 
 // Zones

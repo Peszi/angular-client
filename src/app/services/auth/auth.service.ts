@@ -7,13 +7,15 @@ import {AuthResponse} from '../model/auth-response.model';
 import {Router} from '@angular/router';
 import {UserDataModel} from '../model/user-data.model';
 import {AlertService} from '../alert.service';
-import {environment} from "../../../environments/environment";
+import {environment} from '../../../environments/environment';
 
 @Injectable()
 export class AuthorizationService {
 
   public isLogged: boolean;
   public userData: UserDataModel;
+
+  private accessToken: string;
 
   private authSubject = new Subject<boolean>();
   private userDataSubject = new Subject<UserDataModel>();
@@ -108,8 +110,9 @@ export class AuthorizationService {
 
   // Setup token
   private setupAccessToken(authRes: AuthResponse) {
-    const expireDate = new Date(new Date().getTime() + (authRes.expires_in * 1000));
-    this.cookieService.put(TOKEN_COOKIE, authRes.access_token, {expires: expireDate});
+    // const expireDate = new Date(new Date().getTime() + (authRes.expires_in * 1000));
+    // this.cookieService.put(TOKEN_COOKIE, authRes.access_token, {expires: expireDate});
+    this.accessToken = authRes.access_token;
     this.postLoggedIn();
   }
 
@@ -123,33 +126,36 @@ export class AuthorizationService {
 
   // Check Token
   hasAccessToken(): boolean {
-    if (this.cookieService.get(TOKEN_COOKIE)) {
-      this.postLoggedIn();
-      return true;
-    }
-    return false;
+    // if (this.cookieService.get(TOKEN_COOKIE)) {
+    //   this.postLoggedIn();
+    //   return true;
+    // }
+    // return false;
+    return (this.accessToken ? true : false);
   }
 
   // Get token
   getAccessToken(): string {
-    const access_token = this.cookieService.get(TOKEN_COOKIE);
-    if (access_token) {
-      return access_token;
-    } else { // Token expired
-      if (this.isLogged) {
-        this.alertService.showAlert({error: true, message: 'your session expired!'});
-      }
-      this.postLoggedOut();
-    }
+    // const access_token = this.cookieService.get(TOKEN_COOKIE);
+    // if (access_token) {
+    //   return access_token;
+    // } else { // Token expired
+    //   if (this.isLogged) {
+    //     this.alertService.showAlert({error: true, message: 'your session expired!'});
+    //   }
+    //   this.postLoggedOut();
+    // }
+    return this.accessToken;
   }
 
   // Remove Token
   revokeAccessToken() {
     if (this.hasAccessToken()) {
-      this.cookieService.remove(TOKEN_COOKIE);
-      if (this.isLogged) {
-        this.alertService.showAlert({error: false, message: 'you successfully logged out!'});
-      }
+      // this.cookieService.remove(TOKEN_COOKIE);
+      // if (this.isLogged) {
+      //   this.alertService.showAlert({error: false, message: 'you successfully logged out!'});
+      // }
+      this.accessToken = null;
       this.postLoggedOut();
     }
   }

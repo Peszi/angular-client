@@ -39,6 +39,7 @@ import { GameMapComponent } from './content/home/game/game-map/game-map.componen
 import {GameDataService} from './services/game-data.service';
 import { GameBarComponent } from './content/home/game/game-bar/game-bar.component';
 import { GameResultComponent } from './content/home/game/game-result/game-result.component';
+import { ConsoleDialogComponent } from './shared/console-dialog/console-dialog.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -83,7 +84,8 @@ const appRoutes: Routes = [
     GameComponent,
     GameMapComponent,
     GameBarComponent,
-    GameResultComponent
+    GameResultComponent,
+    ConsoleDialogComponent
   ],
   imports: [
     FormsModule,

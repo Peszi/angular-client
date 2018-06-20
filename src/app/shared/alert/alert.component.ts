@@ -53,12 +53,12 @@ export class AlertComponent implements OnInit {
   constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.alertService.alertSub
-      .subscribe(() => {
-          if (!this.isShowing) {
-            this.checkQueue();
-          }
-      });
+    // this.alertService.alertSub
+    //   .subscribe(() => {
+    //       if (!this.isShowing) {
+    //         this.checkQueue();
+    //       }
+    //   });
   }
 
   onEnd(event: AnimationEvent) {

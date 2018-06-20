@@ -40,6 +40,7 @@ import {GameDataService} from './services/game-data.service';
 import { GameBarComponent } from './content/home/game/game-bar/game-bar.component';
 import { GameResultComponent } from './content/home/game/game-result/game-result.component';
 import { ConsoleDialogComponent } from './shared/console-dialog/console-dialog.component';
+import { DraggableDirective } from './shared/console-dialog/draggable.directive';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -85,7 +86,8 @@ const appRoutes: Routes = [
     GameMapComponent,
     GameBarComponent,
     GameResultComponent,
-    ConsoleDialogComponent
+    ConsoleDialogComponent,
+    DraggableDirective
   ],
   imports: [
     FormsModule,

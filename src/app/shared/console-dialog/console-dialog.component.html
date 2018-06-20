@@ -1,10 +1,17 @@
-<div class="dialog-container border rounded bg-dark d-flex flex-column">
-  <div class="dialog-header d-flex justify-content-end rounded-top bg-dark" #dragHandler>
-    <i class="fa far fa-times-circle fa-sm text-white my-1 mx-2" style="font-size: 1.2rem"></i>
+<div class="dialog-icon border bg-dark dark-shadow d-flex justify-content-start align-items-center" (click)="onToggle()">
+  <img style="width: 1.5rem; margin: 0.6rem" src="favicon.ico">
+  <p *ngIf="!showConsole">Open</p>
+  <p *ngIf="showConsole">Close</p>
+</div>
+<div *ngIf="showConsole" class="dialog-container border rounded bg-dark dark-shadow d-flex flex-column" [appDraggable]="true" [dragHandler]="dragHandler" >
+  <div class="dialog-header d-flex justify-content-between align-items-center rounded-top bg-dark" #dragHandler>
+    <span class="d-flex flex-row align-items-center mx-2">
+      <img style="width: 1rem; height: 1rem" src="favicon.ico">
+      <p class="m-0 px-2">Console</p>
+    </span>
+    <i class="fa far fa-times-circle fa-sm text-white my-1 mx-2" style="font-size: 1.2rem" (click)="onClose()"></i>
   </div>
-  <div class="flex-fill border-bottom border-right border-secondary rounded-bottom p-2 m-1" style="background-color: black; bottom: 0">
-    <p class="text-white">
-      > console-dialog works!
-    </p>
+  <div class="flex-fill border-bottom border-right border-secondary rounded-bottom p-2 mx-1 mb-1" style="background-color: black; bottom: 0">
+    <p *ngFor="let log of logsList">> {{ log }}</p>
   </div>
 </div>

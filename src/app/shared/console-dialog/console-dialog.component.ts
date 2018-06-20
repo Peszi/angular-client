@@ -1,5 +1,6 @@
-import {Component, ElementRef, HostListener, OnInit} from '@angular/core';
-import {e} from '@angular/core/src/render3';
+import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {b, e} from '@angular/core/src/render3';
+import {AlertService} from '../../services/alert.service';
 
 @Component({
   selector: 'app-console-dialog',
@@ -7,44 +8,29 @@ import {e} from '@angular/core/src/render3';
   styleUrls: ['./console-dialog.component.css']
 })
 export class ConsoleDialogComponent implements OnInit {
+  @ViewChild('console') consoleView: ElementRef;
 
-  private isDragging;
-  private startX: number;
-  private startY: number;
+  logsList: String[] = [];
+  showConsole: boolean;
 
-  constructor(private element: ElementRef) { }
+  constructor(private alertService: AlertService) { }
 
   ngOnInit() {
-    this.isDragging = false;
-    this.element.nativeElement.style.position = 'relative';
+    this.alertService.alertSub
+      .subscribe(() => {
+        this.logsList.push(this.alertService.getAlert().message);
+      });
   }
 
-  @HostListener('mousedown', ['$event'])
-  onMouseDown(event: MouseEvent) {
-    this.isDragging = true;
-    this.startY = event.clientY - this.element.nativeElement.style.top.replace('px', '');
-    this.startX = event.clientX - this.element.nativeElement.style.left.replace('px', '');
-  }
-
-  @HostListener('mouseup', ['$event'])
-  onMouseUp(event: MouseEvent) {
-    console.log('up');
-    this.isDragging = false;
-
-  }
-
-  @HostListener('mouseleave')
-  onMouseLeave() {
-    this.isDragging = false;
-  }
-
-  @HostListener('mousemove', ['$event'])
-  onMouseMove(event: MouseEvent) {
-    console.log(event);
-    if (this.isDragging) {
-      console.log()
-      this.element.nativeElement.style.top = (event.clientX - this.startX) + 'px';
-      this.element.nativeElement.style.left = (event.clientY - this.startY) + 'px';
+  onToggle() {
+    if (this.showConsole === true) {
+      this.showConsole = false;
+    } else {
+      this.showConsole = true;
     }
+  }
+
+  onClose() {
+    this.showConsole = false;
   }
 }

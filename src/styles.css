@@ -127,6 +127,19 @@ button.btn-small:not(:disabled):not(.disabled) {
   padding: 48px 0 48px 0 !important;
 }
 
+.full-screen {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+}
+
+.bd-transparent-dark {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
 .footer {
   position: fixed;
   bottom: 0;
@@ -262,3 +275,8 @@ p strong {
 .map-height {
   height: 500px !important;
 }
+
+/*@keyframes show-anim {*/
+  /*0% { transform: translateX(80px); }*/
+  /*100% { transform: translateX(0px); }*/
+/*}*/

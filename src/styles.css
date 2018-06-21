@@ -21,6 +21,10 @@ body {
   background-color:#f8f9fa !important;
 }
 
+.dark-shadow {
+  box-shadow: 0 0 2px 2px black !important;
+}
+
 .bg-lines {
   background: url("/assets/lines_dark_2.jpg") repeat, repeat;
 }
@@ -276,7 +280,26 @@ p strong {
   height: 500px !important;
 }
 
+.simple-link {
+  color: white !important;
+  cursor: pointer;
+}
+.simple-link:hover {
+  text-shadow: 0 0 2px #fff;
+}
+
 /*@keyframes show-anim {*/
   /*0% { transform: translateX(80px); }*/
   /*100% { transform: translateX(0px); }*/
 /*}*/
+
+@keyframes wiggle {
+  25% { transform: scale(.75) skewX(-5deg) rotate(-5deg); }
+  50% { transform: skewY(5deg) rotate(5deg); }
+  75% { transform: skewX(-5deg) rotate(-5deg) scale(1.25) }
+  100% { transform: scale(1.25); }
+}
+
+.wiggle-anim {
+  animation: wiggle 500ms;
+}

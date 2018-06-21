@@ -1,8 +1,8 @@
 import {Component, Input, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {RoomModeService, ZoneControlModel} from '../../../../../services/room-mode.service';
 import {Subscription} from 'rxjs';
-import {CountInputComponent} from '../../../../../shared/elements/inputs/count-input/count-input.component';
-import {TimeInputComponent} from '../../../../../shared/elements/inputs/time-input/time-input.component';
+import {CountInputComponent} from '../../../../../shared/components/count-input/count-input.component';
+import {TimeInputComponent} from '../../../../../shared/components/time-input/time-input.component';
 
 @Component({
   selector: 'app-zc-mode',

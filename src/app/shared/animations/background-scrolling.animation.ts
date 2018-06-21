@@ -1,4 +1,4 @@
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import {animate, keyframes, state, style, transition, trigger} from '@angular/animations';
 
 export const SHOW_AND_HIDE =
   trigger('showElement', [
@@ -10,6 +10,31 @@ export const SHOW_AND_HIDE =
     })),
     transition('* => show', animate(250)),
     transition('* => hide', animate('10000ms ease'))
+  ]);
+
+export const SLIDE_AND_SHOW =
+  trigger('slide', [
+    state('show', style( {
+      transform: 'translateX({{ width }})'
+    }), {params: {width: '-50px'}}),
+    state('hide', style( {
+      transform: 'translateX(0px)'
+    })),
+    transition('* => show', animate('350ms ease-in-out')),
+    transition('* => hide', animate('250ms ease-in-out'))
+  ]);
+
+export const WIGGLE_ANIM =
+  trigger('wiggle', [
+    state('wiggle', style({})),
+    transition('* <=> wiggle', [
+      animate(250, keyframes([
+        style({ transform: 'scale(.75) skewX(-5deg) rotate(-5deg)', offset: 0.25}),
+        style({ transform: 'skewY(5deg) rotate(5deg)',  offset: 0.5}),
+        style({ transform: 'skewX(-5deg) rotate(-5deg) scale(1.25)',     offset: 0.75}),
+        style({ transform: 'scale(1.25)',  offset: 1.0})
+      ]))
+    ]),
   ]);
 
 export const BACKGROUND_SCROLL =

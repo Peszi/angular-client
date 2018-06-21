@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {AuthorizationService} from '../../services/auth/auth.service';
 import {AnimationEvent} from '@angular/animations';
 import {BACKGROUND_SCROLL} from '../../shared/animations/background-scrolling.animation';
-import {ProgressButtonComponent} from '../../shared/elements/progress-button.component';
+import {ProgressButtonComponent} from '../../shared/components/progress-button/progress-button.component';
 
 @Component({
   selector: 'app-login',

@@ -11,36 +11,37 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthorizationService } from './services/auth/auth.service';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { FormErrorDirective } from './shared/form-error.directive';
+import { FormErrorDirective } from './shared/directives/form-error.directive';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PingIndicatorComponent } from './shared/ping/ping-indicator.component';
+import { PingIndicatorComponent } from './shared/components/ping/ping-indicator.component';
 import { CookieModule } from 'ngx-cookie';
 import { LoginComponent } from './header/login/login.component';
 import { ManageComponent } from './header/manage/manage.component';
 import { HomeComponent } from './content/home/home.component';
-import { AlertComponent } from './shared/alert/alert.component';
+import { AlertComponent } from './shared/components/alert/alert.component';
 import { QueueComponent } from './content/home/queue/queue.component';
 import { BrowseComponent } from './content/home/browse/browse.component';
 import {UserDataService} from './services/user-data.service';
 import {UserRoomService} from './services/user-room.service';
-import {TimePickerComponent} from './shared/elements/time-picker.component';
-import {ProgressButtonComponent} from './shared/elements/progress-button.component';
-import {CountInputComponent} from './shared/elements/inputs/count-input/count-input.component';
-import { TimeInputComponent } from './shared/elements/inputs/time-input/time-input.component';
+import {ProgressButtonComponent} from './shared/components/progress-button/progress-button.component';
+import {CountInputComponent} from './shared/components/count-input/count-input.component';
+import { TimeInputComponent } from './shared/components/time-input/time-input.component';
 import {AuthGuardService} from './services/auth/auth-guard.service';
 import {AlertService} from './services/alert.service';
 import {ZoneControlComponent} from './content/home/queue/modes/zone-controll/zone-control.component';
 import { BattleRoyalComponent } from './content/home/queue/modes/battle-royal/battle-royal.component';
 import {RoomModeService} from './services/room-mode.service';
-import { SimpleTimeInputComponent } from './shared/elements/inputs/simple-time-input/simple-time-input.component';
+import { SimpleTimeInputComponent } from './shared/components/simple-time-input/simple-time-input.component';
 import { QueueMapComponent } from './content/home/queue/queue-map/queue-map.component';
 import { GameComponent } from './content/home/game/game.component';
 import { GameMapComponent } from './content/home/game/game-map/game-map.component';
 import {GameDataService} from './services/game-data.service';
 import { GameBarComponent } from './content/home/game/game-bar/game-bar.component';
 import { GameResultComponent } from './content/home/game/game-result/game-result.component';
-import { ConsoleDialogComponent } from './shared/console-dialog/console-dialog.component';
-import { DraggableDirective } from './shared/console-dialog/draggable.directive';
+import { ConsoleDialogComponent } from './shared/components/console-dialog/console-dialog.component';
+import { DraggableDirective } from './shared/directives/draggable.directive';
+import { SlideButtonComponent } from './shared/components/slide-button/slide-button.component';
+import { SlideDirective } from './shared/directives/slide.directive';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: 'index', pathMatch: 'full'},
@@ -74,7 +75,6 @@ const appRoutes: Routes = [
     AlertComponent,
     QueueComponent,
     BrowseComponent,
-    TimePickerComponent,
     ProgressButtonComponent,
     CountInputComponent,
     TimeInputComponent,
@@ -87,7 +87,9 @@ const appRoutes: Routes = [
     GameBarComponent,
     GameResultComponent,
     ConsoleDialogComponent,
-    DraggableDirective
+    DraggableDirective,
+    SlideButtonComponent,
+    SlideDirective
   ],
   imports: [
     FormsModule,

@@ -1,0 +1,17 @@
+:host {
+  position: fixed;
+  z-index: 9999;
+  height: 3rem;
+}
+
+.slide-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 1.5rem 0 0 1.5rem !important;
+}
+
+.img-container {
+  width: 46px;
+  height: 100%;
+  font-size: 1.3rem
+}

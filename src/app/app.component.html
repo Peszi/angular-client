@@ -1,9 +1,16 @@
-<app-console-dialog></app-console-dialog>
+<!-- Alert Console -->
+<app-slide-button [@wiggle]="sliderAnimation" (@wiggle.done)="onAnimEnd()" [topOffset]="'25vh'">
+  <p class="simple-link m-0" role="button" style="overflow: hidden; white-space: nowrap" (click)="showConsole = !showConsole">{{ getSliderText() }}</p>
+</app-slide-button>
+<app-console-dialog [(show)]="showConsole"></app-console-dialog>
+<!-- Header -->
 <app-header></app-header>
+<!-- Content -->
 <router-outlet></router-outlet>
 <div class="alert-container">
   <app-alert></app-alert>
 </div>
+<!-- Footer -->
 <footer class="footer bg-lines bd-dark-top">
   <div class="container">
     <a href="" class="text-light txt-outline"><strong>Company</strong> 2018</a>
@@ -19,16 +26,3 @@
     </div>
   </div>
 </footer>
-
-<!--<agm-map [latitude]="lat + 0.01" [longitude]="lng + 0.01" [zoom]="12" style="height: 250px">-->
-  <!--<agm-marker [latitude]="lat + 0.01" [longitude]="lng + 0.01"></agm-marker>-->
-  <!--<agm-circle-->
-    <!--[latitude]="lat + 0.01"-->
-    <!--[longitude]="lng + 0.01"-->
-    <!--[radius]="1250"-->
-    <!--[circleDraggable]="true"-->
-    <!--[editable]="true"-->
-    <!--[fillColor]="'red'"-->
-  <!--&gt;</agm-circle>-->
-<!--</agm-map>-->
-

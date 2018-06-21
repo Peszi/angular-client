@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import {b} from '@angular/core/src/render3';
 import {animate, AnimationEvent, state, style, transition, trigger} from '@angular/animations';
-import {AlertService} from '../../services/alert.service';
+import {AlertService} from '../../../services/alert.service';
 import {Alert} from 'selenium-webdriver';
-import {AlertMessage} from '../../services/user-data.service';
+import {AlertMessage} from '../../../services/user-data.service';
 
 @Component({
   selector: 'app-alert',

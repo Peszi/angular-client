@@ -1,0 +1,17 @@
+<!--<div class="dialog-icon border bg-dark dark-shadow d-flex justify-content-start align-items-center" (click)="onToggle()">-->
+  <!---->
+  <!--<p *ngIf="!show">Open</p>-->
+  <!--<p *ngIf="show">Close</p>-->
+<!--</div>-->
+<div *ngIf="show" class="dialog-container border rounded bg-dark dark-shadow d-flex flex-column" [appDraggable]="true" [dragHandler]="dragHandler" >
+  <div class="dialog-header d-flex justify-content-between align-items-center rounded-top bg-dark" #dragHandler>
+    <span class="d-flex flex-row align-items-center mx-2 text-white">
+      <img style="width: 1rem" src="favicon.ico">
+      <p class="m-0 px-2">Alerts</p>
+    </span>
+    <i class="fa far fa-times-circle fa-sm text-white my-1 mx-2" style="font-size: 1.2rem" (click)="onClose()"></i>
+  </div>
+  <div class="flex-fill border-bottom border-right border-secondary rounded-bottom p-2 mx-1 mb-1" style="background-color: black; bottom: 0">
+    <p style="color: #00ff00" *ngFor="let log of logsList">> {{ log }}</p>
+  </div>
+</div>

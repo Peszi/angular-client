@@ -1,0 +1,10 @@
+<div class="slide-container border bg-dark dark-shadow d-flex justify-content-start align-items-center pr-1"
+     [@slide]="{value: animationState, params: {width: slideWidth}}" (mouseover)="onMouseOver()" (mouseout)="onMouseOut()">
+  <div class="img-container d-flex justify-content-center align-items-center text-danger">
+    <!--<i class="fa fa-code"></i>-->
+    <img src="{{imgSrc}}" style="margin: 0.75rem">
+  </div>
+  <div #content class="pr-2">
+    <ng-content></ng-content>
+  </div>
+</div>

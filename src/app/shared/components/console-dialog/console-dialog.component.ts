@@ -1,6 +1,6 @@
-import {Component, ElementRef, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {b, e} from '@angular/core/src/render3';
-import {AlertService} from '../../services/alert.service';
+import {AlertService} from '../../../services/alert.service';
 
 @Component({
   selector: 'app-console-dialog',
@@ -8,10 +8,12 @@ import {AlertService} from '../../services/alert.service';
   styleUrls: ['./console-dialog.component.css']
 })
 export class ConsoleDialogComponent implements OnInit {
+  @Input() show: boolean;
+  @Output() showChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+
   @ViewChild('console') consoleView: ElementRef;
 
   logsList: String[] = [];
-  showConsole: boolean;
 
   constructor(private alertService: AlertService) { }
 
@@ -22,15 +24,8 @@ export class ConsoleDialogComponent implements OnInit {
       });
   }
 
-  onToggle() {
-    if (this.showConsole === true) {
-      this.showConsole = false;
-    } else {
-      this.showConsole = true;
-    }
-  }
-
   onClose() {
-    this.showConsole = false;
+    this.show = false;
+    this.showChange.emit(this.show);
   }
 }

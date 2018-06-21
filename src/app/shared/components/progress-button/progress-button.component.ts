@@ -1,6 +1,6 @@
 import {animate, AnimationEvent, state, style, transition, trigger} from '@angular/animations';
 import {AfterViewInit, Component, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
-import {BACKGROUND_SCROLL} from '../animations/background-scrolling.animation';
+import {BACKGROUND_SCROLL} from '../../animations/background-scrolling.animation';
 import {NgForm} from '@angular/forms';
 
 
